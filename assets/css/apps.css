@@ -332,11 +332,31 @@ html[data-lang="en"] .tour { font-family: var(--en); }
 .tour-likethis .tour-ctl .next { background: #F3B5CF; color: #4A1630; }
 .tour-ctl .next:hover { filter: brightness(1.05); background: #A9E7CE; }
 .tour-likethis .tour-ctl .next:hover { background: #F3B5CF; }
-.tour-hl { position: relative; box-shadow: 0 0 0 3px #fff, 0 0 0 6px #161616 !important; border-radius: 16px; transition: box-shadow 260ms ease; }
+.tour-hl { position: relative; box-shadow: 0 0 0 3px #fff, 0 0 0 6px #161616 !important; border-radius: 16px; transition: box-shadow 200ms ease; }
 .app-likethis .tour-hl { box-shadow: 0 0 0 3px #fff, 0 0 0 6px #D9437F !important; }
 @media (max-width: 760px) {
   .tour-in { padding: 12px; gap: 8px; }
   .tour-txt { font-size: 13.5px; } .tour-txt b { font-size: 15px; }
   .tour-ctl .next { flex-basis: 100%; order: -1; }
   .appwin.touring .app-scroll { padding-bottom: 260px; }
+}
+
+/* V4 · guided walk-through: fold to a slim bar (step, short name, next); the app reserves the panel's real height */
+.tour-short { display: none; font-size: 13.5px; color: #fff; }
+.tour-fold { margin-left: auto; min-height: 44px; padding: 0 12px; border: 1px solid rgba(255,255,255,.35); border-radius: 99px; background: transparent; color: #fff; font: inherit; font-size: 13px; font-weight: 600; }
+.tour-fold:hover { background: rgba(255,255,255,.12); }
+.tour-meta { align-items: center; }
+.tour-ctl button { min-height: 44px; }
+.tour.collapsed .tour-in { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 8px 10px 8px 14px; }
+.tour.collapsed .tour-dots, .tour.collapsed .tour-txt, .tour.collapsed .tour-st, .tour.collapsed .tour-sec, .tour.collapsed .tour-nx { display: none; }
+.tour.collapsed .tour-short { display: inline; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.tour.collapsed .tour-meta { flex-wrap: nowrap; min-width: 0; gap: 10px; }
+.tour.collapsed .tour-ctl { flex-wrap: nowrap; }
+.tour.collapsed .tour-ctl .next { flex-basis: auto; order: 0; white-space: nowrap; }
+.appwin.touring .app-scroll { scroll-padding-bottom: 40px; }
+@media (max-width: 760px) { .tour.collapsed .tour-in { padding: 6px 8px 6px 12px; } }
+.tour-n, .tour-fold { white-space: nowrap; flex: none; }
+@media (max-width: 760px) {
+  .tour.collapsed .tour-in { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 8px 10px 10px 14px; }
+  .tour.collapsed .tour-ctl .next { flex: 1 1 100%; min-height: 44px; }
 }

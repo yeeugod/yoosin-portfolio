@@ -68,11 +68,29 @@
     const it = LB.items[LB.i];
     const s = SZ[it.img];
     lb.innerHTML = `<button type="button" class="xbtn" data-lbx aria-label="${esc(L({ ko: "닫기", en: "Close" }))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg><span aria-hidden="true">${esc(L({ ko: "닫기", en: "Close" }))}</span></button>
-      <div class="lb-stage"><img src="${BASE}${it.img}.jpg" ${s ? `width="${s[0]}" height="${s[1]}"` : ""} alt="${esc(LB.title + " — " + L(it.t))}" class="${dir ? "swap" : ""}" style="--dx:${dir > 0 ? "24px" : dir < 0 ? "-24px" : "0"}"></div>
-      <div class="lb-bar"><p><b lang="en">${esc(LB.title)}</b>${esc(L(it.t))}<span class="count" aria-label="${LB.i + 1} / ${LB.items.length}">${LB.i + 1} / ${LB.items.length}</span></p>
+      <div class="lb-stage"><img src="${BASE}${it.img}.jpg" ${s ? `width="${s[0]}" height="${s[1]}"` : ""} alt="${esc(LB.title + " — " + L(it.t))}"></div>
+      <div class="lb-bar"><div class="lb-txt"><p class="lb-t" lang="en">${esc(LB.title)}</p><p class="lb-c">${esc(L(it.t))}</p></div><span class="count" lang="en" aria-live="polite">${LB.i + 1} / ${LB.items.length}</span>
       <div class="nav">${LB.items.length > 1 ? `<button type="button" class="xbtn" data-lbp aria-label="${esc(L({ ko: "이전 이미지", en: "Previous image" }))}">←</button><button type="button" class="xbtn" data-lbn aria-label="${esc(L({ ko: "다음 이미지", en: "Next image" }))}">→</button>` : ""}</div></div>`;
-    const im = $(".lb-stage img", lb);
-    if (dir) requestAnimationFrame(() => requestAnimationFrame(() => im.classList.remove("swap")));
+    preloadAround();
+  }
+  const lbUrl = (it) => `${BASE}${it.img}.jpg`;
+  // fetch the neighbours ahead, so “next” usually swaps at once
+  function preloadAround() { if (LB.items.length < 2) return; [1, -1].forEach((d) => { const it = LB.items[(LB.i + d + LB.items.length) % LB.items.length]; const p = new Image(); p.src = lbUrl(it); }); }
+  /* next/previous: the current image stays until the next one has loaded, then a short (120ms) swap */
+  function lbSwap(dir) {
+    const idx = LB.i, it = LB.items[idx], s = SZ[it.img];
+    let done = false;
+    const apply = () => {
+      if (done || LB.i !== idx || lb.hidden) return; done = true;
+      const im = $(".lb-stage img", lb); if (!im) return;
+      im.src = lbUrl(it); im.alt = LB.title + " — " + L(it.t);
+      if (s) { im.width = s[0]; im.height = s[1]; } else { im.removeAttribute("width"); im.removeAttribute("height"); }
+      $(".lb-c", lb).textContent = L(it.t); $(".count", lb).textContent = `${idx + 1} / ${LB.items.length}`;
+      if (!YL.reduceMotion()) im.animate([{ opacity: .35, transform: `translateX(${dir * 10}px)` }, { opacity: 1, transform: "none" }], { duration: 120, easing: "ease-out" });
+      preloadAround();
+    };
+    const p = new Image(); p.onload = p.onerror = apply; p.src = lbUrl(it);
+    if (p.complete) apply();
   }
   /* the enlarged view is its own history step: browser back closes it first, then the detail */
   function lbOpen(items, i, title, ret) {
@@ -87,7 +105,7 @@
       // grow out of the tile that was selected
       const r = LB.ret.getBoundingClientRect(), im = $(".lb-stage img", lb), sr = $(".lb-stage", lb).getBoundingClientRect();
       const sx = r.width / sr.width, sy = r.height / sr.height;
-      im.animate([{ transform: `translate(${r.left + r.width / 2 - (sr.left + sr.width / 2)}px, ${r.top + r.height / 2 - (sr.top + sr.height / 2)}px) scale(${Math.max(sx, sy)})`, opacity: .4 }, { transform: "none", opacity: 1 }], { duration: 420, easing: "cubic-bezier(.2,.8,.2,1)" });
+      im.animate([{ transform: `translate(${r.left + r.width / 2 - (sr.left + sr.width / 2)}px, ${r.top + r.height / 2 - (sr.top + sr.height / 2)}px) scale(${Math.max(sx, sy)})`, opacity: .4 }, { transform: "none", opacity: 1 }], { duration: innerWidth < 761 ? 190 : 240, easing: "cubic-bezier(0.22,1,0.36,1)" });
     }
     requestAnimationFrame(() => lb.classList.add("in"));
     $("[data-lbx]", lb).focus();
@@ -106,16 +124,16 @@
     const im = $(".lb-stage img", lb), st = $(".lb-stage", lb), back = LB.ret;
     if (!YL.reduceMotion() && im && st && back && back.getBoundingClientRect && document.contains(back)) {
       const r = back.getBoundingClientRect(), sr = st.getBoundingClientRect();
-      if (r.width && r.bottom > 0 && r.top < innerHeight) im.animate([{ transform: "none" }, { transform: `translate(${r.left + r.width / 2 - (sr.left + sr.width / 2)}px, ${r.top + r.height / 2 - (sr.top + sr.height / 2)}px) scale(${Math.max(r.width / sr.width, r.height / sr.height)})` }], { duration: 260, easing: "cubic-bezier(.4,0,.2,1)", fill: "forwards" });
+      if (r.width && r.bottom > 0 && r.top < innerHeight) im.animate([{ transform: "none" }, { transform: `translate(${r.left + r.width / 2 - (sr.left + sr.width / 2)}px, ${r.top + r.height / 2 - (sr.top + sr.height / 2)}px) scale(${Math.max(r.width / sr.width, r.height / sr.height)})` }], { duration: 200, easing: "cubic-bezier(0.22,1,0.36,1)", fill: "forwards" });
     }
     lb.classList.remove("in");
     const fin = () => { if (!LB.open) { lb.hidden = true; lb.innerHTML = ""; } };
-    if (YL.reduceMotion()) fin(); else setTimeout(fin, 280);
+    if (YL.reduceMotion()) fin(); else setTimeout(fin, 220);
     const t = LB.ret;
     if (t && document.contains(t)) { t.focus({ preventScroll: true }); const r = t.getBoundingClientRect(); if (r.bottom < 60 || r.top > innerHeight - 40) t.scrollIntoView({ block: "center" }); }
   }
   window.addEventListener("popstate", () => { if (!lb.hidden && !(history.state && history.state.lb)) lbDismiss(); });
-  function lbStep(d) { if (LB.items.length < 2) return; LB.i = (LB.i + d + LB.items.length) % LB.items.length; lbRender(d); }
+  function lbStep(d) { if (LB.items.length < 2) return; LB.i = (LB.i + d + LB.items.length) % LB.items.length; lbSwap(d); }
   lb.addEventListener("click", (e) => {
     if (e.target.closest("[data-lbx]")) lbClose();
     else if (e.target.closest("[data-lbp]")) lbStep(-1);

@@ -50,7 +50,7 @@
       return `<p class="eyebrow" lang="en">About Me</p>
         <p class="tag" lang="en">Design the missing link.<small data-i="aboutTag">${esc(L({ ko: "아이디어와 현실 사이, 빠져 있는 연결을 설계합니다.", en: "I design the link that is missing between an idea and the real world." }))}</small></p>
         ${graphic("about")}
-        <div class="who"><h1 class="name" lang="en">Yoosin Lee</h1><p class="role" data-i="desc">${esc(L(c.desc))}</p></div>
+        <div class="who"><h1 class="name" lang="en" aria-label="Yoosin Lee">YOOSIN LEE</h1><p class="role" data-i="desc">${esc(L(c.desc))}</p></div>
         <span class="arrow" aria-hidden="true">${ARROW}</span>`;
     }
     return `<h2 class="ct" lang="en">${c.title.map((t) => `<span>${esc(t)}</span>`).join("")}</h2>${graphic(c.k)}
@@ -129,7 +129,7 @@
     const prevT = S.t;
     S.W = W; S.H = H;
     S.rects = rectsFor(W, H);
-    S.I = reduce ? 0 : Math.round(H * (W < 761 ? 1.15 : 1.35));
+    S.I = reduce ? 0 : Math.round(H * (W < 761 ? 0.55 : 0.85)); // V4: desktop 0.75–1.0 vh, mobile 0.45–0.65 vh of scroll
     stage.style.height = (S.I + H) + "px";
     after.style.height = Math.max(0, Math.ceil(S.rects._h - H)) + "px";
     const p = S.rects._p, small = W < 761;
@@ -150,14 +150,16 @@
       b.style.setProperty("--gw", Math.min(r.w - 2 * p, Math.max(0, avail) * 2.4) + "px");
       b.classList.toggle("no-g", avail < 34);
       // entry vectors: each card comes in from its own side of the frame
-      const dir = { art: [-(r.x + r.w + 60), 0], montauk: [0, -(r.y + r.h + 60)], grown: [W - r.x + 60, 0], makeit: [0, H - r.y + 60 + (small ? 200 : 0)], likethis: [W - r.x + 40, H * 0.5] }[k];
+      const dir = small ? { art: [-28, 0], montauk: [0, -24], grown: [28, 0], makeit: [0, 32], likethis: [24, 20] }[k] : { art: [-(r.x + r.w + 60), 0], montauk: [0, -(r.y + r.h + 60)], grown: [W - r.x + 60, 0], makeit: [0, H - r.y + 60 + (small ? 200 : 0)], likethis: [W - r.x + 40, H * 0.5] }[k];
       S.start[k] = dir;
     }
     // about: from (almost) full frame to its cell
     const m = small ? 16 : 20;
-    S.aboutStart = { x: m, y: 68, w: W - 2 * m, h: H - 68 - m };
+    // the opening box ends above the scroll hint, with a clear gap, so the hint never sits on its border
+    const hintH = reduce || !hint.offsetHeight ? 0 : hint.offsetHeight, hintB = parseFloat(getComputedStyle(hint).bottom) || 20;
+    S.aboutStart = { x: m, y: 68, w: W - 2 * m, h: H - 68 - (hintH ? hintB + hintH + (small ? 14 : 18) : m) };
     S.aboutEnd = S.rects.about;
-    const nameW = textW(["Yoosin Lee"], 700, false, -0.045) / 100;
+    const nameW = textW(["YOOSIN LEE"], 700, false, -0.03) / 100;
     S.nameStart = Math.min((W - 2 * m - 60) / nameW, H * 0.26, 260);
     S.nameEnd = Math.min((S.aboutEnd.w - 2 * p - 60) / nameW, small ? 64 : 120, (S.aboutEnd.h - 2 * p) * 0.42);
     if (!reduce && S.I) { /* keep the same assembly state across resizes */ window.scrollTo(0, Math.round(prevT * S.I)); }
@@ -177,7 +179,7 @@
     if (!force && Math.abs(t - S.t) < 1e-4) return;
     S.t = t;
     // phase 1: the lilac intro settles into the About card
-    const p1 = easeIO(clamp(t / 0.48));
+    const p1 = easeIO(clamp(t / 0.25)); // 0–25%: the name moves into the About card, the dots appear
     const a = S.aboutStart, e = S.aboutEnd, ab = els.about;
     ab.style.left = lerp(a.x, e.x, p1) + "px"; ab.style.top = lerp(a.y, e.y, p1) + "px";
     ab.style.width = lerp(a.w, e.w, p1) + "px"; ab.style.height = lerp(a.h, e.h, p1) + "px";
@@ -196,14 +198,16 @@
       const centerTop = Math.max(h / 2 - wh / 2, tagBottom + 18), endTop = h - ap - wh;
       ab.style.setProperty("--wy", (Math.min(0, centerTop - endTop) * (1 - p1)).toFixed(1) + "px");
     }
-    ab.style.setProperty("--lw", p1.toFixed(3));
+    ab.style.setProperty("--dt", p1.toFixed(3));
+    ab.style.setProperty("--lw", ease(clamp((t - 0.15) / 0.4)).toFixed(3)); // 15–55%: the lines extend
     // phase 2: the other five come in from different sides and complete the mosaic
     ORDER.forEach((k, i) => {
-      const s = 0.3 + i * 0.075, p = ease(clamp((t - s) / 0.4));
+      const s = 0.3 + i * 0.07, p = ease(clamp((t - s) / 0.32)); // 30–90%: the cards assemble, 90–100% settles
       const [dx, dy] = S.start[k];
       const b = els[k];
       b.style.transform = p >= 1 ? "none" : `translate3d(${dx * (1 - p)}px, ${dy * (1 - p)}px, 0)`;
       b.style.visibility = p <= 0 ? "hidden" : "visible";
+      b.style.opacity = small && p < 1 ? String(clamp(p * 1.6)) : "";
     });
     hint.style.opacity = String(1 - clamp(t / 0.08));
     root.classList.toggle("assembled", t >= 1);
@@ -244,19 +248,30 @@
   }
 
   /* ───── detail sheet ───── */
-  function bannerLines(k) { return k === "about" ? ["Yoosin Lee"] : (els[k].dataset.lines ? els[k].dataset.lines.split("|") : byK[k].title); }
+  function bannerLines(k) { return k === "about" ? ["YOOSIN LEE"] : (els[k].dataset.lines ? els[k].dataset.lines.split("|") : byK[k].title); }
   function bannerSub(k) { const c = byK[k]; return k === "about" ? `About Me · ${L(C.about.sub)}` : `${c.ko ? c.ko + " · " : ""}${L(c.desc)}`; }
   function layoutBanner() {
     const k = S.detail; if (!k) return;
     const W = S.W, small = W < 761, bp = small ? 16 : 26;
     // ART&DESIGN:) gets a lower banner so the first work shows sooner
-    const bh0 = parseFloat(getComputedStyle(root).getPropertyValue("--banner-h")) || 300, bh = k === "art" ? Math.round(bh0 * 0.74) : bh0;
-    banner.style.height = k === "art" ? bh + "px" : "";
+    const bh0 = parseFloat(getComputedStyle(root).getPropertyValue("--banner-h")) || 300, reserve = small ? 40 : 52;
     const lines = bannerLines(k);
     const avail = W - 2 * bp - 8; // the controls sit in their own row above the banner now
-    let ts;
-    if (k === "about") { const per = textW(lines, 700, false, -0.045) / 100; ts = Math.min(avail / per, (bh - 2 * bp - 40) / 0.9, small ? 72 : 150); }
-    else ts = fitTitle(lines, avail, bh - 2 * bp, small ? 64 : 150, small ? 40 : 52);
+    let bh = bh0, ts;
+    if (k === "art") {
+      // lower banner so the first work shows sooner, but never so low that the two-line title gets small
+      const minTs = Math.min(small ? 46 : 88, avail / (textW(lines, 700, true, -0.03) / 100));
+      bh = Math.max(Math.round(bh0 * 0.74), Math.ceil(2 * bp + 0.9 * minTs * lines.length + reserve));
+    } else if (lines.length > 2) {
+      // a three-line title (GROWN / RECOVERY / SCAN, as on its tall card) keeps its lines through the move, so the banner grows a little instead of shrinking the type
+      const minTs = Math.min(small ? 40 : 72, avail / (textW(lines, 700, true, -0.03) / 100));
+      bh = Math.min(Math.max(bh0, Math.ceil(2 * bp + 0.9 * minTs * lines.length + reserve)), Math.round(window.innerHeight * 0.45));
+    }
+    if (k === "about") { const per = textW(lines, 700, false, -0.03) / 100; ts = Math.min(avail / per, (bh - 2 * bp - 40) / 0.9, small ? 72 : 150); }
+    else ts = fitTitle(lines, avail, bh - 2 * bp, small ? 64 : 150, reserve);
+    // one-line titles (Make It!, Like this) do not need the full height: trim only the empty band under the title
+    if (k !== "about" && lines.length === 1) bh = Math.min(bh, Math.ceil(2 * bp + 0.9 * ts + reserve + (small ? 18 : 30)));
+    banner.style.height = bh !== bh0 ? bh + "px" : "";
     banner.style.setProperty("--bp", bp + "px");
     banner.style.setProperty("--bts", Math.floor(ts) + "px");
     // measure the real title and shrink if the font metrics ran wider than the estimate
@@ -284,7 +299,7 @@
     m.style.setProperty("--c", c.color); m.style.setProperty("--ci", c.ink);
     Object.assign(m.style, { left: rect.left + "px", top: rect.top + "px", width: rect.width + "px", height: rect.height + "px" });
     const lines = bannerLines(k);
-    m.innerHTML = `<h2 class="ct" style="${k === "about" ? "text-transform:none;letter-spacing:-.045em;line-height:.86" : ""}">${lines.map((t) => `<span>${esc(t)}</span>`).join("")}</h2>`;
+    m.innerHTML = `<h2 class="ct" style="${k === "about" ? "line-height:.86" : ""}">${lines.map((t) => `<span>${esc(t)}</span>`).join("")}</h2>`;
     document.body.appendChild(m);
     return m;
   }
@@ -334,21 +349,24 @@
     const m = makeMorph(k, cardRect);
     card.style.visibility = "hidden";
     const h2 = $(".ct", m);
-    const D = 500, EZ = "cubic-bezier(.2,.8,.2,1)";
+    // V4: the card fills with its colour first (~100ms), then the box and title move together; the body comes in over the last ~100ms
+    const FILL = 100, D = S.W < 761 ? 320 : 420, EZ = "cubic-bezier(0.22,1,0.36,1)";
+    const bg0 = getComputedStyle(card).backgroundColor;
+    m.animate([{ backgroundColor: bg0, color: getComputedStyle(card).color }, { backgroundColor: byK[k].color, color: byK[k].ink }], { duration: FILL, easing: "ease-out", fill: "backwards" });
     const bts = S.bannerTs, bp = S.bp;
     const a1 = m.animate([
       { left: cardRect.left + "px", top: cardRect.top + "px", width: cardRect.width + "px", height: cardRect.height + "px" },
       { left: br.left + "px", top: br.top + "px", width: br.width + "px", height: br.height + "px" }
-    ], { duration: D, easing: EZ, fill: "forwards" });
+    ], { duration: D, delay: FILL, easing: EZ, fill: "both" });
     const a2 = h2.animate([
       { left: tb.x + "px", top: tb.y + "px", fontSize: tb.fs + "px" },
       { left: bp + "px", top: bp + "px", fontSize: bts + "px" }
-    ], { duration: D, easing: EZ, fill: "forwards" });
+    ], { duration: D, delay: FILL, easing: EZ, fill: "both" });
     S.busy = [a1, a2];
     // body comes in over the last part of the move
-    setTimeout(() => { if (S.detail === k) sheet.classList.replace("pre", "nob"); }, D * 0.55);
+    setTimeout(() => { if (S.detail === k) sheet.classList.replace("pre", "nob"); }, FILL + D - 100);
     a1.onfinish = done;
-    setTimeout(done, D + 250); // safety net: background tabs may never fire onfinish
+    setTimeout(done, FILL + D + 250); // safety net: background tabs may never fire onfinish
   }
 
   function closeDetail(opts = {}) {
@@ -366,6 +384,7 @@
       root.classList.remove("sheet-open"); freezeHome(false); $("#home").inert = false; topbar.inert = false;
       $$(".morph").forEach((x) => x.remove());
       card.style.visibility = "";
+      card.classList.remove("active");
       sheetBody.innerHTML = "";
       window.DETAIL.unmount && window.DETAIL.unmount();
       S.busy = null; S.detail = null;
@@ -376,13 +395,19 @@
     const br = banner.getBoundingClientRect();
     S.detail = null; frame(true); S.detail = k; // make sure the card sits where the mosaic says it should
     const cr = card.getBoundingClientRect();
+    // the card it came from is off screen (the reader moved): a short fade instead of flying to a place they cannot see
+    if (cr.bottom < 0 || cr.top > window.innerHeight) {
+      sheet.classList.add("out", "nob");
+      const fa = sheet.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, easing: "ease" });
+      S.busy = [fa]; fa.onfinish = finish; setTimeout(finish, 400); return;
+    }
     const tb = cardTitleBox(k);
     const m = makeMorph(k, br);
     const h2 = $(".ct", m);
     h2.style.left = S.bp + "px"; h2.style.top = S.bp + "px"; h2.style.fontSize = S.bannerTs + "px";
     sheet.classList.add("out", "nob");
     card.style.visibility = "hidden";
-    const D = 360, EZ = "cubic-bezier(.4,0,.2,1)";
+    const D = S.W < 761 ? 280 : 340, EZ = "cubic-bezier(0.22,1,0.36,1)";
     const a1 = m.animate([
       { left: br.left + "px", top: br.top + "px", width: br.width + "px", height: br.height + "px" },
       { left: cr.left + "px", top: cr.top + "px", width: cr.width + "px", height: cr.height + "px" }
@@ -404,7 +429,7 @@
   function appBarHtml(k) {
     const app = window.APPS[k];
     /* every app draws its own header: brand, title, a way back to the portfolio and the language switch */
-    const back = `<button type="button" class="ab-back" id="app-back" aria-label="${esc(L(C.ui.backToProject))}"><span class="ab-arr" aria-hidden="true">←</span><span class="ab-bt" aria-hidden="true">${esc(L({ ko: "포트폴리오", en: "Portfolio" }))}</span></button>`;
+    const back = `<button type="button" class="ab-back" id="app-back" aria-label="${esc(L(C.ui.backToProject))}"><span class="ab-arr" aria-hidden="true">←</span><span class="ab-bt" aria-hidden="true">${esc(L({ ko: "프로젝트로", en: "To the project" }))}</span></button>`;
     return `<div class="ab ab-${k}">${back}<div class="ab-brand" aria-hidden="true">${app.brand || ""}</div>
       <h2 class="app-title" id="app-title" tabindex="-1">${esc(L(app.title))}</h2>${YL.langToggle("ab-lang")}</div>`;
   }
@@ -492,6 +517,8 @@
   });
   // touch: show the colour on the first contact, the detail opens on release
   grid.addEventListener("pointerdown", (e) => { const b = e.target.closest(".card"); if (b && e.pointerType !== "mouse") b.classList.add("active"); });
+  // a press that turns into a scroll is not a tap: drop the pressed colour
+  window.addEventListener("scroll", () => { if (!S.detail) $$(".card.active").forEach((c) => c.classList.remove("active")); }, { passive: true });
   ["pointerup", "pointercancel", "pointerleave"].forEach((ev) => grid.addEventListener(ev, (e) => { const b = e.target.closest && e.target.closest(".card"); if (b && ev !== "pointerup") b.classList.remove("active"); }));
   sheet.addEventListener("click", (e) => {
     if (e.target.closest("#sheet-close")) { back("#/"); return; }
@@ -502,6 +529,8 @@
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       if (!$("#lb").hidden) return; // lightbox handles its own Esc
+      // Esc that leaves a full-screen or zoomed recording only leaves that view; the detail stays open
+      if (document.fullscreenElement || document.webkitFullscreenElement || $(".demo-stage.zoomed") || Date.now() - (window.__ylFsAt || 0) < 400) return;
       if (S.app) { e.preventDefault(); back(`#/${S.detail}`); }
       else if (S.detail) { e.preventDefault(); back("#/"); }
     }

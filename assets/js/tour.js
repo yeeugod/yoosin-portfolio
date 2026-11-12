@@ -22,38 +22,58 @@
     ]
   };
   const STATUS = { ko: "언어 모델 연결을 진행 중이며, 아직 출시하지 않았습니다.", en: "Language-model connection is in progress; this has not been released yet." };
-  const T = { k: null, i: 0, bar: null };
+  const T = { k: null, i: 0, bar: null, c: false, auto: 0, ro: null };
   const appwin = $("#appwin"), scroll = $("#app-scroll");
   function api(k) { return k === "makeit" ? window.MAKEIT : window.LIKETHIS; }
+  /* the panel keeps its real height reserved under the app, so it never covers the part it points at */
+  const reserve = () => { if (T.bar) scroll.style.paddingBottom = (T.bar.offsetHeight + 28) + "px"; };
   function render(dir) {
-    const list = STEPS[T.k], s = list[T.i];
-    if (!T.bar) { T.bar = document.createElement("div"); T.bar.className = "tour tour-" + T.k; T.bar.setAttribute("role", "region"); appwin.appendChild(T.bar); }
+    const list = STEPS[T.k], s = list[T.i], last = T.i === list.length - 1;
+    if (!T.bar) { T.bar = document.createElement("div"); T.bar.className = "tour tour-" + T.k; T.bar.setAttribute("role", "region"); appwin.appendChild(T.bar);
+      if (window.ResizeObserver) { T.ro = new ResizeObserver(reserve); T.ro.observe(T.bar); } }
+    T.bar.classList.toggle("collapsed", T.c);
     T.bar.setAttribute("aria-label", L("체험 안내", "Guided walk-through"));
+    const next = last ? `<button type="button" class="next" data-tour="restart">${esc(L("처음부터 다시 보기", "Watch it again from the start"))} ↺</button>`
+      : `<button type="button" class="next" data-tour="next">${esc(L("다음", "Next"))}<span class="tour-nx">: ${esc(L(list[T.i + 1].t))}</span> →</button>`;
     T.bar.innerHTML = `<div class="tour-in">
-      <p class="tour-meta"><span class="tour-n" lang="en">${T.i + 1} / ${list.length}</span><span class="tour-st">${esc(L({ ko: "준비된 예시", en: "Prepared example" }))} · ${esc(L(STATUS))}</span></p>
+      <p class="tour-meta"><span class="tour-n" lang="en">${T.i + 1} / ${list.length}</span><b class="tour-short">${esc(L(s.t))}</b><span class="tour-st">${esc(L({ ko: "준비된 예시", en: "Prepared example" }))} · ${esc(L(STATUS))}</span>
+        <button type="button" class="tour-fold" data-tour="fold" aria-expanded="${!T.c}">${esc(T.c ? L("안내 펼치기", "Show guide") : L("안내 접기", "Hide guide"))}</button></p>
       <ol class="tour-dots" aria-hidden="true">${list.map((_, j) => `<li class="${j < T.i ? "done" : j === T.i ? "cur" : ""}"></li>`).join("")}</ol>
       <div class="tour-txt" aria-live="polite"><b>${esc(L(s.t))}</b><span>${esc(L(s.d))}</span></div>
-      <div class="tour-ctl"><button type="button" data-tour="restart">${esc(L("처음부터", "Start over"))}</button><button type="button" data-tour="prev" ${T.i === 0 ? "disabled" : ""}>← ${esc(L("이전", "Back"))}</button>
-        ${T.i < list.length - 1 ? `<button type="button" class="next" data-tour="next">${esc(L("다음", "Next"))}: ${esc(L(list[T.i + 1].t))} →</button>` : `<button type="button" class="next" data-tour="restart">${esc(L("처음부터 다시 보기", "Watch it again from the start"))} ↺</button>`}</div></div>`;
-    if (dir && !YL.reduceMotion()) $(".tour-txt", T.bar).animate([{ opacity: 0, transform: `translateX(${dir * 18}px)` }, { opacity: 1, transform: "none" }], { duration: 260, easing: "cubic-bezier(.2,.8,.2,1)" });
+      <div class="tour-ctl"><button type="button" class="tour-sec" data-tour="restart">${esc(L("처음부터", "Start over"))}</button><button type="button" class="tour-sec" data-tour="prev" ${T.i === 0 ? "disabled" : ""}>← ${esc(L("이전", "Back"))}</button>${next}</div></div>`;
+    if (dir && !YL.reduceMotion()) $(".tour-txt", T.bar).animate([{ opacity: 0, transform: `translateX(${dir * 8}px)` }, { opacity: 1, transform: "none" }], { duration: 120, easing: "ease-out" });
+    reserve();
   }
+  // the reader takes over: any wheel, touch or key on the app stops the guided scroll where it is
+  const stopAuto = () => { if (Date.now() < T.auto) { T.auto = 0; scroll.scrollTo({ top: scroll.scrollTop, behavior: "auto" }); } };
+  ["wheel", "touchstart", "keydown"].forEach((ev) => scroll.addEventListener(ev, stopAuto, { passive: true }));
   function show(i, dir) {
     T.i = Math.max(0, Math.min(STEPS[T.k].length - 1, i));
     const s = STEPS[T.k][T.i];
     api(T.k).tourStep(s.app);
     render(dir);
-    // point at the part to read: bring it into view and ring it
+    // point at the part to read; scroll only when it is not already in view above the panel
     setTimeout(() => {
       $$(".tour-hl").forEach((e) => e.classList.remove("tour-hl"));
       const el = $(`.app-pane.app-${T.k} ${s.hl}`);
-      if (el) { el.classList.add("tour-hl"); const r = el.getBoundingClientRect(), sr = scroll.getBoundingClientRect(); const target = scroll.scrollTop + r.top - sr.top - Math.max(16, (sr.height - (T.bar ? T.bar.offsetHeight : 0) - r.height) / 2); scroll.scrollTo({ top: Math.max(0, target), behavior: YL.reduceMotion() ? "auto" : "smooth" }); }
-    }, 40);
+      if (!el) return;
+      el.classList.add("tour-hl");
+      const r = el.getBoundingClientRect(), sr = scroll.getBoundingClientRect(), barH = T.bar ? T.bar.offsetHeight + 14 : 0;
+      const top = sr.top + 8, bottom = sr.bottom - barH - 8;
+      const visible = r.top >= top && (r.bottom <= bottom || (r.height > bottom - top && r.top < top + (bottom - top) * 0.4));
+      if (visible) return;
+      const target = scroll.scrollTop + r.top - sr.top - Math.max(16, (sr.height - barH - r.height) / 2);
+      const smooth = !YL.reduceMotion();
+      T.auto = smooth ? Date.now() + 900 : 0;
+      scroll.scrollTo({ top: Math.max(0, target), behavior: smooth ? "smooth" : "auto" });
+    }, 20);
   }
-  function start(k) { if (!STEPS[k]) return false; T.k = k; appwin.classList.add("touring"); show(0, 0); return true; }
-  function stop() { if (T.bar) { T.bar.remove(); T.bar = null; } T.k = null; appwin.classList.remove("touring"); $$(".tour-hl").forEach((e) => e.classList.remove("tour-hl")); }
+  function start(k) { if (!STEPS[k]) return false; T.k = k; T.c = false; appwin.classList.add("touring"); show(0, 0); return true; }
+  function stop() { if (T.ro) { T.ro.disconnect(); T.ro = null; } if (T.bar) { T.bar.remove(); T.bar = null; } scroll.style.paddingBottom = ""; T.k = null; appwin.classList.remove("touring"); $$(".tour-hl").forEach((e) => e.classList.remove("tour-hl")); }
   appwin.addEventListener("click", (e) => {
     const b = e.target.closest("[data-tour]"); if (!b || !T.k) return;
     const a = b.dataset.tour;
+    if (a === "fold") { T.c = !T.c; render(0); const f = $('[data-tour="fold"]', T.bar); if (f) f.focus({ preventScroll: true }); return; }
     if (a === "next") show(T.i + 1, 1); else if (a === "prev") show(T.i - 1, -1); else if (a === "restart") show(0, -1);
     const n = $('[data-tour="next"]', T.bar) || $('[data-tour="restart"].next', T.bar); if (n) n.focus({ preventScroll: true });
   });
