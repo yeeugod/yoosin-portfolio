@@ -1,0 +1,64 @@
+/* Guided walk-through for Make It! and Like this.
+   “Try it” opens the real app with a step bar: each step puts the app in a prepared state, points at the part to read,
+   and says what to look at next. Previous / Next / Start over. Nothing is sent and no language model runs. */
+(function () {
+  "use strict";
+  const { L, esc, $, $$ } = YL;
+  const STEPS = {
+    makeit: [
+      { t: { ko: "준비된 제품 프로젝트", en: "The prepared product project" }, d: { ko: "A10 아트토이 한 제품의 제작 프로젝트입니다. 위쪽 헤더에서 제품 이름, 문의서 버전, 진행 상태를 확인하세요.", en: "One production project for the A10 art toy. Check the product name, brief version and status in the header." }, hl: ".mx-proj", app: 1 },
+      { t: { ko: "제품 사양과 제작 조건", en: "Specs and production terms" }, d: { ko: "높이·제작 방식·마감·수량·예산·기간이 업체에 전할 제작 조건이 됩니다. 오른쪽 ‘현재 사양’에 같은 내용이 정리됩니다.", en: "Height, process, finish, quantity, budget and timing become the terms a maker reads. ‘Current specs’ on the right sums them up." }, hl: ".mx-spec", app: 2 },
+      { t: { ko: "제작 문의서", en: "The build brief" }, d: { ko: "업체가 그대로 읽을 수 있게 정리한 문의서입니다. 정하지 못한 항목(가는 부분의 최소 두께)은 질문으로 남았습니다.", en: "The brief, written so a maker can read it as is. What isn't decided yet (minimum thickness of thin parts) stays as a question." }, hl: ".brief", app: 3 },
+      { t: { ko: "예시 업체 회신", en: "A sample maker reply" }, d: { ko: "예시 업체 Cast & Co.의 회신입니다. 실제로 보내거나 받은 것이 아니라 준비된 예시입니다. 업체가 보완을 요청한 두 가지를 확인하세요.", en: "A reply from the sample maker Cast & Co. — prepared, not actually sent or received. Look at the two changes it asks for." }, hl: ".reply", app: 4 },
+      { t: { ko: "조건 비교와 수정", en: "Comparing and revising" }, d: { ko: "요청을 반영하자 문의서가 v2가 되었습니다. ‘현재 사양’에서 도색 색 수와 최소 두께가 바뀐 것을 확인하세요.", en: "Applying the requests turned the brief into v2. In ‘Current specs’, see the paint colours and minimum thickness change." }, hl: ".mx-spec", app: 5 },
+      { t: { ko: "제작 협의 이력", en: "The shared history" }, d: { ko: "업체 화면으로 바꿔도 같은 프로젝트, 같은 문의서 v2, 같은 이력이 보입니다. 두 역할이 한 기록을 함께 봅니다.", en: "Switched to the maker's side: the same project, the same brief v2 and the same history. Both sides read one record." }, hl: ".hist", app: 6 }
+    ],
+    likethis: [
+      { t: { ko: "예시 대화", en: "The sample line" }, d: { ko: "브라질 친구와 어린 시절 만화 이야기를 나누던 상황을 바탕으로 쓴 예시 문장입니다. 실제 대사를 그대로 옮긴 것은 아닙니다.", en: "A sample line written from a talk about childhood cartoons with a Brazilian friend — not a word-for-word quote." }, hl: ".lx-src", app: 1 },
+      { t: { ko: "기본 번역", en: "Plain translation" }, d: { ko: "단어의 뜻은 전해지지만, 작품을 모르면 왜 이 말을 했는지는 비어 있습니다.", en: "The words come across, but if you don't know the show, why it was said is missing." }, hl: ".c-basic", app: 2 },
+      { t: { ko: "문화적 맥락", en: "Cultural context" }, d: { ko: "Samurai Jack이 어떤 작품인지, ‘방과 후 매일’이라는 말에 어떤 정서가 담겼는지 설명합니다. 직접 쓴 설명이며 언어 모델이 만든 결과가 아닙니다.", en: "What Samurai Jack is, and the feeling in ‘every day after school’. Hand-written, not produced by a language model." }, hl: ".c-ctx", app: 3 },
+      { t: { ko: "한국 문화권과의 비교", en: "A comparison from Korea" }, d: { ko: "한국에서 자랐다면 떠올릴 수 있는 뽀로로와 비교합니다. 두 작품의 위치는 같지 않고, 이어지는 것은 ‘매일 기다리던 만화가 있었다’는 정서입니다.", en: "A comparison with Pororo, which someone from Korea might think of. The two shows don't sit in the same place; what connects them is the feeling of a cartoon you waited for every day." }, hl: ".c-ctx .bridge2", app: 4 },
+      { t: { ko: "이어서 할 수 있는 말", en: "What you could say next" }, d: { ko: "대화를 이어가는 답변 제안입니다. 친한 사이라 ‘가볍게’가 먼저 나옵니다. ‘복사’로 문장을 가져갈 수 있습니다.", en: "Replies that keep the conversation going; close friends, so ‘casual’ comes first. ‘Copy’ takes the line with you." }, hl: ".c-rep", app: 5 }
+    ]
+  };
+  const STATUS = { ko: "언어 모델 연결을 진행 중이며, 아직 출시하지 않았습니다.", en: "Language-model connection is in progress; this has not been released yet." };
+  const T = { k: null, i: 0, bar: null };
+  const appwin = $("#appwin"), scroll = $("#app-scroll");
+  function api(k) { return k === "makeit" ? window.MAKEIT : window.LIKETHIS; }
+  function render(dir) {
+    const list = STEPS[T.k], s = list[T.i];
+    if (!T.bar) { T.bar = document.createElement("div"); T.bar.className = "tour tour-" + T.k; T.bar.setAttribute("role", "region"); appwin.appendChild(T.bar); }
+    T.bar.setAttribute("aria-label", L("체험 안내", "Guided walk-through"));
+    T.bar.innerHTML = `<div class="tour-in">
+      <p class="tour-meta"><span class="tour-n" lang="en">${T.i + 1} / ${list.length}</span><span class="tour-st">${esc(L({ ko: "준비된 예시", en: "Prepared example" }))} · ${esc(L(STATUS))}</span></p>
+      <ol class="tour-dots" aria-hidden="true">${list.map((_, j) => `<li class="${j < T.i ? "done" : j === T.i ? "cur" : ""}"></li>`).join("")}</ol>
+      <div class="tour-txt" aria-live="polite"><b>${esc(L(s.t))}</b><span>${esc(L(s.d))}</span></div>
+      <div class="tour-ctl"><button type="button" data-tour="restart">${esc(L("처음부터", "Start over"))}</button><button type="button" data-tour="prev" ${T.i === 0 ? "disabled" : ""}>← ${esc(L("이전", "Back"))}</button>
+        ${T.i < list.length - 1 ? `<button type="button" class="next" data-tour="next">${esc(L("다음", "Next"))}: ${esc(L(list[T.i + 1].t))} →</button>` : `<button type="button" class="next" data-tour="restart">${esc(L("처음부터 다시 보기", "Watch it again from the start"))} ↺</button>`}</div></div>`;
+    if (dir && !YL.reduceMotion()) $(".tour-txt", T.bar).animate([{ opacity: 0, transform: `translateX(${dir * 18}px)` }, { opacity: 1, transform: "none" }], { duration: 260, easing: "cubic-bezier(.2,.8,.2,1)" });
+  }
+  function show(i, dir) {
+    T.i = Math.max(0, Math.min(STEPS[T.k].length - 1, i));
+    const s = STEPS[T.k][T.i];
+    api(T.k).tourStep(s.app);
+    render(dir);
+    // point at the part to read: bring it into view and ring it
+    setTimeout(() => {
+      $$(".tour-hl").forEach((e) => e.classList.remove("tour-hl"));
+      const el = $(`.app-pane.app-${T.k} ${s.hl}`);
+      if (el) { el.classList.add("tour-hl"); const r = el.getBoundingClientRect(), sr = scroll.getBoundingClientRect(); const target = scroll.scrollTop + r.top - sr.top - Math.max(16, (sr.height - (T.bar ? T.bar.offsetHeight : 0) - r.height) / 2); scroll.scrollTo({ top: Math.max(0, target), behavior: YL.reduceMotion() ? "auto" : "smooth" }); }
+    }, 40);
+  }
+  function start(k) { if (!STEPS[k]) return false; T.k = k; appwin.classList.add("touring"); show(0, 0); return true; }
+  function stop() { if (T.bar) { T.bar.remove(); T.bar = null; } T.k = null; appwin.classList.remove("touring"); $$(".tour-hl").forEach((e) => e.classList.remove("tour-hl")); }
+  appwin.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-tour]"); if (!b || !T.k) return;
+    const a = b.dataset.tour;
+    if (a === "next") show(T.i + 1, 1); else if (a === "prev") show(T.i - 1, -1); else if (a === "restart") show(0, -1);
+    const n = $('[data-tour="next"]', T.bar) || $('[data-tour="restart"].next', T.bar); if (n) n.focus({ preventScroll: true });
+  });
+  YL.onLang(() => { if (T.k) show(T.i, 0); });
+  window.TOUR = { start, stop, has: (k) => !!STEPS[k], get active() { return T.k; } };
+  // a direct link to #/makeit/app or #/likethis/app opened the app before this file loaded
+  if (!appwin.hidden && STEPS[appwin.dataset.k]) start(appwin.dataset.k);
+})();
