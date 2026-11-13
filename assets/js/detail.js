@@ -13,15 +13,16 @@
      Make It! and Like this: the entry starts with “Try it”, then what you can do and the first move, then the release / model status. */
   const DEMO_ONLY = new Set(["montauk", "grown"]);
   const demo = (k, h, o = {}) => {
-    const name = { montauk: "Montauk Manual Studio", grown: "GROWN Recovery Scan", makeit: "Make It!", likethis: "Like this" }[k];
-    const en = YL.lang === "en" ? "-en" : "", auto = DEMO_ONLY.has(k);
+    const name = { montauk: "Montauk Manual Studio", grown: "GROWN Recovery Scan", "grown-mobile": "GROWN Rent Scan", makeit: "Make It!", likethis: "Like this" }[k];
+    // o.noEn: one recording for both languages (the GROWN mobile app has a Korean UI only)
+    const en = YL.lang === "en" && !o.noEn ? "-en" : "", auto = DEMO_ONLY.has(k) || k === "grown-mobile", phone = k === "montauk" || k === "grown-mobile";
     const btn = (a, t, icon) => `<button type="button" data-demo="${a}" ${a !== "replay" ? 'aria-pressed="false"' : ""}><span class="di di-${icon}" aria-hidden="true"></span><span class="dt">${esc(L(t))}</span></button>`;
     const go = auto ? "" : `<div class="demo-go">
         <button type="button" class="btn" data-open-app><span>${esc(L(h.app))}</span><span class="arr" aria-hidden="true">→</span></button>
         <p class="dg-lead">${esc(L(h.tryLead))}</p>
         ${h.five ? `<p class="dg-five">${esc(L("직접 작성한 다섯 표현: ", "The five hand-written expressions: "))}<span lang="en">${esc(h.five)}</span></p>` : ""}
         <p class="dg-status">${esc(L(h.tryStatus))}</p></div>`;
-    return `<div class="demo ${k === "montauk" ? "phone" : ""} ${auto ? "auto" : "trial"}" data-anchor="${k}-demo">
+    return `<div class="demo ${phone ? "phone" : ""} ${auto ? "auto" : "trial"}" data-anchor="${k}-demo">${o.label ? `<p class="demo-label">${esc(L(o.label))}</p>` : ""}
       ${go}
       <div class="demo-stage">
         <div class="demo-v"><video class="demo-video" muted playsinline webkit-playsinline preload="none" poster="assets/img/demo-${k}${en}-poster.jpg" data-src="assets/video/demo-${k}${en}.mp4" aria-label="${esc(L({ ko: `${name} 구동 시연 영상`, en: `${name} — demo recording` }))}"></video></div>
@@ -157,8 +158,12 @@
         <figure class="fig s4"><div class="ph" style="--ar:16/9"><div class="card-re" aria-hidden="true"><span class="lg">GROWN</span><span><span class="nmx">홍 길 동</span><span class="rlx">Founder &amp; CEO</span></span><span class="ad">010-0000-0000<br>서울 ○○구 ○○로 00<br>name@example.com</span></div></div><figcaption class="cap">${esc(L(D.s1.cardCap))}</figcaption></figure>
       </div>`,
       tool: `<dl class="split">${D.roles.split.map((r) => `<div><dt>${esc(L(r.k))}</dt><dd>${esc(L(r.v))}</dd></div>`).join("")}</dl>
-        <div class="g-demo">${demo("grown", h, { note: h.demoNote })}</div>
-        <div class="g-link"><p class="label sm"><b>·</b>${esc(L(D.link.label))}</p><h3 class="h3x">${esc(L(D.link.h))}</h3><p class="note-line">${esc(L(D.link.note))}</p>${grownLink()}</div>`
+        <div class="g-link"><p class="label sm"><b>·</b>${esc(L(D.link.label))}</p><h3 class="h3x">${esc(L(D.link.h))}</h3><p class="note-line">${esc(L(D.link.note))}</p>${grownLink()}</div>`,
+      // desktop: the diagnosis system on the left, the mobile app on the right; narrow: system video → the extension note → mobile video
+      mobile: `<div class="g-duo">
+        <div class="g-duo-a">${demo("grown", h, { note: h.demoNote, label: D.mobile.left })}</div>
+        <div class="g-duo-b"><p class="g-duo-lead">${esc(L(D.mobile.lead))}</p>${demo("grown-mobile", h, { noEn: true, label: D.mobile.right, note: D.mobile.cap })}</div>
+      </div>`
     };
     const story = sec("g-story", `${label(1, St.label)}<ol class="story" data-story>${St.steps.map((s, i) => `<li class="st-${s.k}" data-anchor="gs-${s.k}"><span class="sd" aria-hidden="true">${i + 1}</span>
         <p class="st-k">${esc(L(s.t))}</p><h3>${esc(L(s.h))}</h3><p class="p">${esc(L(s.p))}</p>${media[s.k] ? `<div class="st-m">${media[s.k]}</div>` : ""}</li>`).join("")}</ol>`);
@@ -197,7 +202,7 @@
     const t = sec("k-turns", `${label(1, D.turns.label)}${turns(D.turns, "chain")}`);
     const toy = sec("k-toy", `${label(2, { ko: "출발점 · A10 아트토이", en: "Where it started · the A10 art toy" })}
       <div class="toy" data-toy>
-        <figure class="toy-art"><div class="ph" style="--ar:${M.ratio("a10")}">${M.img("a10", L("A10 원화 · 연필 드로잉", "A10 · pencil drawing"), { sizes: "(max-width:760px) 100vw, 45vw" })}</div><figcaption class="cap">${esc(L("A10 · 본인 원화 (연필)", "A10 · my original drawing (pencil)"))}</figcaption></figure>
+        <figure class="toy-art"><div class="ph" style="--ar:${M.ratio("a10")}">${M.img("a10", L("작가 원화 · 연필 드로잉", "Artist's original · pencil drawing"), { sizes: "(max-width:760px) 100vw, 45vw" })}</div><figcaption class="cap">${esc(L("작가 원화 · 연필", "Artist's original · pencil"))}</figcaption></figure>
         <figure class="toy-3d">${window.VIEWER3D ? window.VIEWER3D.markup({ src: "assets/model/a10-arttoy.glb", video: "assets/video/a10-rotation.mp4", poster: "assets/img/a10-rotation-poster.jpg", alt: L("A10 아트토이 3D 모델의 대표 장면", "A10 art toy 3D model, representative frame") }) : ""}
           <figcaption class="cap">${esc(L("A10 아트토이 · Tripo AI로 만든 3D 모델 · 직접 돌려 보기", "A10 art toy · 3D model made with Tripo AI · turn it yourself"))}</figcaption></figure></div>
       <p class="toy-cap">${esc(L(D.toy.cap))}</p>`);
@@ -265,6 +270,8 @@
         $$('[data-demo="toggle"]', d).forEach((b) => { b.setAttribute("aria-pressed", String(on)); $(".dt", b).textContent = on ? L("일시정지", "Pause") : L("재생", "Play"); $(".di", b).className = "di di-" + (on ? "pause" : "play"); });
         d.classList.toggle("ended", v.ended); };
       ["play", "pause", "ended", "playing"].forEach((ev) => v.addEventListener(ev, sync));
+      // starting this one pauses any other recording on the page
+      v.addEventListener("play", () => $$(".demo-video", root).forEach((o) => { if (o !== v && !o.paused) o.pause(); }));
       /* full screen holds the stage (video + its bar), so the controls and “exit” stay on screen.
          Where the Fullscreen API is missing, the stage grows into a fixed overlay instead; the same <video> keeps playing. */
       const isFs = () => document.fullscreenElement === stage || document.webkitFullscreenElement === stage || stage.classList.contains("zoomed");
@@ -296,7 +303,8 @@
       // fetch only when the block comes close; autoplay only when it is actually in view
       const near = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { load(); near.disconnect(); } }), { rootMargin: "300px 0px" });
       const io = new IntersectionObserver((es) => es.forEach((e) => {
-        if (e.isIntersecting) { if (auto && user !== false && !reduce) play(); }
+        // only one recording plays at a time: autoplay waits if another one on the page is already playing
+        if (e.isIntersecting) { if (auto && user !== false && !reduce && !$$(".demo-video", root).some((o) => o !== v && !o.paused)) play(); }
         else if (!v.paused && !isFs()) v.pause();
       }), { threshold: 0.4 });
       near.observe(d); io.observe(d);

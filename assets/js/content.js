@@ -12,10 +12,10 @@
        title / tall may differ by language ({ ko, en }); sub is the small line above the description
        (Korean mode: a Korean title in bold with the English project name as its sub; English mode keeps the English name first). */
     { k: "makeit", color: "#A9E7CE", ink: "#1C1A18",
-      title: ["Make It!"], sub: { ko: "메이크잇 · 안내형 체험", en: "Guided demo" },
-      desc: { ko: "원화를 제품으로 — 제작 조건 정리부터 업체 문의, 사양 수정까지", en: "A drawing into a product: specs, a maker enquiry and the revision" } },
+      title: { ko: ["메이킷"], en: ["Make It!"] }, sub: null,
+      desc: { ko: "원화를 제품으로, 제작 조건 정리부터 업체 문의·사양 수정까지", en: "A drawing into a product: specs, a maker enquiry and the revision" } },
     { k: "likethis", color: "#F3B5CF", ink: "#1C1A18",
-      title: ["Like this"], sub: { ko: "이런느낌 · 안내형 체험", en: "Guided demo" },
+      title: { ko: ["이런 느낌"], en: ["Like this"] }, sub: null,
       desc: { ko: "기본 번역 옆에 문화적 맥락과 이어서 할 말", en: "Cultural context and what to say next, beside the plain translation" } },
     { k: "grown", color: "#FF4D23", ink: "#1C1A18",
       title: { ko: ["공실 상가", "진단 시스템"], en: ["Retail Vacancy", "Diagnosis System"] },
@@ -34,7 +34,7 @@
   C.ui = {
     open: { ko: "열기", en: "Open" },
     close: { ko: "닫기", en: "Close" },
-    scroll: { ko: "스크롤해서 프로젝트 보기", en: "Scroll to see the projects" },
+    scroll: { ko: "SCROLL", en: "SCROLL" },
     backToProject: { ko: "프로젝트로 돌아가기", en: "Back to project" },
     home: { ko: "처음으로", en: "Home" },
     prev: { ko: "이전", en: "Previous" },
@@ -108,6 +108,27 @@
     hint: { ko: "이미지를 누르면 크게 볼 수 있고, 같은 작품의 다른 컷으로 넘길 수 있습니다.", en: "Select an image to enlarge it and step through the other views of the same piece." },
     cats: [
       { k: "id", t: { ko: "산업디자인", en: "Industrial Design" }, projects: [
+        { t: "Liquid Glass Eyewear", d: { ko: "미래적 아이웨어에 Y3K의 시각 언어를 결합한 제품 렌더링입니다. 녹아 흐르는 듯한 크롬 곡면으로 림과 다리를 한 덩어리로 잇고, 브리지 옆에 카메라 모듈을 넣었습니다. 착용 컷으로 얼굴 위의 비례를, 제품 컷으로 곡면과 디테일을 확인했습니다.", en: "Product renders pairing future-facing eyewear with a Y3K visual language. A chrome surface that looks almost molten runs the rims and temples into one piece, with a camera module set beside the bridge. The worn shots check the proportions on a face; the product shots check the surfaces and details." }, cap: { ko: "착용 컷과 제품 전체 컷을 나란히 두어 얼굴 위 비례와 제품 형태를 비교합니다.", en: "Worn shots next to whole-product shots, to compare the proportions on a face with the product's form." }, show: 4, items: [
+          g("eye-worn", { ko: "착용 · 정면", en: "Worn · front" }, null, { w: "w4 mfull", ar: "1494 / 2000", eager: true }),
+          g("eye-front", { ko: "제품 전체 · 정면", en: "Whole product · front" }, null, { w: "w8 mfull", ar: "3 / 2", eager: true }),
+          g("eye-worn-side", { ko: "착용 · 옆얼굴", en: "Worn · profile" }, null, { w: "w4 mfull", ar: "1494 / 2000" }),
+          g("eye-hero", { ko: "제품 전체 · 3/4 각도", en: "Whole product · three-quarter" }, null, { w: "w8 mfull", ar: "3 / 2" }),
+          g("eye-detail", { ko: "디테일 · 카메라 모듈", en: "Detail · camera module" }, null, { w: "w4" }),
+          g("eye-float", { ko: "제품 전체 · 기울인 구도", en: "Whole product · tilted" }, null, { w: "w4 tall" }),
+          g("eye-side", { ko: "측면 · 다리와 렌즈", en: "Side · temple and lens" }, null, { w: "w4 tall" }),
+          g("eye-macro", { ko: "재질 · 크롬 곡면 (카메라 모듈 주변)", en: "Material · chrome surface around the camera" }, null, { w: "w4 tall" }),
+          g("eye-bridge", { ko: "디테일 · 브리지", en: "Detail · bridge" }, null, { w: "w4 tall" }) ] },
+        { t: { ko: "천장형 게임기", en: "Ceiling Game Console" }, d: { ko: "천장에 고정한 막대에 구형 본체가 매달린 게임기 렌더링입니다. 앞면이 열리며 화면과 조이스틱이 드러나는 구조이고, 거실과 창가처럼 서로 다른 공간에 내려온 장면으로 크기와 놓이는 위치를 보여줍니다. 천장에서 내려오는 방식의 구체적인 기구는 렌더에 포함되어 있지 않습니다.", en: "Renders of a game console whose spherical body hangs from a rod fixed to the ceiling. The front opens to reveal a screen and joysticks, and scenes in different rooms show its size and where it sits. The mechanism that lowers it from the ceiling is not part of these renders." }, items: [
+          g("ceil-room", { ko: "거실로 내려온 상태", en: "Lowered into the living room" }, null, { w: "w12" }),
+          g("ceil-room-2", { ko: "다른 공간에 내려온 상태", en: "Lowered in another room" }, null, { w: "w8" }),
+          g("ceil-room-3", { ko: "창가 쪽 구도", en: "By the window" }, null, { w: "w4 tall" }),
+          g("ceil-hang", { ko: "구조 · 천장 막대와 본체", en: "Structure · ceiling rod and body" }, null, { w: "w4 tall" }),
+          g("ceil-side", { ko: "구조 · 열리는 앞면", en: "Structure · the front opens" }, null, { w: "w4 tall" }),
+          g("ceil-screen", { ko: "디테일 · 화면", en: "Detail · screen" }, null, { w: "w4 tall" }),
+          g("ceil-open", { ko: "앞면을 연 상태", en: "Front open" }, null, { w: "w6" }),
+          g("ceil-closed", { ko: "앞면을 닫은 상태", en: "Front closed" }, null, { w: "w6" }),
+          g("ceil-front", { ko: "정면", en: "Front" }, null, { w: "w6" }),
+          g("ceil-controls", { ko: "디테일 · 조이스틱과 버튼", en: "Detail · sticks and buttons" }, null, { w: "w6" }) ] },
         { t: "Vape Silencer", d: { ko: "손에 쥐는 납작한 플라스크 형태의 제품입니다. 브리프와 스케치로 사용 장면을 정리하고, CAD와 3D 프린트 시제품으로 손에 쥐는 크기와 캡 구조를 확인한 뒤, 크기 3종과 마감을 렌더와 제품 사진으로 비교했습니다.", en: "A flat, flask-shaped product held in the hand. Briefs and sketches set out how it is used; CAD and 3D-printed prototypes checked the size in the hand and the cap; then three sizes and several finishes were compared in renders and product photographs." }, cap: { ko: "3차 시제품과 크기 3종 비교. 제작한 형태와 크기 대안을 함께 보여줍니다.", en: "The third prototype next to three sizes: the form that was built, and the size options, side by side." }, show: 6, items: [
           g("id-flask-proto", { ko: "3차 작동 시제품 · 사진", en: "Third working prototype · photo" }, null, { w: "w4 tall" }),
           g("flask-dark-trio", { ko: "크기 3종 · 제품 사진", en: "Three sizes · product photo" }, null, { w: "w8" }),
@@ -145,27 +166,6 @@
           g("id-lamp-sketch", { ko: "구조 스케치", en: "Structure sketch" }, null, { w: "w3", fit: "contain" }),
           g("lamp-paper-2", { ko: "원통형 스케치", en: "Cylinder sketch" }, null, { w: "w3", fit: "contain" }),
           g("lamp-cyl", { ko: "원통형 정리 스케치", en: "Cylinder clean-up" }, null, { w: "w3", fit: "contain" }) ] },
-        { t: "Liquid Glass Eyewear", d: { ko: "미래적 아이웨어에 Y3K의 시각 언어를 결합한 제품 렌더링입니다. 녹아 흐르는 듯한 크롬 곡면으로 림과 다리를 한 덩어리로 잇고, 브리지 옆에 카메라 모듈을 넣었습니다. 착용 컷으로 얼굴 위의 비례를, 제품 컷으로 곡면과 디테일을 확인했습니다.", en: "Product renders pairing future-facing eyewear with a Y3K visual language. A chrome surface that looks almost molten runs the rims and temples into one piece, with a camera module set beside the bridge. The worn shots check the proportions on a face; the product shots check the surfaces and details." }, cap: { ko: "착용 컷과 제품 전체 컷을 나란히 두어 얼굴 위 비례와 제품 형태를 비교합니다.", en: "Worn shots next to whole-product shots, to compare the proportions on a face with the product's form." }, show: 4, items: [
-          g("eye-worn", { ko: "착용 · 정면", en: "Worn · front" }, null, { w: "w4 mfull", ar: "1494 / 2000", eager: true }),
-          g("eye-front", { ko: "제품 전체 · 정면", en: "Whole product · front" }, null, { w: "w8 mfull", ar: "3 / 2", eager: true }),
-          g("eye-worn-side", { ko: "착용 · 옆얼굴", en: "Worn · profile" }, null, { w: "w4 mfull", ar: "1494 / 2000" }),
-          g("eye-hero", { ko: "제품 전체 · 3/4 각도", en: "Whole product · three-quarter" }, null, { w: "w8 mfull", ar: "3 / 2" }),
-          g("eye-detail", { ko: "디테일 · 카메라 모듈", en: "Detail · camera module" }, null, { w: "w4" }),
-          g("eye-float", { ko: "제품 전체 · 기울인 구도", en: "Whole product · tilted" }, null, { w: "w4 tall" }),
-          g("eye-side", { ko: "측면 · 다리와 렌즈", en: "Side · temple and lens" }, null, { w: "w4 tall" }),
-          g("eye-macro", { ko: "재질 · 크롬 곡면 (카메라 모듈 주변)", en: "Material · chrome surface around the camera" }, null, { w: "w4 tall" }),
-          g("eye-bridge", { ko: "디테일 · 브리지", en: "Detail · bridge" }, null, { w: "w4 tall" }) ] },
-        { t: { ko: "천장형 게임기", en: "Ceiling Game Console" }, d: { ko: "천장에 고정한 막대에 구형 본체가 매달린 게임기 렌더링입니다. 앞면이 열리며 화면과 조이스틱이 드러나는 구조이고, 거실과 창가처럼 서로 다른 공간에 내려온 장면으로 크기와 놓이는 위치를 보여줍니다. 천장에서 내려오는 방식의 구체적인 기구는 렌더에 포함되어 있지 않습니다.", en: "Renders of a game console whose spherical body hangs from a rod fixed to the ceiling. The front opens to reveal a screen and joysticks, and scenes in different rooms show its size and where it sits. The mechanism that lowers it from the ceiling is not part of these renders." }, items: [
-          g("ceil-room", { ko: "거실로 내려온 상태", en: "Lowered into the living room" }, null, { w: "w12" }),
-          g("ceil-room-2", { ko: "다른 공간에 내려온 상태", en: "Lowered in another room" }, null, { w: "w8" }),
-          g("ceil-room-3", { ko: "창가 쪽 구도", en: "By the window" }, null, { w: "w4 tall" }),
-          g("ceil-hang", { ko: "구조 · 천장 막대와 본체", en: "Structure · ceiling rod and body" }, null, { w: "w4 tall" }),
-          g("ceil-side", { ko: "구조 · 열리는 앞면", en: "Structure · the front opens" }, null, { w: "w4 tall" }),
-          g("ceil-screen", { ko: "디테일 · 화면", en: "Detail · screen" }, null, { w: "w4 tall" }),
-          g("ceil-open", { ko: "앞면을 연 상태", en: "Front open" }, null, { w: "w6" }),
-          g("ceil-closed", { ko: "앞면을 닫은 상태", en: "Front closed" }, null, { w: "w6" }),
-          g("ceil-front", { ko: "정면", en: "Front" }, null, { w: "w6" }),
-          g("ceil-controls", { ko: "디테일 · 조이스틱과 버튼", en: "Detail · sticks and buttons" }, null, { w: "w6" }) ] },
         { t: "Ember Lamp", d: { ko: "검은 셰이드의 세로 슬릿으로 빛이 새어 나오는 조명 렌더링입니다. 슬릿 하나와 두 개, 셰이드와 바디의 색, 켠 상태와 끈 상태를 바꿔 가며 같은 형태가 주는 인상을 비교했습니다.", en: "Renders of a lamp whose light escapes through vertical slits in a black shade. One slit or two, shade and body colours, on and off — the same form compared across each change." }, items: [
           g("ember-0212", { ko: "점등 · 웜 라이트", en: "Lit · warm light" }, null, { w: "w8" }),
           g("ember-0218", { ko: "소등 · 화이트 셰이드", en: "Off · white shade" }, null, { w: "w4 tall" }),
@@ -372,8 +372,14 @@
      one vertical story: the brand work → what I noticed → what I proposed → the tool I built; then score and scope */
   C.grown = {
     hero: {
-      line: { ko: "GROWN의 브랜딩을 맡아 일하면서 공실 상가의 초기 진단과 반복 대조 업무를 보게 됐고, 엑셀 물건 목록에서 초기 진단을 자동화하자고 제안해 진단 화면을 만들었습니다.", en: "Working on GROWN's branding, I came to see the early diagnosis of vacant retail units and the repeated cross-checking behind it. I proposed automating the first diagnosis from the property spreadsheet and built the diagnosis screen." },
+      line: { ko: "GROWN의 브랜딩을 맡아 일하면서 공실 상가의 초기 진단과 반복 대조 업무를 보게 됐고, 엑셀 물건 목록에서 초기 진단을 자동화하자고 제안해 진단 시스템을 만들었고, 같은 흐름을 모바일 앱으로 확장했습니다.", en: "Working on GROWN's branding, I came to see the early diagnosis of vacant retail units and the repeated cross-checking behind it. I proposed automating the first diagnosis from the property spreadsheet, built the diagnosis system, and extended the same flow into a mobile app." },
       demoNote: { ko: "회사 관련 사정으로 전체 진단 도구는 시연 영상으로 소개합니다.", en: "For company-related reasons the full diagnosis tool is shown as a demo recording." }
+    },
+    mobile: {
+      left: { ko: "기존 진단 시스템 시연", en: "The diagnosis system, demo" },
+      right: { ko: "모바일 앱 시연", en: "The mobile app, demo" },
+      lead: { ko: "초기 진단 절차를 웹에서 먼저 구현한 뒤, 같은 흐름을 휴대폰에서도 사용할 수 있도록 모바일 앱으로 확장했습니다.", en: "I built the early diagnosis process on the web first, then extended the same flow into a mobile app so it can be used on a phone too." },
+      cap: { ko: "GROWN Rent Scan v0.7.1 · 휴대폰 화면에서 호실 정보를 입력하면 1층 적정 임대가 범위와 근거를 계산하고, 결과를 Recovery Scan 연동 값으로 넘깁니다. 영상의 수치는 앱에 들어 있는 예시(가상) 데이터입니다.", en: "GROWN Rent Scan v0.7.1 · Enter a unit on the phone and it estimates a ground-floor rent range with its reasons, then hands the result to Recovery Scan. Figures in the video come from the app's built-in example (fictional) data." }
     },
     ai: {
       process: [{ t: { ko: "진단 계산과 판정", en: "Diagnosis calculation and verdicts" }, d: { ko: "예비 판정은 기존 내부 도구 v1.2의 엑셀 기반 계산 규칙을 따릅니다. AI가 판정하는 구조가 아닙니다.", en: "The preliminary verdict follows the spreadsheet-based calculation rules of the existing internal tool v1.2. It is not an AI verdict." } }],
@@ -393,8 +399,10 @@
           p: { ko: "브랜드와 사업을 이해하면서 초기 진단 절차를 알게 됐습니다. 회생 전략을 세우기 전에, 고객이 보낸 물건 자료를 담당자가 손으로 확인하고 대조하는 데 시간과 인력이 들고 있었습니다.", en: "Getting to know the brand and the business, I learned the early diagnosis process. Before any recovery strategy, staff spent time checking and cross-matching the property data clients sent, by hand." } },
         { k: "proposed", t: { ko: "내가 제안한 것", en: "What I proposed" }, h: { ko: "엑셀 물건 목록에서 시작하는 초기 진단 자동화", en: "Automating the first diagnosis, starting from the spreadsheet" },
           p: { ko: "고객이 보내는 엑셀 물건 목록으로 자료 정리와 초기 진단을 자동화하자고 제가 먼저 제안했습니다. 반복 대조를 줄여 담당자가 회생 전략에 집중하도록 하는 것이 목적이었고, 공실 진단 전문가와 함께 구체화했습니다.", en: "I proposed using the spreadsheet clients send to automate the data clean-up and first diagnosis. The aim was to cut repeated cross-checking so staff could focus on the strategy; I worked it out with the vacancy-diagnosis expert." } },
-        { k: "tool", t: { ko: "만든 도구", en: "The tool I built" }, h: { ko: "계산이 멈추는 자리를 둔 진단 화면", en: "A diagnosis screen with a place where the calculation stops" },
+        { k: "tool", t: { ko: "기존 진단 시스템 구현", en: "Building the diagnosis system" }, h: { ko: "계산이 멈추는 자리를 둔 진단 화면", en: "A diagnosis screen with a place where the calculation stops" },
           p: { ko: "빠지거나 확인되지 않은 자료가 있으면 계산만으로 판정을 확정할 수 없습니다. 그래서 자동 계산은 예비 판정까지만 내고, 자료를 보완한 뒤 전문가가 현장·문서를 확인해야 확정 판정으로 기록되도록 했습니다.", en: "With missing or unconfirmed data, a calculation alone can't settle a verdict. So the calculation stops at a preliminary verdict, and only after the data is filled in and the expert checks the site and documents is it recorded as confirmed." } }
+,
+        { k: "mobile", t: { ko: "모바일 앱으로 확장", en: "Extending it into a mobile app" }, h: { ko: "같은 흐름을 휴대폰에서", en: "The same flow, on a phone" } }
       ]
     },
     roles: {
@@ -427,6 +435,7 @@
       rows: [
         { k: { ko: "전체 내부 도구", en: "Full internal tool" }, v: { ko: "물건 목록 입력, 현장·판정 필터, 자료 보완과 재계산, 전문가 확인 후 확정", en: "Unit list input, site and verdict filters, filling in data and recalculating, confirming after the expert check" } },
         { k: { ko: "시연 영상", en: "Demo recording" }, v: { ko: "현장 필터와 호실 선택, 예비 판정·근거, 빠른 확인 항목 입력에 따른 판정 변화, 우선 조치", en: "Site filter and unit choice, preliminary verdict and reasons, the verdict changing as quick answers are entered, actions first" } },
+        { k: { ko: "모바일 앱", en: "Mobile app" }, v: { ko: "Rent Scan v0.7.1 · 휴대폰 화면 시연 영상으로만 공개, 예시(가상) 데이터", en: "Rent Scan v0.7.1 · shown only as a phone-screen demo recording, with example (fictional) data" } },
         { k: { ko: "이 공개 페이지", en: "This public page" }, v: { ko: "미리 계산한 가상 호실 8개의 결과를 골라 보기만 합니다. 입력·재계산·확정은 하지 않습니다", en: "Only lets you pick and read prepared results for 8 fictional units; no input, recalculation or confirmation" } },
         { k: { ko: "버전", en: "Version" }, v: { ko: "판정 계산은 기존 내부 도구 v1.2, 판정 명칭은 고객용 설명 자료의 표기를 따릅니다", en: "Calculation from internal tool v1.2; verdict names follow the client-facing material" } }
       ]
@@ -443,7 +452,7 @@
       tryStatus: { ko: "준비된 A10 예시로 진행합니다. 업체·견적·회신은 예시이며 실제로 발송하지 않습니다. 언어 모델은 아직 연결하지 않았고, 서비스는 출시 전입니다.", en: "It runs on the prepared A10 example. Makers, quotes and replies are samples and nothing is actually sent. No language model is connected yet, and the service has not launched." }
     },
     ai: {
-      process: [{ t: { ko: "Tripo AI · A10 입체 모델", en: "Tripo AI · the A10 3D model" }, d: { ko: "A10 원화를 Tripo AI로 3D 모델로 만들어 입체 형태를 확인했고, 그 모델을 문의서의 첨부 자료로 씁니다.", en: "I turned the A10 drawing into a 3D model with Tripo AI to see the form in three dimensions, and the model goes with the brief as an attachment." } }],
+      process: [{ t: { ko: "Tripo AI · A10 입체 모델", en: "Tripo AI · the A10 3D model" }, d: { ko: "작가 원화를 Tripo AI로 3D 모델로 만들어 입체 형태를 확인했고, 그 모델을 문의서의 첨부 자료로 씁니다.", en: "I turned the artist's original drawing into a 3D model with Tripo AI to see the form in three dimensions, and the model goes with the brief as an attachment." } }],
       app: { t: { ko: "앱 안에서", en: "Inside the app" }, d: { ko: "언어 모델은 연결하지 않았습니다. 업체 추천은 공정·수량·기간·예산 조건을 비교하는 규칙으로 계산하고, 업체 회신은 준비된 예시입니다.", en: "No language model is connected. Maker matches are calculated by rules that compare process, quantity, lead time and budget; maker replies are prepared samples." } },
       mine: [
         { ko: "원화의 가는 가지와 감긴 선이 입체에서는 얇은 돌출부가 된다는 점을 보고, ‘가는 부분이 버틸 최소 두께’를 문의서의 첫 질문으로 정했습니다.", en: "Seeing that the drawing's thin branches and coiled lines become thin protrusions in 3D, I made ‘the minimum thickness thin parts can hold’ the brief's first question." },
@@ -526,10 +535,10 @@
     },
     talk: {
       label: { ko: "실제 대화", en: "The real conversation" },
-      h: { ko: "나는 뽀로로를, 그 친구는 사무라이 챔프를 떠올렸다.", en: "I thought of Pororo; my friend thought of “사무라이 챔프”." },
+      h: { ko: "나는 뽀로로를, 그 친구는 사무라이 잭을 떠올렸다.", en: "I thought of Pororo; my friend thought of Samurai Jack." },
       items: [
         { t: "Pororo the Little Penguin", tlang: "en", ko: "뽀롱뽀롱 뽀로로", d: { ko: "2003년 EBS에서 처음 방영된 한국의 미취학 어린이용 3D 애니메이션. 제게 먼저 떠오른 작품입니다.", en: "A Korean 3D series for preschoolers, first aired on EBS in 2003 — the show that came to my mind first." } },
-        { t: "사무라이 챔프", tlang: "ko", ko: "", d: { ko: "친구가 어린 시절 기다리던 애니메이션으로 떠올린 작품입니다.", en: "The show my friend remembered waiting for as a child." } }
+        { t: "Samurai Jack", tlang: "en", ko: "사무라이 잭", d: { ko: "2001년 카툰 네트워크에서 시작한 미국 애니메이션. 친구가 어린 시절 기다리던 작품으로 떠올렸습니다.", en: "An American series that began on Cartoon Network in 2001 — the show my friend remembered waiting for as a child." } }
       ],
       bridge: { ko: "두 작품의 위치는 같지 않습니다. 이어지는 것은 작품이 아니라 ‘매일 기다리던 만화가 있었다’는 경험입니다.", en: "The two shows don't sit in the same place. What connects them is not the show but the experience of having a cartoon you waited for every day." },
       cap: { ko: "실제 대화에서 나온 경험입니다.", en: "From the real conversation." }
@@ -537,7 +546,7 @@
     read: {
       label: { ko: "번역에서 다음 질문까지 · 시연용 예문", en: "From translation to the next question · demo sentence" },
       src: "Samurai Jack was my whole childhood — I watched it every day after school.",
-      srcNote: { ko: "시연용으로 다시 쓴 예문입니다. 앱에 준비된 예시 작품(Samurai Jack)을 썼으며, 실제 대화에서 친구가 떠올린 작품과 같은 작품으로 쓴 것이 아닙니다.", en: "A sentence rewritten for the demo. It uses a sample show prepared in the app (Samurai Jack); it is not meant as the show my friend named in the real conversation." },
+      srcNote: { ko: "실제 대화를 바탕으로 앱에서 비교하기 위해 다시 쓴 예문입니다. 실제 대사를 그대로 옮긴 것은 아닙니다.", en: "Rewritten from the real conversation so the app can compare it; not a word-for-word quote of what was said." },
       layers: [
         { from: "", t: { ko: "기본 번역", en: "Plain translation" }, d: { ko: "사무라이 잭은 내 어린 시절 그 자체였어. 방과 후에 매일 봤거든.", en: "Samurai Jack was a big part of growing up for me; I watched it daily after school." },
           miss: { ko: "어린 시절의 추억이라는 뜻은 전달되지만, 어떤 작품이며 왜 특별한지는 아직 알기 어렵습니다.", en: "That it's a childhood memory comes across, but what the show is and why it mattered is still hard to tell." } },

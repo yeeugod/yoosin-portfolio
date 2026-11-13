@@ -908,3 +908,29 @@ html[data-lang="ko"] .split dt { font-family: inherit; letter-spacing: .02em; fo
 .mk-to { margin: 0 0 10px; font-size: 14.5px; }
 .s1-media .ph img { max-height: min(64vh, 560px); object-fit: contain; background: #fff; }
 .s1-media { grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr); max-width: 980px; }
+
+/* ───────────── V6 · GROWN: the diagnosis system and the mobile app, side by side ───────────── */
+.g-duo { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 28px 32px; align-items: start; margin-top: 4px; }
+.g-duo .demo { gap: 12px; }
+.g-duo-b { display: grid; gap: 14px; align-content: start; }
+.g-duo-lead { margin: 0; font-size: 16.5px; line-height: 1.55; font-weight: 600; max-width: 44ch; }
+.demo-label { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .02em; display: flex; align-items: center; gap: 8px; }
+.demo-label::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--ink)); border: 1px solid var(--ink); }
+.g-duo .demo.phone { justify-items: start; }
+.g-duo .demo.phone .demo-stage { justify-items: start; width: min(100%, 300px, calc((100svh - 190px) * .46)); }
+.g-duo .demo.phone .demo-bar { justify-content: flex-start; }
+.g-duo .demo-note { max-width: 44ch; }
+@media (max-width: 900px) {
+  .g-duo { grid-template-columns: minmax(0, 1fr); }
+  .g-duo .demo.phone, .g-duo .demo.phone .demo-stage { justify-items: center; }
+  .g-duo .demo.phone .demo-stage { width: min(100%, 300px); margin: 0 auto; }
+  .g-duo .demo.phone .demo-bar { justify-content: center; }
+}
+
+/* ───────────── V6 · scroll hint: just “SCROLL” and a short line with a dot of motion running down it (no box) ───────────── */
+.hint { padding: 0; border-radius: 0; background: none; box-shadow: none; color: var(--ink); font-size: 12px; font-weight: 500; letter-spacing: .24em; gap: 10px; text-indent: .24em; }
+.hint i { position: relative; width: 1.5px; height: 34px; background: rgba(28, 26, 24, .16); overflow: hidden; animation: none; transform: none; }
+.hint i::after { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 45%; background: var(--ink); animation: hintDrop 1.5s cubic-bezier(.45, 0, .2, 1) infinite; }
+@keyframes hintDrop { 0% { transform: translateY(-100%); } 100% { transform: translateY(225%); } }
+@media (max-width: 760px) { .hint { font-size: 11.5px; padding: 0; letter-spacing: .22em; } .hint i { height: 28px; } }
+@media (prefers-reduced-motion: reduce) { .hint i::after { animation: none; transform: none; height: 100%; } }

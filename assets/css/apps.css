@@ -156,6 +156,7 @@ html[data-lang="en"] .app-makeit { font-family: var(--en); }
 .makers > li { border: 1px solid var(--x-line); border-radius: 16px; background: #fff; padding: 14px 16px; transition: background-color var(--t-mid) ease; }
 .makers > li.fit { background: #F2FBF6; border-color: #C3E9D5; }
 .mh { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 12px; align-items: start; }
+.makers.all .mh { grid-template-columns: minmax(0, 1fr); } /* the full list has no rank or fit score */
 .mh .rank { width: 30px; height: 30px; border-radius: 9px; background: #F1F1EC; display: grid; place-items: center; font-family: var(--en); }
 .mh b { font-size: 17px; display: block; font-family: var(--en); font-weight: 500; }
 .mh span { font-size: 13px; color: var(--x-ink2); }
