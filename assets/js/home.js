@@ -8,7 +8,11 @@
   const sheet = $("#sheet"), sheetScroll = $("#sheet-scroll"), banner = $("#banner"), bTitle = $("#banner-title"), sheetBody = $("#sheet-body"), sheetCtl = $("#sheet-ctl");
   const appwin = $("#appwin"), appBar = $("#app-bar"), appRoot = $("#app-root"), appScroll = $("#app-scroll");
   const topbar = $("#topbar");
-  const ORDER = ["art", "montauk", "grown", "makeit", "likethis"];
+  const ORDER = ["makeit", "likethis", "grown", "montauk", "art"]; // V5 reading order after the intro
+  // titles may differ by language; a Korean title is set in Pretendard, an English one in Neue Montreal
+  const TT = (c, f = "title") => { const v = c[f]; return !v ? null : Array.isArray(v) ? v : L(v); };
+  const isKo = (lines) => lines.some((t) => /[가-힣]/.test(t));
+  const subOf = (c) => (c.sub ? L(c.sub) : "");
   const byK = Object.fromEntries(C.cards.map((c) => [c.k, c]));
   const ARROW = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
   const BACK = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>`;
@@ -53,13 +57,13 @@
         <div class="who"><h1 class="name" lang="en" aria-label="Yoosin Lee">YOOSIN LEE</h1><p class="role" data-i="desc">${esc(L(c.desc))}</p></div>
         <span class="arrow" aria-hidden="true">${ARROW}</span>`;
     }
-    return `<h2 class="ct" lang="en">${c.title.map((t) => `<span>${esc(t)}</span>`).join("")}</h2>${graphic(c.k)}
-      <span class="cb">${c.ko ? `<span class="kname" lang="ko">${esc(c.ko)}</span>` : ""}<span class="cdesc" data-i="desc">${esc(L(c.desc))}</span></span>
+    return `<h2 class="ct" lang="${isKo(TT(c)) ? "ko" : "en"}">${TT(c).map((t) => `<span>${esc(t)}</span>`).join("")}</h2>${graphic(c.k)}
+      <span class="cb">${c.sub ? `<span class="kname" lang="${c.subEn ? "en" : "ko"}" data-i="sub" ${subOf(c) ? "" : "hidden"}>${esc(subOf(c))}</span>` : ""}<span class="cdesc" data-i="desc">${esc(L(c.desc))}</span></span>
       <span class="arrow" aria-hidden="true">${ARROW}</span>`;
   }
   function cardLabel(c) {
     if (c.k === "about") return `About Me — Yoosin Lee, ${L(c.desc)} — ${L("열기", "open")}`;
-    return `${c.title.join(" ")} — ${c.ko ? c.ko + ", " : ""}${L(c.desc)} — ${L("열기", "open")}`;
+    return `${TT(c).join(" ")} — ${subOf(c) ? subOf(c) + ", " : ""}${L(c.desc)} — ${L("열기", "open")}`;
   }
   C.cards.forEach((c) => {
     const b = document.createElement("button");
@@ -72,6 +76,7 @@
     C.cards.forEach((c) => {
       const b = els[c.k]; b.setAttribute("aria-label", cardLabel(c));
       const d = $("[data-i=desc]", b); if (d) d.textContent = L(c.desc);
+      const sb = $("[data-i=sub]", b); if (sb) { sb.textContent = subOf(c); sb.hidden = !subOf(c); }
       const t = $("[data-i=aboutTag]", b); if (t) t.textContent = L({ ko: "아이디어와 현실 사이, 빠져 있는 연결을 설계합니다.", en: "I design the link that is missing between an idea and the real world." });
     });
     hint.innerHTML = `${esc(L(C.ui.scroll))}<i></i>`;
@@ -82,13 +87,16 @@
   /* ───── measuring ───── */
   const mctx = document.createElement("canvas").getContext("2d");
   function textW(lines, weight, upper, track) {
-    mctx.font = `${weight} 100px "Neue Montreal", "Helvetica Neue", Arial, sans-serif`;
-    return Math.max(...lines.map((l) => { const s = upper ? l.toUpperCase() : l; return mctx.measureText(s).width + track * 100 * (s.length - 1); }));
+    const ko = lines.some((t) => /[가-힣]/.test(t));
+    // Korean titles are set in Pretendard (weight 800, tighter tracking), so measure them in that face
+    mctx.font = ko ? `800 100px "Pretendard", "Apple SD Gothic Neo", sans-serif` : `${weight} 100px "Neue Montreal", "Helvetica Neue", Arial, sans-serif`;
+    const tr = ko ? -0.04 : track;
+    return Math.max(...lines.map((l) => { const s = upper && !ko ? l.toUpperCase() : l; return mctx.measureText(s).width + tr * 100 * (s.length - 1); }));
   }
   function fitTitle(lines, w, h, max, reserveBottom) {
     const per = textW(lines, 700, true, -0.03) / 100;
     let ts = Math.min(max, (w * 0.985) / per);
-    ts = Math.min(ts, (h - reserveBottom) / (0.9 * lines.length));
+    ts = Math.min(ts, (h - reserveBottom) / ((isKo(lines) ? 1.02 : 0.9) * lines.length));
     return Math.max(18, Math.floor(ts));
   }
 
@@ -100,26 +108,28 @@
       const gw = W - 2 * m, gh = Math.max(H - top - m, 600);
       const cw = (gw - 11 * g) / 12, rh = (gh - 3 * g) / 4;
       const R = (c0, c1, r0, r1) => ({ x: m + c0 * (cw + g), y: top + r0 * (rh + g), w: (c1 - c0) * cw + (c1 - c0 - 1) * g, h: (r1 - r0) * rh + (r1 - r0 - 1) * g });
-      Object.assign(out, { art: R(0, 4, 0, 2), makeit: R(0, 4, 2, 4), montauk: R(4, 9, 0, 2), about: R(4, 9, 2, 4), grown: R(9, 12, 0, 2), likethis: R(9, 12, 2, 4) });
+      // Make It! takes the first project place (top left); reading goes down each column: Make It!, Like this · GROWN, About · Manual, ART
+      Object.assign(out, { makeit: R(0, 4, 0, 2), likethis: R(0, 4, 2, 4), grown: R(4, 9, 0, 2), about: R(4, 9, 2, 4), montauk: R(9, 12, 0, 2), art: R(9, 12, 2, 4) });
       out._h = top + gh + m; out._p = 22;
     } else if (W >= 600) {
       const gw = W - 2 * m, half = (gw - g) / 2;
       const aH = Math.max(280, Math.min(H * 0.44, 420)), rH = Math.max(220, Math.min(H * 0.28, 280));
       let y = top;
       out.about = { x: m, y, w: gw, h: aH }; y += aH + g;
-      out.art = { x: m, y, w: half, h: rH }; out.montauk = { x: m + half + g, y, w: half, h: rH }; y += rH + g;
-      out.grown = { x: m, y, w: half, h: rH }; out.makeit = { x: m + half + g, y, w: half, h: rH }; y += rH + g;
-      out.likethis = { x: m, y, w: gw, h: rH * 0.8 }; y += rH * 0.8;
+      out.makeit = { x: m, y, w: half, h: rH }; out.likethis = { x: m + half + g, y, w: half, h: rH }; y += rH + g;
+      out.grown = { x: m, y, w: half, h: rH }; out.montauk = { x: m + half + g, y, w: half, h: rH }; y += rH + g;
+      out.art = { x: m, y, w: gw, h: rH * 0.8 }; y += rH * 0.8;
       out._h = y + m; out._p = 18;
     } else {
       const gw = W - 2 * m, half = (gw - g) / 2;
       const aH = Math.max(270, Math.min(H * 0.42, 340));
       let y = top;
       out.about = { x: m, y, w: gw, h: aH }; y += aH + g;
-      out.art = { x: m, y, w: gw, h: 204 }; y += 204 + g;
-      out.montauk = { x: m, y, w: gw, h: 226 }; y += 226 + g;
+      out.makeit = { x: m, y, w: gw, h: 214 }; y += 214 + g;
+      out.likethis = { x: m, y, w: gw, h: 214 }; y += 214 + g;
       out.grown = { x: m, y, w: gw, h: 226 }; y += 226 + g;
-      out.makeit = { x: m, y, w: half, h: 228 }; out.likethis = { x: m + half + g, y, w: half, h: 228 }; y += 228;
+      out.montauk = { x: m, y, w: gw, h: 226 }; y += 226 + g;
+      out.art = { x: m, y, w: gw, h: 204 }; y += 204;
       out._h = y + m; out._p = 14;
     }
     return out;
@@ -139,18 +149,19 @@
       b.style.left = r.x + "px"; b.style.top = r.y + "px"; b.style.width = r.w + "px"; b.style.height = r.h + "px";
       b.style.setProperty("--p", p + "px");
       // a long title breaks into more lines on a tall card (GROWN: GROWN / RECOVERY / SCAN)
-      const lines = c.tall && r.h > r.w * 1.05 ? c.tall : c.title;
-      if (b.dataset.lines !== lines.join("|")) { $(".ct", b).innerHTML = lines.map((t) => `<span>${esc(t)}</span>`).join(""); b.dataset.lines = lines.join("|"); }
+      const lines = TT(c, "tall") && r.h > r.w * 1.05 ? TT(c, "tall") : TT(c);
+      if (b.dataset.lines !== lines.join("|")) { const ct = $(".ct", b); ct.innerHTML = lines.map((t) => `<span>${esc(t)}</span>`).join(""); ct.lang = isKo(lines) ? "ko" : "en"; b.dataset.lines = lines.join("|"); }
       const reserve = small ? 74 : 88;
-      const ts = fitTitle(lines, r.w - 2 * p, r.h - 2 * p, small ? 40 : (W >= 1024 ? 84 : 58), reserve);
+      // Korean titles are heavier per line, so they stop a little smaller and leave room for the figure
+      const ts = fitTitle(lines, r.w - 2 * p, r.h - 2 * p, isKo(lines) ? (small ? 36 : (W >= 1024 ? 64 : 48)) : (small ? 40 : (W >= 1024 ? 84 : 58)), reserve);
       b.style.setProperty("--ts", ts + "px"); b.dataset.ts = ts;
       // the figure takes the free band between the title and the description
-      const cb = $(".cb", b), gTop = p + ts * 0.9 * lines.length + (small ? 10 : 16), gBot = p + Math.max(cb ? cb.offsetHeight : 0, 44) + (small ? 10 : 16), avail = r.h - gTop - gBot;
+      const cb = $(".cb", b), gTop = p + ts * (isKo(lines) ? 1.02 : 0.9) * lines.length + (small ? 10 : 16), gBot = p + Math.max(cb ? cb.offsetHeight : 0, 44) + (small ? 10 : 16), avail = r.h - gTop - gBot;
       b.style.setProperty("--gt", gTop + "px"); b.style.setProperty("--gb", gBot + "px");
-      b.style.setProperty("--gw", Math.min(r.w - 2 * p, Math.max(0, avail) * 2.4) + "px");
+      b.style.setProperty("--gw", Math.min(r.w - 2 * p, Math.max(0, avail) * 2) + "px"); // the figure is 2:1, so this keeps its height inside the free band
       b.classList.toggle("no-g", avail < 34);
       // entry vectors: each card comes in from its own side of the frame
-      const dir = small ? { art: [-28, 0], montauk: [0, -24], grown: [28, 0], makeit: [0, 32], likethis: [24, 20] }[k] : { art: [-(r.x + r.w + 60), 0], montauk: [0, -(r.y + r.h + 60)], grown: [W - r.x + 60, 0], makeit: [0, H - r.y + 60 + (small ? 200 : 0)], likethis: [W - r.x + 40, H * 0.5] }[k];
+      const dir = small ? { makeit: [-28, 0], likethis: [28, 0], grown: [0, 28], montauk: [0, 32], art: [0, 36] }[k] : { makeit: [-(r.x + r.w + 60), 0], likethis: [-(r.x + r.w + 60), H * 0.3], grown: [0, -(r.y + r.h + 60)], montauk: [W - r.x + 60, 0], art: [W - r.x + 40, H * 0.5] }[k];
       S.start[k] = dir;
     }
     // about: from (almost) full frame to its cell
@@ -248,8 +259,8 @@
   }
 
   /* ───── detail sheet ───── */
-  function bannerLines(k) { return k === "about" ? ["YOOSIN LEE"] : (els[k].dataset.lines ? els[k].dataset.lines.split("|") : byK[k].title); }
-  function bannerSub(k) { const c = byK[k]; return k === "about" ? `About Me · ${L(C.about.sub)}` : `${c.ko ? c.ko + " · " : ""}${L(c.desc)}`; }
+  function bannerLines(k) { return k === "about" ? ["YOOSIN LEE"] : (els[k].dataset.lines ? els[k].dataset.lines.split("|") : TT(byK[k])); }
+  function bannerSub(k) { const c = byK[k]; return k === "about" ? `About Me · ${L(C.about.sub)}` : `${subOf(c) ? subOf(c) + " · " : ""}${L(c.desc)}`; }
   function layoutBanner() {
     const k = S.detail; if (!k) return;
     const W = S.W, small = W < 761, bp = small ? 16 : 26;
@@ -282,12 +293,13 @@
     const c = byK[k];
     sheet.style.setProperty("--c", c.color); sheet.style.setProperty("--ci", c.ink);
     banner.style.setProperty("--c", c.color); banner.style.setProperty("--ci", c.ink);
-    bTitle.className = "b-title" + (k === "about" ? " about" : "");
-    bTitle.innerHTML = bannerLines(k).map((t) => `<span lang="en">${esc(t)}</span>`).join("");
+    const bl = bannerLines(k);
+    bTitle.className = "b-title" + (k === "about" ? " about" : "") + (isKo(bl) ? " ko" : "");
+    bTitle.innerHTML = bl.map((t) => `<span lang="${isKo([t]) ? "ko" : "en"}">${esc(t)}</span>`).join("");
     bTitle.setAttribute("tabindex", "-1");
     let sub = $(".b-sub", banner); if (!sub) { sub = document.createElement("p"); sub.className = "b-sub"; banner.appendChild(sub); }
     sub.textContent = bannerSub(k);
-    sheet.setAttribute("aria-label", k === "about" ? "About Me" : c.title.join(" "));
+    sheet.setAttribute("aria-label", k === "about" ? "About Me" : TT(c).join(" "));
     sheetCtl.innerHTML = ctlHtml(); sheetCtl.classList.remove("away"); sheet.classList.remove("ctl-away");
     sheetBody.innerHTML = window.DETAIL.render(k);
     window.DETAIL.mount(k, sheetBody, sheetScroll);
@@ -299,7 +311,7 @@
     m.style.setProperty("--c", c.color); m.style.setProperty("--ci", c.ink);
     Object.assign(m.style, { left: rect.left + "px", top: rect.top + "px", width: rect.width + "px", height: rect.height + "px" });
     const lines = bannerLines(k);
-    m.innerHTML = `<h2 class="ct" style="${k === "about" ? "line-height:.86" : ""}">${lines.map((t) => `<span>${esc(t)}</span>`).join("")}</h2>`;
+    m.innerHTML = `<h2 class="ct${isKo(lines) ? " ko" : ""}" style="${k === "about" ? "line-height:.86" : ""}">${lines.map((t) => `<span>${esc(t)}</span>`).join("")}</h2>`;
     document.body.appendChild(m);
     return m;
   }
@@ -483,7 +495,8 @@
     const [k, sub] = h.split("/");
     if (!k || !VALID.has(k)) return { k: null };
     // Montauk and GROWN are shown as demo recordings only; their app route is closed (the source stays in the repo)
-    return { k, app: sub === "app" && !!window.APPS[k] && !NO_APP.has(k) };
+    // demo-only apps never open on the public site (their code is not shipped); ?rec=1 lets the local recording script open them
+    return { k, app: sub === "app" && !!window.APPS[k] && (!NO_APP.has(k) || /[?&]rec=1/.test(location.search)) };
   }
   function apply(route, opts = {}) {
     if (window.MEDIA && MEDIA.lbOpenNow) MEDIA.lbDismiss(); // a route change never leaves the enlarged view behind
@@ -549,8 +562,14 @@
   /* ───── language ───── */
   YL.onLang(() => {
     refreshCardText();
+    // titles can change by language (GROWN, Manual): re-fit the cards, then the open banner, so card and banner keep the same lines
+    { const d = S.detail; S.detail = null; layout(); S.detail = d; }
     if (S.detail) {
       const a = YL.captureAnchor(sheetScroll), f = YL.captureFocus();
+      const bl = bannerLines(S.detail);
+      bTitle.className = "b-title" + (S.detail === "about" ? " about" : "") + (isKo(bl) ? " ko" : "");
+      bTitle.innerHTML = bl.map((t) => `<span lang="${isKo([t]) ? "ko" : "en"}">${esc(t)}</span>`).join("");
+      layoutBanner();
       const sub = $(".b-sub", banner); if (sub) sub.textContent = bannerSub(S.detail);
       sheetCtl.innerHTML = ctlHtml();
       window.DETAIL.unmount && window.DETAIL.unmount();

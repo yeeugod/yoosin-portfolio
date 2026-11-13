@@ -8,12 +8,12 @@
 
   const X = [
     { id: "samurai", keys: ["samurai jack", "사무라이 잭"], srcLang: "en", who: "them",
-      tag: { ko: "어린 시절 애니메이션 · 브라질 친구", en: "Childhood cartoons · a Brazilian friend" },
+      tag: { ko: "어린 시절 애니메이션 · 시연용 예문", en: "Childhood cartoons · demo sentence" },
       text: "Samurai Jack was my whole childhood — I watched it every day after school.",
       basic: { ko: "사무라이 잭은 내 어린 시절 그 자체였어. 방과 후에 매일 봤거든.", en: "Samurai Jack was a big part of growing up for me; I watched it daily after school." },
       context: { ko: "사무라이 잭은 2001년 카툰 네트워크에서 시작한 미국 애니메이션입니다. 대사가 적고 화면과 소리로 긴장을 만드는 연출로 기억됩니다. ‘방과 후에 매일’이라는 말은 작품만이 아니라, 학교가 끝나고 TV 앞에 앉던 하루의 리듬까지 함께 떠올리게 합니다.", en: "Samurai Jack is an American series that began on Cartoon Network in 2001, remembered for sparse dialogue and tension built from images and sound. ‘Every day after school’ brings back not just the show but the rhythm of the day — school ends, you sit down in front of the TV." },
       feeling: { ko: "향수와 애정. 자랑보다는 ‘나를 만든 것 하나’를 꺼내 보이는 말에 가깝습니다.", en: "Nostalgia and affection — less a boast than showing you one of the things that made them." },
-      bridge: { ko: "한국에서 자랐다면 어린 시절 매일 기다리던 만화가 떠오를 수 있습니다(예: 뽀로로). 두 작품의 문화적 위치는 같지 않습니다. 뽀로로는 미취학 어린이를 위한 한국 작품이고, 사무라이 잭은 그보다 큰 아이들이 보던 미국 작품입니다. 이어지는 것은 작품이 아니라 ‘매일 기다리던 만화가 있었다’는 정서입니다. 브라질에서 자랐다고 모두 이 작품을 봤다고 단정하지는 마세요.", en: "Someone who grew up in Korea may think of a cartoon they waited for every day (Pororo, for example). The two shows do not sit in the same cultural place: Pororo is a Korean show for preschoolers, Samurai Jack an American show watched by older kids. What connects them is not the show but the feeling of having a cartoon you waited for every day. Don't assume everyone from Brazil watched it, though." },
+      bridge: { ko: "한국에서 자랐다면 어린 시절 매일 기다리던 만화가 떠오를 수 있습니다(예: 뽀로로). 두 작품의 문화적 위치는 같지 않습니다. 뽀로로는 미취학 어린이를 위한 한국 작품이고, 사무라이 잭은 그보다 큰 아이들이 보던 미국 작품입니다. 이어지는 것은 작품이 아니라 ‘매일 기다리던 만화가 있었다’는 정서입니다. 어디에서 자랐는지만으로 모두 이 작품을 봤다고 단정하지는 마세요.", en: "Someone who grew up in Korea may think of a cartoon they waited for every day (Pororo, for example). The two shows do not sit in the same cultural place: Pororo is a Korean show for preschoolers, Samurai Jack an American show watched by older kids. What connects them is not the show but the feeling of having a cartoon you waited for every day. Don't assume everyone who grew up in one place watched it, though." },
       rep: { casual: "No way — for me it was Pororo. Different show, same after-school ritual.", polite: "That sounds like a great memory. I grew up with a Korean show called Pororo — what did you love about Samurai Jack?", ask: "What was it about Samurai Jack that hooked you?" } },
     { id: "pororo", keys: ["뽀로로", "pororo"], srcLang: "ko", who: "me",
       tag: { ko: "어린 시절 애니메이션 · 내가 하려는 말", en: "Childhood cartoons · something I want to say" },
@@ -92,9 +92,9 @@
     const H = (ko, en) => S.out === "ko" ? ko : en;
     return `<section class="lx-cmp" data-anchor="lt-3"><h3 class="lx-h" tabindex="-1">${esc(H("한 문장을 세 가지로 읽기", "One sentence, three readings"))}<span lang="${x.srcLang}">“${esc(exact ? x.text : x.keys[0])}”</span></h3>
         <div class="lx-cols" lang="${S.out}">
-          <article class="lx-c c-basic"><h4><b>1</b>${esc(!exact ? H("찾은 표현", "Expression found") : same ? H("쉬운 말로", "In plain words") : H("기본 번역", "Plain translation"))}</h4>${basicHtml}</article>
-          <article class="lx-c c-ctx"><h4><b>2</b>${esc(H("문화적 설명", "Cultural context"))}</h4><p data-watch="lt-ctx">${esc(O(x.context))}</p><p class="feel" data-watch="lt-feel"><b>${esc(H("정서", "Feeling"))}</b>${esc(O(feeling))}</p><p class="bridge2"><b>${esc(H("이어지는 지점", "Common ground"))}</b>${esc(O(x.bridge))}</p></article>
-          <article class="lx-c c-rep" data-anchor="lt-4"><h4><b>3</b>${esc(H("답변 제안", "Suggested replies"))}</h4>
+          <article class="lx-c c-basic"><h4><b>1</b>${esc(!exact ? H("찾은 표현", "Expression found") : same ? H("쉬운 말로", "In plain words") : H("기본 번역", "Plain translation"))}<em class="lx-ex">${esc(H("예시", "Sample"))}</em></h4>${basicHtml}</article>
+          <article class="lx-c c-ctx"><h4><b>2</b>${esc(H("문화적 설명", "Cultural context"))}<em class="lx-ex">${esc(H("예시", "Sample"))}</em></h4><p data-watch="lt-ctx">${esc(O(x.context))}</p><p class="feel" data-watch="lt-feel"><b>${esc(H("정서", "Feeling"))}</b>${esc(O(feeling))}</p><p class="bridge2"><b>${esc(H("이어지는 지점", "Common ground"))}</b>${esc(O(x.bridge))}</p></article>
+          <article class="lx-c c-rep" data-anchor="lt-4"><h4><b>3</b>${esc(H("답변 제안", "Suggested replies"))}<em class="lx-ex">${esc(H("예시", "Sample"))}</em></h4>
             <p class="muted">${esc(x.who === "me" ? H("내 말에 덧붙일 문장 · 영어 대화 기준", "To add to what you said · in English") : H("상대에게 답할 문장 · 영어 대화 기준", "To answer with · in English"))}. ${esc(S.rel === "close" ? H("친한 사이라 ‘가볍게’가 먼저입니다.", "Close friends: casual first.") : H("처음 만난 사이라 ‘정중하게’가 먼저입니다.", "New acquaintance: polite first."))}</p>
             <ol class="reps">${order.map((t, i) => `<li class="${i === 0 ? "top" : ""}" data-watch="rep-${i}"><span class="tn">${esc(O(TONES.find((z) => z[0] === t)[1]))}</span><p lang="en">${esc(x.rep[t])}</p><button type="button" class="lx-copy" data-copy="${t}" aria-label="${esc(L("복사: ", "Copy: ") + x.rep[t])}">${esc(L("복사", "Copy"))}</button></li>`).join("")}</ol></article></div></section>`;
   }

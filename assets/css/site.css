@@ -781,3 +781,130 @@ html[data-lang="ko"] .split dt { font-family: inherit; letter-spacing: .02em; fo
 /* scroll hint: always one line */
 .hint { white-space: nowrap; }
 @media (max-width: 760px) { .hint { font-size: 13.5px; letter-spacing: .06em; padding: 9px 16px 10px; } }
+
+/* ───────────── V5 · Korean titles (GROWN, Manual in Korean mode) and the English project name under them ───────────── */
+.card .ct[lang="ko"], .b-title.ko, .morph .ct.ko { font-family: var(--ko); font-weight: 800; letter-spacing: -.04em; text-transform: none; line-height: 1.02; }
+.b-title.ko span[lang="en"] { font-family: var(--en); font-weight: 700; text-transform: uppercase; letter-spacing: -.03em; }
+.card .kname[lang="en"] { font-family: var(--en); font-weight: 500; font-size: 12.5px; letter-spacing: .1em; text-transform: uppercase; }
+
+/* ───────────── V5 · first-screen notes: where AI was used / what I judged myself ───────────── */
+.aij { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; margin-top: 26px; border: var(--bw) solid var(--ink); background: #fff; }
+.aij-c { padding: 16px 18px 18px; min-width: 0; }
+.aij-c + .aij-c { border-left: var(--bw) solid var(--ink); }
+.aij h3 { margin: 0 0 10px; font-size: 14px; font-weight: 700; letter-spacing: .02em; }
+.aij dl { margin: 0; display: grid; gap: 10px; }
+.aij dt { font-size: 15px; font-weight: 600; display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; }
+.aij dd { margin: 2px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--ink-2); }
+.aij-tag { display: inline-block; padding: 1px 8px; border: 1px solid var(--ink); border-radius: 99px; font-size: 12px; font-weight: 600; background: var(--soft); }
+.aij-tag.app { background: var(--ink); color: #fff; }
+.aij ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; counter-reset: aj; }
+.aij li { position: relative; padding-left: 26px; font-size: 14.5px; line-height: 1.5; }
+.aij li::before { counter-increment: aj; content: counter(aj); position: absolute; left: 0; top: 1px; width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--ink); font: 600 11px/16px var(--en); text-align: center; }
+.aij.on .aij-c { animation: aijIn 360ms cubic-bezier(0.22,1,0.36,1) backwards; } .aij.on .aij-c + .aij-c { animation-delay: 90ms; }
+@keyframes aijIn { from { opacity: 0; transform: translateY(8px); } }
+@media (max-width: 760px) { .aij { grid-template-columns: 1fr; } .aij-c + .aij-c { border-left: 0; border-top: var(--bw) solid var(--ink); } .aij-c { padding: 14px; } }
+
+/* About: starts with the timeline; contact + résumé */
+.sec.first { padding-top: 32px; }
+.links small { font-size: 13px; color: var(--ink-2); margin-left: 6px; }
+.resume-btn { margin-top: 18px; display: inline-flex; gap: 10px; align-items: baseline; }
+.resume-btn .rs-alt { font-size: 13px; opacity: .7; }
+.resume-btn .rs-alt::before { content: "/ "; }
+
+/* Manual · who did what, the first pair, version chips */
+.who-did { margin: 16px 0 0; display: grid; gap: 0; border-top: var(--bw) solid var(--line); }
+.who-did > div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: var(--bw) solid var(--line); font-size: 14.5px; }
+.who-did dt { color: var(--ink-2); } .who-did dd { margin: 0; font-weight: 600; white-space: nowrap; }
+.who-did .ai dd { padding: 0 8px; border-radius: 99px; background: var(--ink); color: #fff; font-size: 13px; line-height: 22px; }
+.s1-media { display: grid; grid-template-columns: minmax(0, .7fr) 40px minmax(0, 1fr); gap: 14px; align-items: center; margin-top: 26px; }
+.s1-media figure { margin: 0; }
+.s1-media .zoom, .cmp2 .zoom, .pathline .zoom { display: block; width: 100%; padding: 0; border: 0; background: none; text-align: left; cursor: zoom-in; }
+.s1-media .ph, .cmp2 .ph, .pathline .ph { position: relative; display: block; border: var(--bw) solid var(--ink); background: #fff; overflow: hidden; }
+.s1-media .ph img, .cmp2 .ph img, .pathline .ph img { display: block; width: 100%; height: auto; }
+.s1-media .ph:not(.page) img { aspect-ratio: 3 / 4; object-fit: cover; max-height: 520px; }
+.s1-ln { height: 1.5px; background: var(--line); position: relative; } .s1-ln i { position: absolute; inset: 0; background: var(--ink); }
+.vchip { position: absolute; left: 8px; top: 8px; padding: 3px 9px; border: var(--bw) solid var(--ink); border-radius: 99px; font-size: 12px; font-weight: 700; background: #fff; color: var(--ink); }
+.vchip.a { background: var(--ink); color: #fff; }
+@media (max-width: 760px) { .s1-media { grid-template-columns: 1fr; } .s1-ln { display: none; } }
+
+/* Manual · the app flow as chips */
+.flowchips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 6px; align-items: center; }
+.flowchips li { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border: var(--bw) solid var(--ink); border-radius: 99px; font-size: 14px; background: #fff; }
+.flowchips li b { width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: #fff; font: 600 12px/22px var(--en); text-align: center; }
+.flowchips li + li::before { content: "→"; margin: 0 6px 0 -2px; order: -1; display: none; }
+.flowchips li:last-child { background: var(--ink); color: #fff; } .flowchips li:last-child b { background: #fff; color: var(--ink); }
+
+/* Manual · the two guides */
+.cmp2-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 14px; scrollbar-width: thin; }
+.cmp2-tabs button { flex: none; display: inline-flex; gap: 8px; align-items: center; min-height: 40px; padding: 0 14px 0 6px; border: var(--bw) solid var(--ink); border-radius: 99px; background: #fff; font-size: 13.5px; font-weight: 600; transition: background-color 140ms ease, color 140ms ease; }
+.cmp2-tabs button b { width: 26px; height: 26px; border-radius: 50%; border: 1px solid currentColor; font: 600 12px/24px var(--en); text-align: center; }
+.cmp2-tabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
+.cmp2-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.cmp2-f { margin: 0; display: grid; gap: 10px; align-content: start; }
+.cmp2-f .ph img { max-height: min(78vh, 900px); object-fit: contain; }
+.cmp2-f figcaption { display: grid; gap: 2px; font-size: 14px; } .cmp2-f figcaption span { color: var(--ink-2); font-size: 13.5px; }
+@media (max-width: 760px) { .cmp2-pair { grid-template-columns: 1fr; } }
+
+/* Manual · the whole path as one connected line */
+.pathline { --n: 5; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; position: relative; }
+.pathline::before { content: ""; position: absolute; left: 10%; right: 10%; top: 9px; height: 1.5px; background: var(--ink); transform-origin: left; transform: scaleX(var(--pl, 1)); }
+.pathline[data-path]:not(.on)::before { --pl: 0; } .pathline.on::before { transition: transform 900ms cubic-bezier(0.22,1,0.36,1); }
+.pathline li { position: relative; display: grid; gap: 8px; align-content: start; padding-top: 28px; }
+.pl-dot { position: absolute; left: 50%; top: 2px; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; background: #fff; border: 2px solid var(--ink); z-index: 1; }
+.pathline li.direct .pl-dot { background: var(--ink); } .pathline li.app .pl-dot { background: var(--ink); box-shadow: 0 0 0 4px #fff, 0 0 0 5.5px var(--ink); }
+.pathline .ph img { aspect-ratio: 3 / 4; object-fit: cover; object-position: top; }
+.pathline h3 { margin: 0; font-size: 15px; line-height: 1.35; } .pathline h3 i { display: block; font: 500 12px var(--en); color: var(--ink-2); font-style: normal; }
+.pathline p { margin: 0; font-size: 13.5px; color: var(--ink-2); line-height: 1.45; }
+@media (max-width: 900px) {
+  .pathline { grid-template-columns: 1fr; gap: 22px; padding-left: 30px; }
+  .pathline::before { left: 8px; right: auto; top: 10px; bottom: 10px; width: 1.5px; height: auto; transform-origin: top; transform: scaleY(var(--pl, 1)); }
+  .pathline li { padding-top: 0; grid-template-columns: 110px minmax(0, 1fr); grid-template-rows: auto 1fr; column-gap: 14px; }
+  .pathline li .zoom { grid-row: span 2; }
+  .pl-dot { left: -30px; top: 4px; margin-left: 0; }
+}
+
+/* GROWN · one vertical story */
+.story { --tp: 0; list-style: none; margin: 0; padding: 0 0 0 46px; position: relative; display: grid; gap: 48px; }
+.story::before { content: ""; position: absolute; left: 15px; top: 8px; bottom: 8px; width: 1.5px; background: var(--line); }
+.story::after { content: ""; position: absolute; left: 15px; top: 8px; bottom: 8px; width: 1.5px; background: var(--ink); transform-origin: top; transform: scaleY(var(--tp)); }
+.story > li { position: relative; }
+.story .sd { position: absolute; left: -46px; top: 0; width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--ink); background: #fff; font: 600 14px/28px var(--en); text-align: center; z-index: 1; transition: background-color 200ms ease, color 200ms ease; }
+.story > li.on .sd { background: var(--c, var(--ink)); color: var(--ci, #fff); }
+.story .st-k { margin: 4px 0 4px; font-size: 13px; font-weight: 700; letter-spacing: .04em; color: var(--ink-2); }
+.story h3 { margin: 0 0 10px; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.3; }
+.story .p { max-width: 62ch; }
+.st-m { margin-top: 22px; }
+.st-m .split { margin-top: 0; }
+.g-demo { margin-top: 26px; }
+.g-link { margin-top: 36px; }
+.label.sm { margin-bottom: 8px; }
+@media (max-width: 760px) { .story { padding-left: 40px; gap: 40px; } .story .sd { left: -40px; width: 28px; height: 28px; line-height: 24px; } .story::before, .story::after { left: 13px; } }
+
+/* Make It! / Like this · the entry: “Try it” first, then what you can do, then the status */
+.demo.trial .demo-go { display: grid; gap: 8px; justify-items: start; margin-bottom: 18px; }
+.demo.trial .demo-go p { flex: none; max-width: 64ch; }
+.demo-go .dg-lead { color: var(--ink); font-size: 16.5px; line-height: 1.5; }
+.demo-go .dg-five { font-size: 14px; color: var(--ink-2); }
+.demo-go .dg-status { font-size: 13.5px; color: var(--ink-3); }
+.ex-tag { margin-left: 8px; padding: 1px 7px; border: 1px solid var(--ink-3); border-radius: 99px; font: 600 11.5px/1.4 var(--en); color: var(--ink-2); font-style: normal; vertical-align: 2px; }
+.src-real { margin-top: 10px; } .src-demo { margin-top: 6px; }
+
+/* Make It! signature motion: question in v1 → the reply's asks → the changed lines in v2, lit one after another */
+.xch mark { transition: background-color 260ms ease, box-shadow 260ms ease; background: transparent; }
+.xch.on mark.q { background: var(--mint); transition-delay: 120ms; }
+.xch.on mark.r { background: #FFD27A; transition-delay: 620ms; }
+.xch.on mark.c { background: var(--mint); box-shadow: 0 0 0 2px var(--mint); transition-delay: 1180ms; }
+.xch .xch-tag { opacity: 0; transform: translateY(4px); transition: opacity 240ms ease, transform 240ms cubic-bezier(0.22,1,0.36,1); }
+.xch.on .x1 .xch-tag { opacity: 1; transform: none; transition-delay: 200ms; }
+.xch.on .x3 .xch-tag { opacity: 1; transform: none; transition-delay: 1260ms; }
+.xch.on .xch-l:not(.back) i { transition-delay: 300ms; } .xch.on .xch-l.back i { transition-delay: 860ms; }
+@media (prefers-reduced-motion: reduce) { .xch mark, .xch .xch-tag { transition: none !important; } .xch .xch-tag { opacity: 1; transform: none; } .xch mark.q, .xch mark.c { background: var(--mint); } .xch mark.r { background: #FFD27A; } }
+
+/* Make It! app · maker views, recipient */
+.seg.mv { display: inline-flex; margin-top: 12px; border: var(--bw) solid var(--ink); border-radius: 99px; overflow: hidden; }
+.seg.mv button { min-height: 40px; padding: 0 14px; border: 0; background: #fff; font-size: 13.5px; font-weight: 600; }
+.seg.mv button[aria-checked="true"] { background: var(--ink); color: #fff; }
+.mk-facts { margin: 6px 0 0; font-size: 13.5px; color: var(--ink-2); }
+.mk-to { margin: 0 0 10px; font-size: 14.5px; }
+.s1-media .ph img { max-height: min(64vh, 560px); object-fit: contain; background: #fff; }
+.s1-media { grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr); max-width: 980px; }

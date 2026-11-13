@@ -8,21 +8,27 @@
     { k: "about", color: "#E9E4F2", ink: "#1C1A18",
       title: ["About Me"], ko: "",
       desc: { ko: "SK 아이젠 1기 지원 포트폴리오 · 이유신", en: "Portfolio for SK AIGEN Cohort 1 · Yoosin Lee" } },
-    { k: "art", color: "#E6F34B", ink: "#1C1A18",
-      title: ["ART&", "DESIGN:)"], ko: "",
-      desc: { ko: "미술학도의 이런저런 작업물들", en: "Odds and ends from an art student" } },
-    { k: "montauk", color: "#2745F5", ink: "#FFFFFF",
-      title: ["Manual for", "Manuals"], ko: "매뉴얼을 위한 매뉴얼",
-      desc: { ko: "조립 가이드에서 제작 인수인계와 후속 앱까지", en: "From an assembly guide to a handover and a follow-up app" } },
-    { k: "grown", color: "#FF4D23", ink: "#1C1A18",
-      title: ["GROWN", "Recovery Scan"], tall: ["GROWN", "Recovery", "Scan"], ko: "공실 상가 진단 시스템",
-      desc: { ko: "공실 상가의 예비 판정과 추가 확인을 구분하는 화면", en: "A screen that separates a preliminary verdict from further checks for vacant retail units" } },
+    /* V5 reading order after the intro: Make It! → Like this → GROWN → Manual for Manuals → ART & DESIGN.
+       title / tall may differ by language ({ ko, en }); sub is the small line above the description
+       (Korean mode: a Korean title in bold with the English project name as its sub; English mode keeps the English name first). */
     { k: "makeit", color: "#A9E7CE", ink: "#1C1A18",
-      title: ["Make It!"], ko: "메이크잇",
-      desc: { ko: "원화에서 제작 질문과 사양 변경까지", en: "From a drawing to production questions and spec changes" } },
+      title: ["Make It!"], sub: { ko: "메이크잇 · 안내형 체험", en: "Guided demo" },
+      desc: { ko: "원화를 제품으로 — 제작 조건 정리부터 업체 문의, 사양 수정까지", en: "A drawing into a product: specs, a maker enquiry and the revision" } },
     { k: "likethis", color: "#F3B5CF", ink: "#1C1A18",
-      title: ["Like this"], ko: "이런느낌",
-      desc: { ko: "기본 번역 옆에 맥락과 이어서 할 말을 함께", en: "Context and what to say next, beside the plain translation" } }
+      title: ["Like this"], sub: { ko: "이런느낌 · 안내형 체험", en: "Guided demo" },
+      desc: { ko: "기본 번역 옆에 문화적 맥락과 이어서 할 말", en: "Cultural context and what to say next, beside the plain translation" } },
+    { k: "grown", color: "#FF4D23", ink: "#1C1A18",
+      title: { ko: ["공실 상가", "진단 시스템"], en: ["Retail Vacancy", "Diagnosis System"] },
+      tall: { ko: ["공실 상가", "진단", "시스템"], en: ["Retail", "Vacancy", "Diagnosis", "System"] },
+      sub: { ko: "GROWN RECOVERY SCAN", en: "GROWN RECOVERY SCAN" }, subEn: true,
+      desc: { ko: "가상 호실을 골라 예비 판정 예시 보기", en: "Pick a fictional unit and see its preliminary verdict" } },
+    { k: "montauk", color: "#2745F5", ink: "#FFFFFF",
+      title: { ko: ["매뉴얼을 위한", "매뉴얼"], en: ["Manual for", "Manuals"] },
+      sub: { ko: "MANUAL FOR MANUALS", en: "" }, subEn: true,
+      desc: { ko: "직접 만든 조립 가이드에서 사내 가이드 제작 앱까지", en: "From a hand-made assembly guide to an in-house guide-making app" } },
+    { k: "art", color: "#E6F34B", ink: "#1C1A18",
+      title: ["ART&", "DESIGN:)"], sub: null,
+      desc: { ko: "미술학도의 이런저런 작업물들", en: "Odds and ends from an art student" } }
   ];
 
   C.ui = {
@@ -52,10 +58,10 @@
       en: "I pay attention to the moments where people hesitate at work, and to the things that only ever get explained out loud. I look for the link that is missing there, and turn it into an object, an image, or a tool people can actually use."
     },
     timeline: [
-      { when: { ko: "2014–2015", en: "2014–2015" }, t: { ko: "여행 대안학교 로드스쿨러", en: "Road Schooler, an alternative travel school" },
+      { when: { ko: "2014–2015", en: "2014–2015" }, t: { ko: "여행 대안학교 로드스꼴라", en: "로드스꼴라, an alternative travel school" },
         d: { ko: "2년 동안 이탈리아, 러시아, 중앙아시아, 제주도 등을 다니며 인문학, 철학, 문학, 사회학, 경제학을 배웠습니다.", en: "For two years we travelled through Italy, Russia, Central Asia, Jeju Island and more, studying humanities, philosophy, literature, sociology and economics." } },
       { when: { ko: "2016", en: "2016" }, t: { ko: "DMZ 다큐멘터리 워크숍", en: "DMZ documentary workshop" },
-        d: { ko: "로드스쿨러를 마친 뒤 고3 무렵, 카메라를 들고 사람과 상황을 관찰하는 작업에 처음 참여했습니다. 청소년의 눈으로 바라본 사회의 모습을 제 시선으로 담아보고 싶었습니다.", en: "After Road Schooler, around my final year of high school, I first took part in work that meant observing people and situations through a camera. I wanted to capture, in my own way, how society looked through a teenager's eyes." } },
+        d: { ko: "로드스꼴라를 마친 뒤 고3 무렵, 카메라를 들고 사람과 상황을 관찰하는 작업에 처음 참여했습니다. 청소년의 눈으로 바라본 사회의 모습을 제 시선으로 담아보고 싶었습니다.", en: "After the travel school, around my final year of high school, I first took part in work that meant observing people and situations through a camera. I wanted to capture, in my own way, how society looked through a teenager's eyes." } },
       { when: { ko: "2017–2019", en: "2017–2019" }, t: { ko: "해병대 연평부대 · 병 1223기", en: "ROK Marine Corps, Yeonpyeong Unit · enlisted class 1223" },
         d: { ko: "연평도에서 21개월 동안 복무했습니다.", en: "Served 21 months on Yeonpyeong Island." } },
       { when: { ko: "2019", en: "2019" }, t: { ko: "유럽 배낭여행", en: "Backpacking through Europe" },
@@ -87,10 +93,12 @@
         "Along the way I want to look again at the sense I built through art. I want to find out for myself which problems become easier to see because I have paid attention to form, to images and to how people take them in — and how far that sense can go in making solutions."
       ]
     },
+    // contact: email and LinkedIn from the résumé (Jan 2026); the résumé itself opens as a PDF
     links: [
-      { href: "https://www.linkedin.com/in/yoosin-lee-893291333/", t: "LinkedIn" },
-      { href: "https://www.yoosinlee.xyz", t: "yoosinlee.xyz" }
-    ]
+      { href: "mailto:yeeugod@gmail.com", t: "Email", d: "yeeugod@gmail.com" },
+      { href: "https://www.linkedin.com/in/yoosin-lee-893291333/", t: "LinkedIn", ext: true }
+    ],
+    resume: { href: "assets/docs/Resume_Yoosin_Lee.pdf", t: { ko: "이력서 보기", en: "View Résumé" } }
   };
 
   /* ───────────── Art & Design ───────────── */
@@ -268,117 +276,141 @@
     ]
   };
 
+  /* ───────────── Every project opens with the same two short notes ─────────────
+     ai.process: AI used while planning or making (tool and the job given to it)
+     ai.app:     whether a model runs inside the app itself
+     ai.mine:    what I observed, the criteria I chose by, and what I checked in the result (work with others is marked as such) */
+
   /* ───────────── Montauk ─────────────
-     the job and its result → the backrest comparison → why the next decision came → the follow-up app → more material → app scope */
+     the job → why the next decision came → Montauk Manual Studio → the two guides compared, and what runs today → how it went, as one line */
   C.montauk = {
     hero: {
-      line: { ko: "조립·관리 가이드를 제작한 뒤, 제가 떠난 후에도 직원이 제작을 이어갈 방법을 고민했습니다. 기존 가이드와 제작법을 넘기고, 사진과 제품 정보를 넣는 후속 앱으로 시도를 이어갔습니다.", en: "After making the assembly and care guides, I looked for a way for staff to keep making them after I left. I handed over the guides and the method, then kept going with a follow-up app that takes photos and product details." }
+      line: { ko: "몬탁소파 데이베드의 조립·관리 가이드를 직접 만든 뒤, 제가 떠난 후에도 직원이 설명서 제작을 이어갈 수 있도록 사내 도구 Montauk Manual Studio를 만들었습니다.", en: "After making the assembly and care guide for the Montauk Sofa daybed by hand, I built an in-house tool, Montauk Manual Studio, so staff could keep making guides after I left." }
+    },
+    ai: {
+      process: [{ t: { ko: "수작업 가이드의 도해", en: "Diagrams for the hand-made guide" }, d: { ko: "쇼룸에서 찍은 휴대폰 사진의 배경 정리와 도해 렌더링에 AI 보조를 썼습니다. 촬영, 선 굵기 규칙에 맞춘 도해 정리, InDesign 편집은 직접 했습니다.", en: "AI assistance for cleaning up the backgrounds of my showroom phone photos and rendering the diagrams. The shoot, tidying the diagrams to one line-weight rule, and the InDesign layout were mine." } }],
+      app: { t: { ko: "사내 앱 안에서", en: "Inside the in-house app" }, d: { ko: "직원의 음성 답변은 브라우저 음성 인식으로 받아씁니다. 사진에서 새 도해를 만드는 생성과 문구 자동 편집은 아직 연결하지 않았고, 시연에서는 준비된 도해와 앱 버전 가이드를 씁니다.", en: "Staff's spoken answers are transcribed with the browser's speech recognition. Generating new diagrams from photos and editing text automatically are not connected yet; the demo uses prepared diagrams and the app-version guide." } },
+      mine: [
+        { ko: "직원들이 ‘한 번 안내할 때는 말로 하는 편이 빠르다’고 한 점을 보고, 글쓰기 대신 질문에 말하듯 답하는 입력으로 바꿨습니다.", en: "Staff said explaining out loud was faster for a single walkthrough, so input became answering questions as you would speak, not writing." },
+        { ko: "조립·관리·안전 문구와 도해 규칙은 고정하고, 직원은 제품마다 달라지는 정보만 넣도록 나눴습니다.", en: "Assembly, care and safety text and the diagram rules stay fixed; staff only enter what changes from product to product." },
+        { ko: "부품과 결합 위치·순서를 실물과 대조해 체크해야 가이드를 출력할 수 있게 했습니다.", en: "The guide can only be output after the parts, joins and order are checked against the real unit." }
+      ]
     },
     s1: {
       label: { ko: "처음 맡은 일", en: "The job I was given" },
-      h: { ko: "그래픽 디자이너로 조립·관리 설명서 제작을 의뢰받았습니다.", en: "I was commissioned, as a graphic designer, to make assembly and care guides." },
-      p: { ko: ["몬탁소파의 여러 가구에 고객에게 건넬 Assembly Guide를 만들었습니다. 데이베드는 쇼룸에서 제품을 직접 휴대폰으로 촬영하고, 배경을 정리하고, AI 보조로 도해를 그린 뒤 InDesign으로 편집해 영문·스페인어 8쪽 가이드로 완성했습니다."],
-           en: ["I made Assembly Guides for several Montauk Sofa pieces to hand to customers. For the daybed I photographed the product in the showroom on my phone, cleaned up the backgrounds, drew the diagrams with AI assistance and laid it out in InDesign as an 8-page guide in English and Spanish."] }
-    },
-    album: {
-      label: { ko: "핸드폰 앨범에서 어셈블리 가이드까지", en: "From the phone album to the assembly guide" },
-      group: { ko: "직접 제작한 기존 영문·스페인어 8쪽 가이드", en: "The original 8-page guide I made, in English and Spanish" },
-      groupNote: { ko: "쇼룸에서 휴대폰으로 촬영하고, AI 보조로 도해를 그리고, InDesign으로 편집해 직접 완성한 가이드입니다. 후속 앱이 만든 결과물이 아닙니다.", en: "Shot on my phone in the showroom, diagrams drawn with AI assistance, laid out in InDesign — a guide I finished by hand, not an output of the follow-up app." },
-      lead: { ph: "mk-ph-2", pg: "mkf-p4", t: { ko: "2단계 · 등쿠션 결합", en: "Step 2 · fitting the backrest" },
-        cap: { ko: "기존 가이드: 등쿠션의 구멍과 지지대가 만나는 부분을 확대해, 말로 설명하던 결합 동작을 드러냈습니다.", en: "The original guide: it zooms in where the backrest grommets meet the rods, showing the move that used to be explained out loud." } },
-      steps: [
-        { ph: "mk-ph-1", pg: "mkf-p3", t: { ko: "1단계 · 받침과 지지대", en: "Step 1 · base and rods" } },
-        { ph: "mk-ph-2", pg: "mkf-p4", t: { ko: "2단계 · 등쿠션 결합", en: "Step 2 · fitting the backrest" } },
-        { ph: "mk-ph-3", pg: "mkf-p5", t: { ko: "3단계 · 좌석쿠션", en: "Step 3 · seat cushion" } },
-        { ph: "mk-ph-4", pg: "mkf-p6", t: { ko: "4단계 · 완성", en: "Step 4 · finished" } }
+      h: { ko: "그래픽 디자이너로 조립·관리 가이드 제작을 의뢰받았습니다.", en: "I was commissioned, as a graphic designer, to make an assembly and care guide." },
+      p: { ko: "쇼룸에서 데이베드를 휴대폰으로 직접 촬영하고, 사진의 배경 정리와 도해 렌더링에 AI 보조를 쓴 뒤, 도해를 정리하고 InDesign으로 편집해 고객용 가이드를 완성했습니다.", en: "I photographed the daybed in the showroom on my phone, used AI assistance to clean up the backgrounds and render the diagrams, then tidied the diagrams and laid out the customer guide in InDesign." },
+      roles: [
+        { k: { ko: "쇼룸 휴대폰 촬영", en: "Showroom phone shoot" }, v: { ko: "직접", en: "Me" } },
+        { k: { ko: "배경 정리 · 도해 렌더링", en: "Background cleanup · diagram rendering" }, v: { ko: "AI 보조", en: "AI-assisted" } },
+        { k: { ko: "도해 정리 · InDesign 편집", en: "Diagram tidy-up · InDesign layout" }, v: { ko: "직접", en: "Me" } }
       ],
-      phone: { ko: "휴대폰 원본 사진", en: "Phone photo" }, guide: { ko: "기존 가이드 도해", en: "Original guide diagram" },
-      detail: { ko: "확대 · 원형 상세도", en: "Zoom · the circular detail" }
-    },
-    s2: {
-      label: { ko: "사진에서 도해까지", en: "From photo to diagram" },
-      steps: [
-        { img: "mk-shoot", t: { ko: "촬영", en: "Shoot" }, d: { ko: "쇼룸에서 정해진 각도로 제품을 촬영했습니다. 모든 단계를 같은 카메라 각도로 맞췄습니다.", en: "I shot the product in the showroom from a fixed angle, and kept that angle for every step." } },
-        { img: "mk-cutout", t: { ko: "배경 정리", en: "Clean the background" }, d: { ko: "배경과 반사를 지우고 제품 형태만 남겼습니다.", en: "Background and reflections removed, leaving only the product's form." } },
-        { img: "mk-o-step2", t: { ko: "도해", en: "Diagram" }, d: { ko: "AI 보조로 선을 정리하고, 한 가지 선 굵기 규칙으로 조립 단계별 도해를 다시 그렸습니다.", en: "Lines cleaned up with AI assistance, then each assembly step redrawn to a single line-weight rule." } }
-      ]
+      phone: { ko: "쇼룸에서 찍은 휴대폰 사진 · 2단계", en: "Showroom phone photo · step 2" },
+      page: { ko: "직접 제작한 가이드 · 4쪽 (2단계 등쿠션 결합)", en: "The guide I made · p.4 (step 2, fitting the backrest)" }
     },
     turns: {
       label: { ko: "다음 결정이 생긴 이유", en: "Why each next decision came" },
       list: [
         { t: { ko: "반복되는 제작이 제 손에만 남아 있었다", en: "The repeat work lived only in my hands" },
-          p: [{ ko: "의뢰 범위는 설명서 제작이었습니다. 그런데 가구가 바뀔 때마다 촬영·배경 정리·도해·편집을 처음부터 되풀이해야 했고, 그 과정은 제 숙련도에 기대고 있었습니다. 따로 요청받은 일은 아니었지만, 제가 떠나면 다음 가이드가 나오기 어렵다는 점이 먼저 보였습니다.", en: "The commission was to make guides. But every new piece of furniture meant redoing the shoot, cleanup, diagrams and layout from scratch, and that depended on my skill. No one had asked, but I could see that once I left, the next guide would be hard to make." }] },
-        { t: { ko: "떠나기 전에 제작법을 넘기다", en: "Handing over the method before leaving" },
-          p: [{ ko: "비자가 끝나 귀국하기 전, 직원이 Adobe Creative Suite에 익숙하지 않아도 제작을 이어갈 수 있게 하자고 상사를 설득했습니다. 촬영 방법, 필요한 정보, AI 도구 사용법, 편집 프리셋까지 정리한 ‘매뉴얼을 위한 매뉴얼’을 만들어 인수인계했습니다.", en: "Before my visa ended, I persuaded my manager that staff should be able to continue without knowing Adobe Creative Suite. I wrote a ‘manual for manuals’ — how to shoot, what information was needed, how to use the AI tools, the layout presets — and handed it over." }] },
-        { t: { ko: "현장에서는 말이 더 빨랐다", en: "On the floor, talking was faster" },
-          p: [{ ko: "고객과 CEO, 매니저는 가이드를 좋게 봤습니다. 직원들은 한 번 안내할 때는 말로 설명하는 편이 더 편하다고 했습니다.", en: "Customers, the CEO and the manager liked the guides. Staff said that for a single walkthrough, explaining out loud was easier." }] }
+          p: [{ ko: "가구가 바뀔 때마다 촬영·배경 정리·도해·편집을 처음부터 되풀이해야 했고, 그 과정은 제 숙련도에 기대고 있었습니다. 제가 떠나면 다음 가이드가 나오기 어렵다는 점이 먼저 보였습니다.", en: "Every new piece meant redoing the shoot, cleanup, diagrams and layout from scratch, and it depended on my skill. I could see that once I left, the next guide would be hard to make." }] },
+        { t: { ko: "떠나기 전에 제작법을 넘기려 했다", en: "I tried to hand over the method before leaving" },
+          p: [{ ko: "비자가 끝나 귀국하기 전, 촬영 방법, 필요한 정보, AI 도구 사용법, 편집 프리셋까지 정리한 ‘매뉴얼을 위한 매뉴얼’을 만들어 인수인계했습니다.", en: "Before my visa ended, I wrote a ‘manual for manuals’ — how to shoot, what information is needed, how to use the AI tools, the layout presets — and handed it over." }] },
+        { t: { ko: "직원 입장에서는 말로 설명하는 편이 빨랐다", en: "For staff, explaining out loud was faster" },
+          p: [{ ko: "고객과 CEO, 매니저는 가이드를 좋게 봤습니다. 다만 직원들은 현장에서 한 번 안내할 때는 말로 설명하는 편이 더 빠르다고 했습니다.", en: "Customers, the CEO and the manager liked the guide. Staff, though, said that for a single walkthrough on the floor, explaining out loud was faster." }] },
+        { t: { ko: "그래도 고객에게 건넬 가이드는 누군가 만들어야 했다", en: "Still, someone had to make the guide customers take home" },
+          p: [{ ko: "말은 현장에서 빠르지만, 고객이 집에서 다시 볼 수 있는 것은 문서였습니다. 그래서 직원이 말하듯 답하면 가이드 제작으로 이어지는 도구를 만들기로 했습니다.", en: "Talking is fast on the floor, but what a customer can read again at home is a document. So I set out to build a tool where staff answer as they would speak, and that carries on into making the guide." }] }
       ]
     },
-    toApp: { ko: "구두 설명은 현장에서 빠르고, 문서는 고객이 다시 볼 수 있는 자료였습니다. 다음으로는 직원이 가이드를 만드는 수고를 줄일 방법을 찾았습니다.", en: "Talking was fast on the floor; a document was something customers could read again. Next, I looked for a way to cut the effort it took staff to make a guide." },
     app: {
-      label: { ko: "후속 앱 · Montauk Manual Studio", en: "The follow-up app · Montauk Manual Studio" },
-      h: { ko: "고정할 것과 입력할 것을 나누고, 결합 위치는 실물과 대조합니다.", en: "Separate what is fixed from what is entered, and check the joins against the real unit." },
-      p: { ko: "준비된 제품별 도해와 원본 안내 문구를 유지하고, 직원이 입력한 사진과 정보를 더해 Montauk Daybed 7쪽 PDF를 만듭니다. 사진에서 새 도해를 생성하는 기능은 아직 연결하지 않았습니다.", en: "The prepared diagrams for each product and the original guide text stay as they are; the photos and details staff enter are added to make a 7-page Montauk Daybed PDF. Generating new diagrams from photos is not connected yet." },
-      items: [
-        { t: { ko: "고정할 것과 입력할 것을 나누기", en: "Separate what is fixed from what is entered" }, d: { ko: "조립·관리·안전 문구는 원본 그대로 고정하고, 직원은 사진과 제품 정보만 넣습니다.", en: "Assembly, care and safety text stays exactly as in the original; staff only add photos and product details." } },
-        { t: { ko: "실물과 대조하는 확인 절차", en: "A check against the real unit" }, d: { ko: "도해는 그 제품에 준비된 것만 연결하고, 직원이 부품과 결합 위치·순서를 실물과 대조해 체크해야 PDF를 만들 수 있습니다.", en: "Only the diagrams prepared for that product are linked, and the PDF can be made only after staff tick off the parts, joins and order against the real unit." } }
+      label: { ko: "Montauk Manual Studio · 사내 도구", en: "Montauk Manual Studio · in-house tool" },
+      h: { ko: "직원이 가구를 촬영하고 앱의 질문에 답하면, 그 답이 정리되어 도해와 가이드 제작으로 이어집니다.", en: "Staff photograph the piece and answer the app's questions; the answers are organised and carried on into the diagrams and the guide." },
+      flow: [
+        { ko: "새 작업 시작", en: "Start a new job" },
+        { ko: "가구 촬영 또는 사진 선택", en: "Shoot the piece or pick photos" },
+        { ko: "질문에 글이나 음성으로 답하기", en: "Answer the questions by text or voice" },
+        { ko: "조립 순서·부품·주의점 정리", en: "Order, parts and cautions organised" },
+        { ko: "가이드 미리보기", en: "Guide preview" },
+        { ko: "PDF (앱 버전 가이드)", en: "PDF (the app-version guide)" }
       ],
-      note: { ko: "회사 관련 사정으로 전체 앱의 직접 실행은 제공하지 않습니다. 영상에서 사진·제품 정보 입력과 가이드 제작 흐름을 확인할 수 있습니다.", en: "For company-related reasons the full app cannot be run here. The video shows entering photos and product details and making the guide." }
+      note: { ko: "사내 도구라 공개 페이지에서는 시연 영상으로 보여드립니다. 영상의 도해와 마지막 PDF는 준비된 앱 버전 가이드이며, 화면에 ‘준비된 예시’로 표시했습니다.", en: "It is an in-house tool, so this public page shows it as a demo recording. The diagrams and the final PDF in the video are the prepared app-version guide, and are marked ‘prepared example’ on screen." }
     },
-    more: { ko: "추가 작업 자료", en: "More material" },
-    moreBtn: { ko: "나머지 단계 비교 · 8쪽 전체 · 사진에서 도해까지", en: "Other steps · all 8 pages · photo to diagram" },
-    pagesCap: { ko: "기존 가이드 · 영문·스페인어 8쪽 · 누르면 크게 보기", en: "Original guide · 8 pages, English and Spanish · select to enlarge" },
-    s6: {
-      label: { ko: "후속 앱의 구현 범위와 다음 확인", en: "What the follow-up app does, and what to check next" },
+    compare: {
+      label: { ko: "두 가이드 비교", en: "The two guides, compared" },
+      h: { ko: "같은 데이베드, 같은 8쪽 구성 — 직접 만든 가이드와 앱을 통한 가이드", en: "Same daybed, same eight pages — the guide I made, and the guide made through the app" },
+      direct: { t: { ko: "직접 제작한 가이드", en: "The guide I made" }, d: { ko: "휴대폰 촬영 · AI 보조 렌더링 · InDesign 편집 · 영문·스페인어 8쪽", en: "Phone shoot · AI-assisted rendering · InDesign · 8 pages, English and Spanish" } },
+      app: { t: { ko: "앱 버전 가이드", en: "The app-version guide" }, d: { ko: "Montauk Manual Studio 흐름의 결과 · 선 도해와 원형 상세도 · 영문·스페인어 8쪽", en: "Output of the Montauk Manual Studio flow · line diagrams and a circular detail · 8 pages, English and Spanish" } },
+      pages: [
+        { n: 1, t: { ko: "표지", en: "Cover" } }, { n: 2, t: { ko: "구성품", en: "Components" } },
+        { n: 3, t: { ko: "1단계 · 받침 확인", en: "Step 1 · base" } }, { n: 4, t: { ko: "2단계 · 등쿠션 결합", en: "Step 2 · backrest" } },
+        { n: 5, t: { ko: "3단계 · 좌석쿠션", en: "Step 3 · seat cushion" } }, { n: 6, t: { ko: "4단계 · 마무리", en: "Step 4 · finishing" } },
+        { n: 7, t: { ko: "관리 방법", en: "Care" } }, { n: 8, t: { ko: "뒷표지", en: "Back cover" } }
+      ],
+      cap: { ko: "같은 쪽끼리 짝지었습니다. 앱 버전은 도해마다 부품 기호를 달고, 2단계의 결합 부분을 원형 상세도로 확대했습니다.", en: "Pages are paired by role. The app version labels every part in the diagrams and enlarges the step-2 join in a circular detail." }
+    },
+    scope: {
+      label: { ko: "구현 범위", en: "What runs today" },
       rows: [
-        { k: { ko: "데이베드", en: "Daybed" }, v: { ko: "준비된 도해와 원본 문구에 직원의 사진·정보를 더한 7쪽 PDF 출력", en: "A 7-page PDF: prepared diagrams and original text plus the staff's photos and details" } },
-        { k: { ko: "다른 가구", en: "Other furniture" }, v: { ko: "도해가 준비되지 않은 가구는 사진·부품·순서로 화면용 가이드 작성", en: "Pieces without prepared diagrams get an on-screen guide from photos, parts and order" } },
-        { k: { ko: "연결하지 않음", en: "Not connected" }, v: { ko: "사진에서 새 도해 생성, 문구 생성", en: "New diagrams from photos, text generation" } },
+        { k: { ko: "실제로 동작", en: "Works" }, v: { ko: "새 작업 시작, 사진 촬영·선택, 질문에 글로 답하기, 음성 답변 받아쓰기(지원 브라우저), 답변을 조립 순서·부품·주의점으로 정리, 실물 대조 체크", en: "Starting a job, shooting or picking photos, typed answers, transcribing spoken answers (supported browsers), organising answers into order, parts and cautions, the check against the real unit" } },
+        { k: { ko: "준비된 예시 사용", en: "Prepared examples" }, v: { ko: "데이베드의 도해, 가이드 미리보기와 출력 PDF(앱 버전 가이드)", en: "The daybed's diagrams, the guide preview and the output PDF (the app-version guide)" } },
+        { k: { ko: "아직 연결하지 않음", en: "Not connected yet" }, v: { ko: "사진에서 새 도해 자동 생성, 문구 자동 편집", en: "Generating new diagrams from photos, editing text automatically" } },
         { k: { ko: "다음 확인", en: "Next check" }, v: { ko: "직원과 한 제품의 가이드를 처음부터 끝까지 함께 만들어 보기", en: "Make one product's guide end to end with a staff member" } }
+      ]
+    },
+    flow: {
+      label: { ko: "추가 작업 자료 · 한 줄로 본 흐름", en: "More material · the whole path in one line" },
+      steps: [
+        { img: "mk-ph-2", t: { ko: "쇼룸 휴대폰 촬영", en: "Showroom phone shoot" }, d: { ko: "정해진 각도로 단계마다 한 장씩 직접 찍었습니다.", en: "One shot per step from a fixed angle, taken myself." } },
+        { img: "mkd-p4", kind: "direct", t: { ko: "직접 제작 가이드", en: "The guide I made" }, d: { ko: "AI 보조 렌더링과 InDesign 편집으로 완성한 8쪽 가이드.", en: "The 8-page guide, finished with AI-assisted rendering and InDesign." } },
+        { img: "mkd-p1", t: { ko: "인수인계와 직원 피드백", en: "Handover and staff feedback" }, d: { ko: "가이드와 제작법을 넘겼고, 직원들은 현장에선 말이 더 빠르다고 했습니다.", en: "I handed over the guide and the method; staff said talking was faster on the floor." } },
+        { img: "demo-montauk-poster", t: { ko: "사내 앱 제작", en: "Building the in-house app" }, d: { ko: "촬영과 질문 답변에서 가이드로 이어지는 Montauk Manual Studio.", en: "Montauk Manual Studio: from photos and answers to a guide." } },
+        { img: "mkf-p4", kind: "app", t: { ko: "앱 버전 가이드", en: "The app-version guide" }, d: { ko: "앱 흐름의 결과로 정리한 8쪽 가이드.", en: "The 8-page guide that comes out of the app flow." } }
       ]
     }
   };
 
   /* ───────────── GROWN ─────────────
-     branding → my three parts → one row to a verdict → the tool demo → the brand work → score, economics, verdict, scope */
+     one vertical story: the brand work → what I noticed → what I proposed → the tool I built; then score and scope */
   C.grown = {
     hero: {
-      line: { ko: "브랜딩 작업을 하며, 받은 물건 자료를 담당자가 손으로 확인하고 대조하는 절차를 알게 됐습니다. 전문가와 질문·입력 순서를 정리하고, 계산 결과와 확정 전 확인할 내용을 구분하는 화면을 만들었습니다.", en: "While doing the branding, I learned that staff checked and cross-matched the property data they received by hand. With the expert I organised the questions and input order, and built a screen that separates the calculated result from what still needs checking before it is confirmed." },
-      sub: "C.P.V.A.S",
+      line: { ko: "GROWN의 브랜딩을 맡아 일하면서 공실 상가의 초기 진단과 반복 대조 업무를 보게 됐고, 엑셀 물건 목록에서 초기 진단을 자동화하자고 제안해 진단 화면을 만들었습니다.", en: "Working on GROWN's branding, I came to see the early diagnosis of vacant retail units and the repeated cross-checking behind it. I proposed automating the first diagnosis from the property spreadsheet and built the diagnosis screen." },
       demoNote: { ko: "회사 관련 사정으로 전체 진단 도구는 시연 영상으로 소개합니다.", en: "For company-related reasons the full diagnosis tool is shown as a demo recording." }
     },
-    turns: {
-      label: { ko: "브랜딩에서 업무 개선 제안으로", en: "From branding to a proposal for the work itself" },
-      list: [
-        { t: { ko: "브랜드를 만들다 진단 절차를 보다", en: "Seeing the diagnosis process while building the brand" },
-          p: [{ ko: "GROWN의 BI·VI, 명함, 웹사이트를 제작하면서 사업과 진단 절차를 알게 됐습니다. 핵심 서비스는 공실 상가의 회생인데, 회생 전략을 세우기 전에 받은 자료를 담당자가 손으로 확인하고 대조하는 데 시간과 인력이 들고 있었습니다.", en: "Making GROWN's identity, business cards and website, I came to know the business and its diagnosis process. The core service is bringing vacant retail units back to life, but before any strategy, staff spent time checking and cross-matching the data they received by hand." }] },
-        { t: { ko: "엑셀 한 장에서 예비 진단을 시작하자고 제안하다", en: "Proposing to start from one spreadsheet" },
-          p: [{ ko: "고객이 보내는 엑셀 물건 목록으로 자료 정리와 예비 진단을 자동화하자고 제가 먼저 제안했고, 공실 진단 전문가와 함께 구체화했습니다. 반복 확인을 줄여 담당자가 회생 전략에 집중하도록 돕는 것이 목적이었습니다.", en: "I proposed using the spreadsheet a client sends to automate the data clean-up and preliminary diagnosis, and worked it out with the vacancy-diagnosis expert. The aim was to cut repeated checking so staff could focus on the strategy." }] },
-        { t: { ko: "확인되지 않은 자료 앞에 멈추는 자리를 두다", en: "A place to stop when data isn't confirmed" },
-          p: [{ ko: "빠지거나 확인되지 않은 자료가 있으면 계산 결과만으로 판정을 확정하기 어렵습니다. 그래서 자동 계산은 예비 판정까지만 내고, 자료를 보완한 뒤 전문가가 현장·문서를 확인해야 확정 판정으로 기록되도록 했습니다.", en: "With missing or unconfirmed data, a calculation alone can't settle a verdict. So the automatic calculation stops at a preliminary verdict, and only after the data is filled in and the expert checks the site and documents is it recorded as confirmed." }] }
+    ai: {
+      process: [{ t: { ko: "진단 계산과 판정", en: "Diagnosis calculation and verdicts" }, d: { ko: "예비 판정은 기존 내부 도구 v1.2의 엑셀 기반 계산 규칙을 따릅니다. AI가 판정하는 구조가 아닙니다.", en: "The preliminary verdict follows the spreadsheet-based calculation rules of the existing internal tool v1.2. It is not an AI verdict." } }],
+      app: { t: { ko: "이 공개 페이지", en: "This public page" }, d: { ko: "미리 계산해 둔 가상 호실 결과를 보여주기만 합니다. 모델이나 계산이 새로 실행되지 않습니다.", en: "It only shows results calculated in advance for fictional units. No model or calculation runs here." } },
+      mine: [
+        { ko: "브랜딩 작업 중 담당자가 받은 자료를 손으로 확인하고 대조하는 반복 업무를 관찰했습니다.", en: "During the branding work I watched staff check and cross-match the data they received by hand, over and over." },
+        { ko: "엑셀 물건 목록으로 초기 진단을 자동화해 담당자가 회생 전략에 집중하도록 하자고 먼저 제안했습니다.", en: "I proposed automating the first diagnosis from the property spreadsheet so staff could focus on recovery strategy." },
+        { ko: "질문·입력 순서와 결과 화면의 순서(예비 판정 → 근거 → 추가 확인 → 우선 조치)를 설계했고, 진단 질문의 구체화와 확정 전 확인 범위는 공실 진단 전문가와 함께 정했습니다(협업).", en: "I designed the question and input order and the result screen (preliminary verdict → reasons → further checks → actions first); the diagnostic questions and what must be checked before confirming were settled with the vacancy-diagnosis expert (collaboration)." }
+      ]
+    },
+    story: {
+      label: { ko: "브랜딩에서 자동화 제안까지", en: "From branding to a proposal for automation" },
+      steps: [
+        { k: "brand", t: { ko: "처음 맡은 일", en: "The job I was given" }, h: { ko: "GROWN의 BI·VI, 명함, 웹사이트", en: "GROWN's identity, business cards and website" },
+          p: { ko: "공실 상가를 회생시키는 회사의 브랜드를 만들었습니다. 심벌과 로고, 색 체계, 명함, 웹사이트까지 맡았습니다.", en: "I built the brand for a company that brings vacant retail units back to life: symbol and logo, colour system, business cards and the website." } },
+        { k: "noticed", t: { ko: "일하면서 알게 된 것", en: "What I noticed along the way" }, h: { ko: "회생 전략 앞에 놓인 반복 대조 업무", en: "Repeated cross-checking in front of the strategy" },
+          p: { ko: "브랜드와 사업을 이해하면서 초기 진단 절차를 알게 됐습니다. 회생 전략을 세우기 전에, 고객이 보낸 물건 자료를 담당자가 손으로 확인하고 대조하는 데 시간과 인력이 들고 있었습니다.", en: "Getting to know the brand and the business, I learned the early diagnosis process. Before any recovery strategy, staff spent time checking and cross-matching the property data clients sent, by hand." } },
+        { k: "proposed", t: { ko: "내가 제안한 것", en: "What I proposed" }, h: { ko: "엑셀 물건 목록에서 시작하는 초기 진단 자동화", en: "Automating the first diagnosis, starting from the spreadsheet" },
+          p: { ko: "고객이 보내는 엑셀 물건 목록으로 자료 정리와 초기 진단을 자동화하자고 제가 먼저 제안했습니다. 반복 대조를 줄여 담당자가 회생 전략에 집중하도록 하는 것이 목적이었고, 공실 진단 전문가와 함께 구체화했습니다.", en: "I proposed using the spreadsheet clients send to automate the data clean-up and first diagnosis. The aim was to cut repeated cross-checking so staff could focus on the strategy; I worked it out with the vacancy-diagnosis expert." } },
+        { k: "tool", t: { ko: "만든 도구", en: "The tool I built" }, h: { ko: "계산이 멈추는 자리를 둔 진단 화면", en: "A diagnosis screen with a place where the calculation stops" },
+          p: { ko: "빠지거나 확인되지 않은 자료가 있으면 계산만으로 판정을 확정할 수 없습니다. 그래서 자동 계산은 예비 판정까지만 내고, 자료를 보완한 뒤 전문가가 현장·문서를 확인해야 확정 판정으로 기록되도록 했습니다.", en: "With missing or unconfirmed data, a calculation alone can't settle a verdict. So the calculation stops at a preliminary verdict, and only after the data is filled in and the expert checks the site and documents is it recorded as confirmed." } }
       ]
     },
     roles: {
-      label: { ko: "내가 맡은 세 가지", en: "The three things I did" },
-      items: [
-        { t: { ko: "진단 질문과 입력 순서", en: "Diagnostic questions and input order" }, d: { ko: "개선을 제안하고, 전문가와 함께 진단 질문을 정리해 입력 순서를 설계했습니다.", en: "I proposed the change and, with the expert, organised the questions into an input order." } },
-        { t: { ko: "호실별 결과의 정보 위계", en: "Information hierarchy of a unit result" }, d: { ko: "예비 판정 → 근거 → 추가 확인 → 우선 조치가 순서대로 읽히도록 설계했습니다.", en: "Designed to read in order: preliminary verdict → reasons → further checks → actions first." } },
-        { t: { ko: "체험 화면 구현", en: "The working screen" }, d: { ko: "기존 내부 도구 v1.2의 계산을 바탕으로 현장·호실 목록에서 호실별 결과까지 보는 화면을 구현했습니다.", en: "Built the screen from the site and unit list to each unit's result, on top of the existing internal tool's (v1.2) calculation." } }
-      ],
       split: [
-        { k: { ko: "저", en: "Me" }, v: { ko: "개선 제안 · 입력 순서 · 정보 위계 · 화면 구현", en: "Proposal · input order · information hierarchy · screen" } },
-        { k: { ko: "전문가", en: "Expert" }, v: { ko: "진단 질문 구체화 · 확정 전 현장·문서 확인", en: "Refining the diagnostic questions · site and document checks before confirming" } },
-        { k: { ko: "기존 도구", en: "Existing tool" }, v: { ko: "내부 도구 v1.2의 판정 계산", en: "The verdict calculation of internal tool v1.2" } }
+        { k: { ko: "저", en: "Me" }, v: { ko: "개선 제안 · 질문·입력 순서 · 결과 화면 설계 · 화면 구현", en: "Proposal · question and input order · result screen design · building the screen" } },
+        { k: { ko: "전문가와 함께", en: "With the expert" }, v: { ko: "진단 질문 구체화 · 확정 전 현장·문서 확인 범위", en: "Refining the diagnostic questions · what to check on site and in documents before confirming" } },
+        { k: { ko: "기존 도구", en: "Existing tool" }, v: { ko: "내부 도구 v1.2의 엑셀 기반 판정 계산", en: "The spreadsheet-based verdict calculation of internal tool v1.2" } }
       ]
     },
     link: {
-      label: { ko: "목록의 한 행이 판정이 되기까지", en: "From one row to a verdict" },
+      label: { ko: "미리 계산한 가상 호실 예시", en: "Fictional units, calculated in advance" },
       h: { ko: "호실을 고르면, 그 호실의 예비 판정 → 근거 → 추가 확인 → 우선 조치가 이어집니다.", en: "Pick a unit and its preliminary verdict → reasons → further checks → actions first follow." },
-      note: { ko: "기존 내부 도구 v1.2의 계산을 바탕으로 미리 준비한 가상 예시입니다. 호실을 선택하면 해당 결과가 표시되며, 이 공개 페이지에서 새로운 진단이나 재계산을 수행하지 않습니다.", en: "Fictional examples prepared in advance from the calculation of the existing internal tool v1.2. Selecting a unit shows its prepared result; this public page does not run a new diagnosis or recalculate." },
+      note: { ko: "아래 8개 호실은 가상 예시이며, 기존 내부 도구 v1.2의 계산으로 미리 구한 결과입니다. 이 페이지에서는 호실을 골라 결과를 보는 것만 할 수 있고, 입력·재계산·확정은 전체 내부 도구에서만 합니다.", en: "The 8 units below are fictional, with results calculated in advance by the existing internal tool v1.2. Here you can only pick a unit and read its result; input, recalculation and confirmation happen only in the full internal tool." },
       cap101: { ko: "필수 자료가 갖춰져도 확정 전에는 현장·문서 확인이 남습니다. 이 예시에서는 현 조건보다 이익이 나는 조치가 아직 표시되지 않습니다.", en: "Even with the required data in, site and document checks remain before confirmation. In this example, no action yet shows a gain over the current terms." }
     },
     s1: {
-      label: { ko: "처음 맡은 브랜드 작업", en: "The brand work I started with" },
       cardCap: { ko: "명함 정보 면 · 가명과 예시 정보로 재구성", en: "Card back · rebuilt with a placeholder name and details" }
     },
     s4: {
@@ -391,58 +423,69 @@
       ]
     },
     s5: {
-      label: { ko: "시연 도구와 공개 페이지의 범위", en: "The demo tool and this public page" },
+      label: { ko: "전체 내부 도구와 공개 페이지의 범위", en: "The full internal tool vs. this public page" },
       rows: [
-        { k: { ko: "전체 도구의 흐름", en: "The full tool" }, v: { ko: "물건 목록 입력, 현장·판정 필터, 자료 보완과 재계산, 전문가 확인 후 확정", en: "Unit list input, site and verdict filters, filling in data and recalculating, confirming after the expert check" } },
+        { k: { ko: "전체 내부 도구", en: "Full internal tool" }, v: { ko: "물건 목록 입력, 현장·판정 필터, 자료 보완과 재계산, 전문가 확인 후 확정", en: "Unit list input, site and verdict filters, filling in data and recalculating, confirming after the expert check" } },
         { k: { ko: "시연 영상", en: "Demo recording" }, v: { ko: "현장 필터와 호실 선택, 예비 판정·근거, 빠른 확인 항목 입력에 따른 판정 변화, 우선 조치", en: "Site filter and unit choice, preliminary verdict and reasons, the verdict changing as quick answers are entered, actions first" } },
-        { k: { ko: "이 공개 페이지", en: "This public page" }, v: { ko: "미리 계산한 가상 예시 8개 호실의 결과를 선택해 보기만 합니다. 입력·재계산·확정은 제공하지 않습니다", en: "Only shows prepared results for 8 fictional units; no input, recalculation or confirmation" } },
+        { k: { ko: "이 공개 페이지", en: "This public page" }, v: { ko: "미리 계산한 가상 호실 8개의 결과를 골라 보기만 합니다. 입력·재계산·확정은 하지 않습니다", en: "Only lets you pick and read prepared results for 8 fictional units; no input, recalculation or confirmation" } },
         { k: { ko: "버전", en: "Version" }, v: { ko: "판정 계산은 기존 내부 도구 v1.2, 판정 명칭은 고객용 설명 자료의 표기를 따릅니다", en: "Calculation from internal tool v1.2; verdict names follow the client-facing material" } }
       ]
     }
   };
 
   /* ───────────── Make It! ─────────────
-     school production limits → A10 drawing and Tripo AI model → brief and reply → try it → decisions and scope */
+     the purpose first → AI and my judgement → how it started (student artists → A10) → brief and reply → try it → decisions and scope */
   C.makeit = {
     hero: {
-      line: { ko: "작품을 제품으로 만들려면 형태뿐 아니라 소재·마감·수량을 제작처와 함께 정해야 했습니다. A10을 예시로, 모르는 조건을 질문으로 남기고 회신을 같은 문의서에 반영하는 흐름을 만들었습니다.", en: "Turning a work into a product meant settling not just the form but material, finish and quantity with a maker. With A10 as the example, I built a flow that leaves unknown terms as questions and folds the reply back into the same brief." },
+      line: { ko: "학생 작가의 작품을 상품으로 만들어 팔 방법을 찾다가, 개인 창작자가 제품 조건에 맞는 제조업체를 찾아 협의하는 일 자체가 어렵다는 것을 알게 됐습니다. 그 발견이 개인 디자이너와 로컬 제조업체를 연결하는 플랫폼, Make It!으로 이어졌습니다.", en: "Looking for a way to turn student artists' work into products to sell, I found that for an individual creator, finding a maker that fits the product and negotiating with them is itself the hard part. That led to Make It!, a platform connecting individual designers with local makers." },
       app: { ko: "체험해보기", en: "Try it" },
-      tryNote: { ko: "준비된 A10 예시로 사양 입력, 문의서 작성, 업체 후보 확인, 예시 회신과 사양 수정 흐름을 체험할 수 있습니다. 실제 발송·결제·업체 계정 연결은 제공하지 않습니다. 언어 모델은 아직 연결하지 않았으며, 서비스는 출시 전입니다.", en: "With the prepared A10 example you can go through spec input, the brief, maker candidates, a sample reply and the spec revision. Real sending, payment and maker accounts are not connected. No language model is connected yet, and the service has not launched." }
+      tryLead: { ko: "예시 프로젝트를 열고, 사양 정리부터 제작 문의서 작성, 업체 비교, 예시 회신에 따른 사양 수정까지 체험해보세요.", en: "Open the sample project and go from organising the specs to writing the build brief, comparing makers, and revising the specs after a sample reply." },
+      tryStatus: { ko: "준비된 A10 예시로 진행합니다. 업체·견적·회신은 예시이며 실제로 발송하지 않습니다. 언어 모델은 아직 연결하지 않았고, 서비스는 출시 전입니다.", en: "It runs on the prepared A10 example. Makers, quotes and replies are samples and nothing is actually sent. No language model is connected yet, and the service has not launched." }
+    },
+    ai: {
+      process: [{ t: { ko: "Tripo AI · A10 입체 모델", en: "Tripo AI · the A10 3D model" }, d: { ko: "A10 원화를 Tripo AI로 3D 모델로 만들어 입체 형태를 확인했고, 그 모델을 문의서의 첨부 자료로 씁니다.", en: "I turned the A10 drawing into a 3D model with Tripo AI to see the form in three dimensions, and the model goes with the brief as an attachment." } }],
+      app: { t: { ko: "앱 안에서", en: "Inside the app" }, d: { ko: "언어 모델은 연결하지 않았습니다. 업체 추천은 공정·수량·기간·예산 조건을 비교하는 규칙으로 계산하고, 업체 회신은 준비된 예시입니다.", en: "No language model is connected. Maker matches are calculated by rules that compare process, quantity, lead time and budget; maker replies are prepared samples." } },
+      mine: [
+        { ko: "원화의 가는 가지와 감긴 선이 입체에서는 얇은 돌출부가 된다는 점을 보고, ‘가는 부분이 버틸 최소 두께’를 문의서의 첫 질문으로 정했습니다.", en: "Seeing that the drawing's thin branches and coiled lines become thin protrusions in 3D, I made ‘the minimum thickness thin parts can hold’ the brief's first question." },
+        { ko: "수량에 따라 맞는 공정이 달라지기 때문에(소량 3D 프린팅, 중간 수량 실리콘 몰드 캐스팅, 대량 금형 사출) 수량을 업체 비교의 첫 기준으로 두었습니다.", en: "Because the right process depends on quantity (3D printing for a few, silicone-mould casting for a medium run, injection moulding for volume), quantity is the first thing makers are compared on." },
+        { ko: "모르는 사양은 비워 두지 않고 질문으로 남기고, 업체 회신이 같은 문의서의 버전을 올리도록 설계했습니다.", en: "Specs the designer doesn't know are not left blank but kept as questions, and a maker's reply raises the version of the same brief." }
+      ]
     },
     turns: {
-      label: { ko: "한 피규어에서 사람과 제작처를 잇기까지", en: "From one figure to connecting people and makers" },
+      label: { ko: "학생 작가의 작품에서 제조업체 연결까지", en: "From student artists' work to connecting makers" },
       list: [
-        { t: { ko: "작품을 상품으로, 작가가 작업을 이어가게", en: "Artwork into products, so artists can keep working" },
-          p: [{ ko: "학생 작가들이 작품을 상품으로 만들어 판매하고, 미술 활동을 이어갈 수 있는 수익 경로를 만들어보고 싶었습니다. A10은 그 가능성을 제 작품으로 먼저 시험해 본 예입니다.", en: "I wanted student artists to be able to turn their work into products, sell them, and have an income that keeps their art going. A10 is where I tested that with my own work first." }] },
-        { t: { ko: "학교 3D 프린터로는 닿지 않던 마감과 수량", en: "A finish and run size school printers couldn't reach" },
-          p: [{ ko: "저는 Blender를 쓸 수 있었지만, 당시 실물 형태를 디지털로 옮기려면 직접 스캔하는 과정이 필요했습니다. 회화나 추상 조형을 하는 동료들에게는 형태·소재·제작 방식을 함께 설계할 사람이 필요했고, 당시에는 제가 그 역할을 맡아야 했습니다.", en: "I could use Blender, but back then getting a physical form into digital meant scanning it myself. Friends who paint or make abstract sculpture needed someone to work out form, material and process with them; at the time, that had to be me." },
-              { ko: "학교에서 빠르게 시도할 수 있던 3D 프린팅으로는 원하는 마감과 생산 수량을 맞추기 어려웠습니다. 생산하려면 공정·수량·예산·일정에 맞는 업체를 찾고 제작비를 마련해야 했습니다. 크라우드펀딩은 시제품을 공개해 수요를 확인하고 생산비를 마련하는 단계로 보았습니다.", en: "The 3D printing I could try quickly at school couldn't reach the finish or quantity I wanted. Production meant finding a maker that fit the process, quantity, budget and schedule, and raising the money. I saw crowdfunding as the step where a prototype is shown, demand is confirmed and production money is raised." }] },
-        { t: { ko: "자기 제품을 만들려는 디자이너의 작업 공간으로", en: "A workspace for designers making their own products" },
-          p: [{ ko: "이 경험을 바탕으로, 자기 제품을 만들려는 디자이너가 제작처와 조건을 정리하는 작업 공간으로 방향을 넓혔습니다. 실제 생산·판매·펀딩으로는 아직 이어지지 않았습니다.", en: "From this experience, I widened the direction into a workspace where designers making their own products work out terms with a maker. It has not gone into real production, sales or funding yet." }] }
+        { t: { ko: "학생 작가의 작품을 상품으로", en: "Student artists' work, as products" },
+          p: [{ ko: "학생 작가들이 작품을 상품으로 만들어 판매하고, 미술 활동을 이어갈 수 있는 수익 경로를 찾고 싶었습니다. A10은 그 가능성을 제 작품으로 먼저 시험해 본 예입니다.", en: "I wanted student artists to be able to turn their work into products, sell them, and have an income that keeps their art going. A10 is where I tested that with my own work first." }] },
+        { t: { ko: "디자인과 제작 준비에 직접 개입해야 했다", en: "I had to step into the design and production prep myself" },
+          p: [{ ko: "회화나 추상 조형을 하는 동료들에게는 형태·소재·제작 방식을 함께 설계할 사람이 필요했고, 당시에는 제가 그 역할을 맡아야 했습니다. 학교에서 빠르게 시도할 수 있던 3D 프린팅으로는 원하는 표면 품질과 생산 수량을 맞추기 어려웠습니다.", en: "Friends who paint or make abstract sculpture needed someone to work out form, material and process with them, and at the time that had to be me. The 3D printing I could try quickly at school couldn't reach the surface quality or the quantity we wanted." }] },
+        { t: { ko: "조건에 맞는 제조업체를 찾는 일 자체가 어려웠다", en: "Finding a maker that fit was the hard part" },
+          p: [{ ko: "생산하려면 공정·수량·예산·일정에 맞는 업체를 찾고 조건을 협의해야 했는데, 개인 창작자에게는 그 일 자체가 가장 큰 벽이었습니다. 크라우드펀딩은 제작비와 수요를 모아 생산으로 이어가기 위해 고려한 경로였으며, 실제 펀딩이나 생산은 진행하지 않았습니다.", en: "Production meant finding a maker that fits the process, quantity, budget and schedule and agreeing terms — for an individual creator, that was the biggest wall. Crowdfunding was a route I considered for gathering production money and demand; no funding or production actually took place." }] },
+        { t: { ko: "개인 디자이너와 로컬 제조업체를 잇는 플랫폼", en: "A platform linking individual designers and local makers" },
+          p: [{ ko: "그래서 한 제품 안에서 제작 조건 정리 → 업체 리스트나 내 디자인에 맞는 업체 보기 → 업체에 문의 → 회신 → 사양 수정이 이어지는 작업 공간을 만들었습니다.", en: "So I built a workspace where, inside one product, organising the specs → browsing makers or seeing the ones that fit my design → enquiring → the reply → revising the specs all follow on." }] }
       ]
     },
     toy: {
-      cap: { ko: "원화의 가는 가지와 감긴 선은 입체로 옮기면 얇은 돌출부가 됩니다. 그래서 ‘가는 부분이 버틸 최소 두께’가 문의서의 첫 질문이 되었습니다. 입체 모델은 Tripo AI로 만들었습니다.", en: "The thin branches and coiled lines of the drawing become thin protrusions in 3D, so ‘the minimum thickness thin parts can hold’ became the first question in the brief. The 3D model was made with Tripo AI." }
+      cap: { ko: "A10은 이 문제를 직접 겪게 된 출발점입니다. 원화의 가는 가지와 감긴 선은 입체로 옮기면 얇은 돌출부가 되어, ‘가는 부분이 버틸 최소 두께’가 문의서의 첫 질문이 되었습니다.", en: "A10 is where I ran into this problem myself. The drawing's thin branches and coiled lines become thin protrusions in 3D, so ‘the minimum thickness thin parts can hold’ became the brief's first question." }
     },
     exchange: {
-      label: { ko: "문의서와 회신", en: "Brief and reply" },
+      label: { ko: "문의서와 예시 회신", en: "Brief and sample reply" },
       h: { ko: "모르는 조건은 질문으로 남고, 회신이 같은 문의서의 사양을 바꿉니다.", en: "Unknown terms stay as questions, and the reply changes the specs of the same brief." },
       v1note: { ko: "질문: 가는 부분의 최소 두께", en: "Question: minimum thickness of thin parts" },
-      change: { ko: "변경: 도색 5색 → 3색 · 최소 두께 2mm 추가", en: "Changed: paint 5 → 3 colours · minimum thickness 2 mm added" },
-      note: { ko: "준비된 A10 예시에서 표시되는 문의서와 예시 회신입니다. 업체 이름·견적·회신 내용은 예시이며, 실제 업체에 발송하거나 받은 기록이 아닙니다.", en: "The brief and sample reply shown in the prepared A10 example. Maker names, quotes and replies are samples, not records of anything sent to or received from a real maker." }
+      change: { ko: "변경: 최소 두께 2mm 추가 · 수량 50개 → 100개", en: "Changed: minimum thickness 2 mm added · quantity 50 → 100" },
+      note: { ko: "준비된 A10 예시의 문의서와 예시 회신입니다. 업체 이름·견적·회신 내용은 예시이며, 실제 업체에 보내거나 받은 기록이 아닙니다.", en: "The brief and sample reply from the prepared A10 example. Maker names, quotes and replies are samples, not records of anything sent to or received from a real maker." }
     },
     s3: {
       label: { ko: "디자인 결정", en: "Design decisions" },
       items: [
         { t: { ko: "한 제품, 한 작업 공간", en: "One product, one workspace" }, d: { ko: "여러 프로젝트를 나열하지 않고, 한 제품의 제작을 처음부터 이어가는 작업 공간으로 만들었습니다.", en: "Not a list of projects, but one workspace that carries a single product forward." } },
-        { t: { ko: "모르는 사양은 질문으로", en: "Unknown specs become questions" }, d: { ko: "디자이너가 모르는 항목은 비워두지 않고, 업체에 물어볼 질문으로 문의서에 남깁니다.", en: "Specs the designer doesn't know are not left blank; they go into the brief as questions for the maker." } },
-        { t: { ko: "두 역할이 같은 문의서를 본다", en: "Both sides read the same brief" }, d: { ko: "두 역할이 같은 문의서와 수정 이력을 보며 변경 내용을 확인하도록 설계했습니다.", en: "Designed so both sides read the same brief and revision history and can see what changed." } }
+        { t: { ko: "업체는 두 가지로 찾는다", en: "Two ways to find makers" }, d: { ko: "전체 업체 리스트를 둘러보거나, 내 사양에 맞는 순서로 정렬된 업체와 맞는·안 맞는 이유를 볼 수 있습니다.", en: "Browse the full maker list, or see makers ranked against your specs with the reasons each one fits or doesn't." } },
+        { t: { ko: "두 역할이 같은 문의서를 본다", en: "Both sides read the same brief" }, d: { ko: "디자이너와 제조업체가 같은 문의서와 수정 이력을 보며 무엇이 바뀌었는지 확인합니다.", en: "Designer and maker read the same brief and revision history and can see what changed." } }
       ]
     },
     s5: {
       label: { ko: "현재 작동하는 범위", en: "What works today" },
       rows: [
-        { k: { ko: "체험", en: "Try it" }, v: { ko: "준비된 A10 예시로 사양 → 문의서 → 업체 후보 → 예시 회신 → 사양 수정 → 공통 이력", en: "With the prepared A10 example: specs → brief → maker candidates → sample reply → revision → shared history" } },
+        { k: { ko: "체험", en: "Try it" }, v: { ko: "준비된 A10 예시로 제작 조건 정리 → 업체 리스트·맞는 업체 → 업체에 예시 문의 → 예시 회신 → 사양 수정 → 공통 이력", en: "With the prepared A10 example: specs → maker list or best matches → sample enquiry → sample reply → revision → shared history" } },
         { k: { ko: "예시", en: "Sample" }, v: { ko: "업체, 견적 금액, 회신 내용은 예시입니다", en: "Makers, quote amounts and replies are samples" } },
         { k: { ko: "연결하지 않음", en: "Not connected" }, v: { ko: "실제 발송, 결제, 업체 계정, 언어 모델 · 실제 생산·판매·펀딩 실적 없음", en: "Real sending, payment, maker accounts, language models · no real production, sales or funding yet" } }
       ]
@@ -450,45 +493,58 @@
   };
 
   /* ───────────── Like this ─────────────
-     the real conversation → the rewritten line compared in three steps → try it → background → principles and next check */
+     why: GPT and natural English → understanding sentences isn't enough → the childhood-cartoon conversation → one screen for three readings */
   C.likethis = {
     hero: {
-      line: { ko: "브라질 친구와 어린 시절 애니메이션을 이야기하며, 작품은 달라도 기다리던 만화가 있었다는 경험은 통한다는 점을 발견했습니다. 번역 옆에 작품의 맥락과 이어서 물어볼 말을 함께 두었습니다.", en: "Talking with a Brazilian friend about childhood cartoons, I found that even with different shows, having a cartoon you waited for was something we shared. So I put the show's context and a question to ask next beside the translation." },
+      line: { ko: "유학 시절 현지 친구와 어린 시절 애니메이션을 이야기하며, 문장을 이해해도 상대가 공유한 문화적 기억을 모르면 대화를 이어가기 어렵다는 것을 느꼈습니다. 그래서 기본 번역 옆에 문화적 맥락과 이어서 할 말을 함께 비교하는 도구를 만들고자 했습니다.", en: "Talking with a local friend about childhood cartoons while studying abroad, I felt that even when you understand the sentence, you can't keep the conversation going without the cultural memories the other person shares. So I set out to make a tool that compares the plain translation with the cultural context and what to say next." },
       app: { ko: "체험해보기", en: "Try it" },
-      tryNote: { ko: "준비된 예시 문장과 상황을 선택해 기본 번역·맥락 설명·이어서 할 말을 비교하고 답변을 복사할 수 있습니다. 자유 입력은 직접 작성한 다섯 표현의 맥락만 보여주며, 문장 전체 번역과 실시간 언어 모델은 연결하지 않았습니다.", en: "Pick a prepared sample line and situation, compare the plain translation, context and what to say next, and copy a reply. Free input only shows context for five hand-written expressions; whole-sentence translation and live language models are not connected." },
+      tryLead: { ko: "예시 문장을 선택하고, 기본 번역과 문화적 맥락, 이어서 할 말을 비교해보세요.", en: "Pick a sample sentence and compare the plain translation, the cultural context and what to say next." },
+      tryStatus: { ko: "결과는 직접 작성해 준비한 예시입니다. 자유 입력은 직접 작성한 다섯 표현의 맥락만 보여주며, 문장 전체 번역과 언어 모델은 연결하지 않았습니다. 출시 전입니다.", en: "Results are examples I wrote and prepared. Free input only shows context for five hand-written expressions; whole-sentence translation and language models are not connected. Not launched yet." },
       five: "Samurai Jack, 뽀로로, Saturday morning, This is fine, Bless your heart"
     },
-    talk: {
-      label: { ko: "실제 대화", en: "The real conversation" },
-      h: { ko: "저는 뽀로로를, 친구는 사무라이 잭을 떠올렸습니다.", en: "I thought of Pororo; my friend thought of Samurai Jack." },
-      items: [
-        { t: "Pororo the Little Penguin", ko: "뽀롱뽀롱 뽀로로", d: { ko: "2003년 EBS에서 처음 방영된 한국의 미취학 어린이용 3D 애니메이션. 제게 먼저 떠오른 작품입니다.", en: "A Korean 3D series for preschoolers, first aired on EBS in 2003 — the show that came to my mind first." } },
-        { t: "Samurai Jack", ko: "사무라이 잭", d: { ko: "2001년 카툰 네트워크에서 시작한 미국 애니메이션. 친구에게는 방과 후 TV 앞의 시간과 이어진 작품이었습니다.", en: "An American series that began on Cartoon Network in 2001 — for my friend, part of after-school hours in front of the TV." } }
-      ],
-      bridge: { ko: "두 작품의 위치는 같지 않습니다. 이어지는 것은 작품이 아니라 ‘매일 기다리던 만화가 있었다’는 경험입니다.", en: "The two shows don't sit in the same place. What connects them is not the show but the experience of having a cartoon you waited for every day." }
-    },
-    read: {
-      label: { ko: "번역에서 다음 질문까지", en: "From translation to the next question" },
-      src: "Samurai Jack was my whole childhood — I watched it every day after school.",
-      srcNote: { ko: "실제 대화 경험을 바탕으로 앱에서 비교하기 위해 다시 쓴 문장입니다. 실제 대사의 직접 인용은 아닙니다.", en: "Rewritten from the real conversation so the app can compare it; not a direct quote of what was said." },
-      layers: [
-        { from: "", t: { ko: "기본 번역", en: "Plain translation" }, d: { ko: "사무라이 잭은 내 어린 시절 그 자체였어. 방과 후에 매일 봤거든.", en: "Samurai Jack was a big part of growing up for me; I watched it daily after school." },
-          miss: { ko: "어린 시절의 추억이라는 뜻은 전달되지만, 어떤 작품이며 왜 특별한지는 아직 알기 어렵습니다.", en: "That it's a childhood memory comes across, but what the show is and why it mattered is still hard to tell." } },
-        { from: "Samurai Jack|every day after school", t: { ko: "맥락 설명", en: "Context" }, d: { ko: "Samurai Jack은 2001년 카툰 네트워크에서 시작한 미국 애니메이션으로, 대사를 줄이고 화면과 소리로 긴장을 만드는 연출로 기억됩니다.", en: "Samurai Jack is an American series that began on Cartoon Network in 2001, remembered for sparse dialogue and tension built from images and sound." },
-          miss: { ko: "‘방과 후 매일’이라는 말은 작품뿐 아니라 하루의 반복된 시간을 떠올리게 합니다. 다만 어떤 의미였는지는 상대에게 더 물어볼 수 있습니다.", en: "‘Every day after school’ brings back not just the show but a repeated time of day. What it meant, though, is something you can ask them." } },
-        { from: "", t: { ko: "이어서 할 말", en: "What to say next" }, d: { ko: "What was it about Samurai Jack that hooked you?", en: "What was it about Samurai Jack that hooked you?" }, lang: "en",
-          miss: { ko: "단정하지 않고 상대의 경험을 묻는 질문형 답변입니다.", en: "A question that asks about their experience instead of assuming it." } }
+    ai: {
+      process: [{ t: { ko: "GPT · 출발점", en: "GPT · where it started" }, d: { ko: "초기 GPT-3를 써보며 자연스러운 영어 표현을 얻으려 했고, 관용구와 어색한 표현을 어떻게 다룰지 고민한 경험에서 이 도구가 시작됐습니다.", en: "The tool began with trying early GPT-3 to get natural English, and thinking about how to handle idioms and awkward phrasing." } }],
+      app: { t: { ko: "앱 안에서", en: "Inside the app" }, d: { ko: "언어 모델이 작동하지 않습니다. 기본 번역·문화적 맥락·이어서 할 말은 모두 직접 작성한 예시입니다.", en: "No language model runs. The plain translations, cultural context and next lines are all examples I wrote." } },
+      mine: [
+        { ko: "기본 번역을 지우지 않고 옆에 두어, 맥락 설명이 무엇을 더하는지 비교할 수 있게 했습니다.", en: "The plain translation stays beside the context, so you can see exactly what the context adds." },
+        { ko: "어떤 사이인지, 직전에 무슨 일이 있었는지에 따라 이어서 할 말의 말투가 달라지도록 상황 선택을 넣었습니다.", en: "Choosing the relationship and what just happened changes the tone of what to say next." },
+        { ko: "국적이나 세대로 사람을 단정하지 않고, ‘그럴 수 있다’는 배경으로만 설명한다는 기준을 정했습니다.", en: "I set a rule never to pin a person down by nationality or generation — only to offer it as possible background." }
       ]
     },
     turns: {
-      label: { ko: "표현 교정에서 문화적 맥락으로", en: "From fixing phrasing to cultural context" },
+      label: { ko: "왜 문화적 맥락 번역기를 만들었나", en: "Why a cultural-context translator" },
       list: [
-        { t: { ko: "에세이를 도와줄 줄 알았던 GPT-3", en: "GPT-3, which I thought would help with essays" },
-          p: [{ ko: "초기 GPT-3를 인도계 친구에게 소개받았습니다. 처음에는 학교 에세이를 쓰는 데 써볼 수 있겠다고 생각했습니다.", en: "An Indian-American friend introduced me to early GPT-3. At first I thought I could use it for writing school essays." }] },
-        { t: { ko: "관용구를 모듈처럼 바꾸려다 멈추다", en: "Trying to swap idioms like modules, and stalling" },
-          p: [{ ko: "어색한 관용구와 표현이 눈에 띄어, TOEFL 라이팅 템플릿처럼 문장을 모듈로 나눠 바꿔보려 했습니다. 당시에는 어디서부터 구현할지 막막했고, 도구가 발전하면서 직접 시도할 수 있게 됐습니다.", en: "Awkward idioms stood out, so I tried breaking sentences into modules and swapping them, like a TOEFL writing template. Back then I didn't know where to start building it; as the tools improved, I could try it myself." }] },
-        { t: { ko: "자연스러운 문장으로도 닿지 않던 것", en: "What natural phrasing still couldn't reach" },
-          p: [{ ko: "유학하며 학교 안팎에서 일하면서, 표현이 자연스러워도 상대가 당연하게 여기는 문화적 배경을 모르면 관계나 대화를 이어가기 어렵다는 것을 느꼈습니다. 방향은 표현을 고치는 것에서, 상대의 경험을 이해하도록 돕는 것으로 넓어졌습니다.", en: "Studying and working on and off campus abroad, I felt that even with natural phrasing, not knowing the background the other person takes for granted makes it hard to keep a conversation going. The direction widened from fixing phrasing to helping understand the other person's experience." }] }
+        { t: { ko: "자연스러운 영어를 얻으려 GPT를 써보다", en: "Trying GPT for natural English" },
+          p: [{ ko: "친구에게 초기 GPT-3를 소개받아, 학교 에세이에서 자연스러운 영어 표현을 얻으려 했습니다. 어색한 관용구와 표현을 어떻게 다룰지 고민했고, TOEFL 라이팅 템플릿처럼 문장을 모듈로 나눠 바꿔보려 했습니다.", en: "A friend introduced me to early GPT-3, and I tried to get natural English for school essays from it. I wondered how to deal with awkward idioms, and tried breaking sentences into modules to swap, like a TOEFL writing template." }] },
+        { t: { ko: "문장을 이해해도 대화는 이어지지 않았다", en: "Understanding the sentence didn't keep the conversation going" },
+          p: [{ ko: "유학하며 학교 안팎에서 일하면서, 문장을 이해해도 상대가 공유하는 문화적 기억이나 정서를 모르면 대화를 이어가기 어렵다는 것을 경험했습니다.", en: "Studying and working on and off campus abroad, I found that even when I understood the sentence, I couldn't keep a conversation going without the cultural memories and feelings the other person shared." }] },
+        { t: { ko: "어린 시절 애니메이션 이야기", en: "The childhood-cartoon conversation" },
+          p: [{ ko: "그 차이를 보여준 구체적인 장면이 현지 친구와 어린 시절 애니메이션을 이야기하던 순간이었습니다. 작품은 달랐지만, 매일 기다리던 만화가 있었다는 경험은 통했습니다.", en: "The moment that showed the gap was talking with a local friend about childhood cartoons. The shows were different, but having a cartoon you waited for every day was something we shared." }] },
+        { t: { ko: "한 화면에서 세 가지를 비교하는 도구로", en: "A tool that compares three readings on one screen" },
+          p: [{ ko: "그래서 기본 번역 → 문화적 맥락 → 이어서 할 말을 한 화면에서 비교하는 도구를 만들고자 했습니다.", en: "So I set out to build a tool that compares the plain translation → cultural context → what to say next, on one screen." }] }
+      ]
+    },
+    talk: {
+      label: { ko: "실제 대화", en: "The real conversation" },
+      h: { ko: "나는 뽀로로를, 그 친구는 사무라이 챔프를 떠올렸다.", en: "I thought of Pororo; my friend thought of “사무라이 챔프”." },
+      items: [
+        { t: "Pororo the Little Penguin", tlang: "en", ko: "뽀롱뽀롱 뽀로로", d: { ko: "2003년 EBS에서 처음 방영된 한국의 미취학 어린이용 3D 애니메이션. 제게 먼저 떠오른 작품입니다.", en: "A Korean 3D series for preschoolers, first aired on EBS in 2003 — the show that came to my mind first." } },
+        { t: "사무라이 챔프", tlang: "ko", ko: "", d: { ko: "친구가 어린 시절 기다리던 애니메이션으로 떠올린 작품입니다.", en: "The show my friend remembered waiting for as a child." } }
+      ],
+      bridge: { ko: "두 작품의 위치는 같지 않습니다. 이어지는 것은 작품이 아니라 ‘매일 기다리던 만화가 있었다’는 경험입니다.", en: "The two shows don't sit in the same place. What connects them is not the show but the experience of having a cartoon you waited for every day." },
+      cap: { ko: "실제 대화에서 나온 경험입니다.", en: "From the real conversation." }
+    },
+    read: {
+      label: { ko: "번역에서 다음 질문까지 · 시연용 예문", en: "From translation to the next question · demo sentence" },
+      src: "Samurai Jack was my whole childhood — I watched it every day after school.",
+      srcNote: { ko: "시연용으로 다시 쓴 예문입니다. 앱에 준비된 예시 작품(Samurai Jack)을 썼으며, 실제 대화에서 친구가 떠올린 작품과 같은 작품으로 쓴 것이 아닙니다.", en: "A sentence rewritten for the demo. It uses a sample show prepared in the app (Samurai Jack); it is not meant as the show my friend named in the real conversation." },
+      layers: [
+        { from: "", t: { ko: "기본 번역", en: "Plain translation" }, d: { ko: "사무라이 잭은 내 어린 시절 그 자체였어. 방과 후에 매일 봤거든.", en: "Samurai Jack was a big part of growing up for me; I watched it daily after school." },
+          miss: { ko: "어린 시절의 추억이라는 뜻은 전달되지만, 어떤 작품이며 왜 특별한지는 아직 알기 어렵습니다.", en: "That it's a childhood memory comes across, but what the show is and why it mattered is still hard to tell." } },
+        { from: "Samurai Jack|every day after school", t: { ko: "문화적 맥락", en: "Cultural context" }, d: { ko: "Samurai Jack은 2001년 카툰 네트워크에서 시작한 미국 애니메이션으로, 대사를 줄이고 화면과 소리로 긴장을 만드는 연출로 기억됩니다.", en: "Samurai Jack is an American series that began on Cartoon Network in 2001, remembered for sparse dialogue and tension built from images and sound." },
+          miss: { ko: "‘방과 후 매일’이라는 말은 작품뿐 아니라 하루의 반복된 시간을 떠올리게 합니다. 다만 어떤 의미였는지는 상대에게 더 물어볼 수 있습니다.", en: "‘Every day after school’ brings back not just the show but a repeated time of day. What it meant, though, is something you can ask them." } },
+        { from: "", t: { ko: "이어서 할 말", en: "What to say next" }, d: { ko: "What was it about Samurai Jack that hooked you?", en: "What was it about Samurai Jack that hooked you?" }, lang: "en",
+          miss: { ko: "단정하지 않고 상대의 경험을 묻는 질문형 답변입니다.", en: "A question that asks about their experience instead of assuming it." } }
       ]
     },
     s3: {
@@ -502,7 +558,7 @@
     s4: {
       label: { ko: "범위와 다음 확인", en: "Scope and next check" },
       rows: [
-        { k: { ko: "체험", en: "Try it" }, v: { ko: "준비된 예시 문장·상황 선택, 기본 번역·맥락 설명·이어서 할 말 비교, 답변 복사", en: "Prepared sample lines and situations, plain translation vs. context vs. what to say next, copying a reply" } },
+        { k: { ko: "체험", en: "Try it" }, v: { ko: "준비된 예시 문장·상황 선택, 기본 번역·문화적 맥락·이어서 할 말 비교, 답변 복사", en: "Prepared sample lines and situations, plain translation vs. cultural context vs. what to say next, copying a reply" } },
         { k: { ko: "자유 입력", en: "Free input" }, v: { ko: "직접 작성한 다섯 표현(Samurai Jack, 뽀로로, Saturday morning, This is fine, Bless your heart)이 들어 있으면 그 표현의 맥락만 보여줍니다", en: "If your sentence contains one of the five hand-written expressions (Samurai Jack, Pororo, Saturday morning, This is fine, Bless your heart), only its context is shown" } },
         { k: { ko: "연결하지 않음", en: "Not connected" }, v: { ko: "문장 전체 번역, 실시간 언어 모델", en: "Whole-sentence translation, live language models" } },
         { k: { ko: "다음 확인", en: "Next check" }, v: { ko: "맥락 설명이 이해를 돕는지, 과도한 해석을 유도하지 않는지 확인하기", en: "Check whether the context helps understanding without leading to over-reading" } }

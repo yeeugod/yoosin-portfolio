@@ -360,3 +360,4 @@ html[data-lang="en"] .tour { font-family: var(--en); }
   .tour.collapsed .tour-in { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 8px 10px 10px 14px; }
   .tour.collapsed .tour-ctl .next { flex: 1 1 100%; min-height: 44px; }
 }
+.lx-c h4 .lx-ex { margin-left: auto; padding: 1px 8px; border: 1px solid currentColor; border-radius: 99px; font-size: 11px; font-weight: 600; font-style: normal; opacity: .75; }
