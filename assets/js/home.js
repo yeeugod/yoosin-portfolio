@@ -9,6 +9,10 @@
   const appwin = $("#appwin"), appBar = $("#app-bar"), appRoot = $("#app-root"), appScroll = $("#app-scroll");
   const topbar = $("#topbar");
   const ORDER = ["makeit", "likethis", "grown", "montauk", "art"]; // V5 reading order after the intro
+  // home grid: the four projects first (left two columns on desktop), then the gallery and the profile.
+  // This is also the document order, so Tab and screen readers meet the cards in the same sequence.
+  const HOME = ["montauk", "grown", "makeit", "likethis", "art"];
+  const DOM_ORDER = HOME.concat("about");
   // titles may differ by language; a Korean title is set in Pretendard, an English one in Neue Montreal
   const TT = (c, f = "title") => { const v = c[f]; return !v ? null : Array.isArray(v) ? v : L(v); };
   const isKo = (lines) => lines.some((t) => /[가-힣]/.test(t));
@@ -65,7 +69,7 @@
     if (c.k === "about") return `About Me — Yoosin Lee, ${L(c.desc)} — ${L("열기", "open")}`;
     return `${TT(c).join(" ")} — ${subOf(c) ? subOf(c) + ", " : ""}${L(c.desc)} — ${L("열기", "open")}`;
   }
-  C.cards.forEach((c) => {
+  DOM_ORDER.map((k) => byK[k]).forEach((c) => {
     const b = document.createElement("button");
     b.type = "button"; b.className = `card c-${c.k}`; b.dataset.k = c.k;
     b.style.setProperty("--c", c.color); b.style.setProperty("--ci", c.ink);
@@ -86,11 +90,11 @@
 
   /* ───── measuring ───── */
   const mctx = document.createElement("canvas").getContext("2d");
-  function textW(lines, weight, upper, track) {
+  function textW(lines, weight, upper, track, koWeight = 800, koTrack = -0.04) {
     const ko = lines.some((t) => /[가-힣]/.test(t));
-    // Korean titles are set in Pretendard (weight 800, tighter tracking), so measure them in that face
-    mctx.font = ko ? `800 100px "Pretendard", "Apple SD Gothic Neo", sans-serif` : `${weight} 100px "Neue Montreal", "Helvetica Neue", Arial, sans-serif`;
-    const tr = ko ? -0.04 : track;
+    // Korean titles are set in Pretendard, so measure them in that face
+    mctx.font = ko ? `${koWeight} 100px "Pretendard", "Apple SD Gothic Neo", sans-serif` : `${weight} 100px "Neue Montreal", "Helvetica Neue", Arial, sans-serif`;
+    const tr = ko ? koTrack : track;
     return Math.max(...lines.map((l) => { const s = upper && !ko ? l.toUpperCase() : l; return mctx.measureText(s).width + tr * 100 * (s.length - 1); }));
   }
   function fitTitle(lines, w, h, max, reserveBottom) {
@@ -100,37 +104,36 @@
     return Math.max(18, Math.floor(ts));
   }
 
+  /* home card titles: one size, weight and leading for every card at a given screen size.
+     The size is the largest that lets the longest title (in the current language) fit its card. */
+  const CT = { w: 500, tr: -0.02, kw: 500, ktr: -0.03, lh: 1.04 };
+  const ctPer = (lines) => textW(lines, CT.w, true, CT.tr, CT.kw, CT.ktr) / 100;
+  const cardLines = (k) => k === "about" ? ["YOOSIN LEE"] : TT(byK[k]);
+
   /* ───── layout ───── */
   function rectsFor(W, H) {
     const m = W < 761 ? 16 : 20, g = W < 761 ? 6 : 8, out = {};
     const top = 68; // header strip that holds the language switch
     if (W >= 1024) {
+      // two equal columns for the four projects, a slightly narrower third column for the gallery and the profile
       const gw = W - 2 * m, gh = Math.max(H - top - m, 600);
-      const cw = (gw - 11 * g) / 12, rh = (gh - 3 * g) / 4;
-      const R = (c0, c1, r0, r1) => ({ x: m + c0 * (cw + g), y: top + r0 * (rh + g), w: (c1 - c0) * cw + (c1 - c0 - 1) * g, h: (r1 - r0) * rh + (r1 - r0 - 1) * g });
-      // Make It! takes the first project place (top left); reading goes down each column: Make It!, Like this · GROWN, About · Manual, ART
-      Object.assign(out, { makeit: R(0, 4, 0, 2), likethis: R(0, 4, 2, 4), grown: R(4, 9, 0, 2), about: R(4, 9, 2, 4), montauk: R(9, 12, 0, 2), art: R(9, 12, 2, 4) });
-      out._h = top + gh + m; out._p = 22;
+      const rw = Math.round(gw * 0.27), lw = (gw - rw - 2 * g) / 2, rh = (gh - g) / 2;
+      const X = [m, m + lw + g, m + 2 * (lw + g)], Wd = [lw, lw, rw], Y = [top, top + rh + g];
+      const R = (c, r) => ({ x: X[c], y: Y[r], w: Wd[c], h: rh });
+      Object.assign(out, { montauk: R(0, 0), grown: R(1, 0), art: R(2, 0), makeit: R(0, 1), likethis: R(1, 1), about: R(2, 1) });
+      out._h = top + gh + m; out._p = 26;
     } else if (W >= 600) {
-      const gw = W - 2 * m, half = (gw - g) / 2;
-      const aH = Math.max(280, Math.min(H * 0.44, 420)), rH = Math.max(220, Math.min(H * 0.28, 280));
+      // two columns, read row by row in the same order as the list
+      const gw = W - 2 * m, half = (gw - g) / 2, rH = Math.max(230, Math.min(H * 0.3, 300));
       let y = top;
-      out.about = { x: m, y, w: gw, h: aH }; y += aH + g;
-      out.makeit = { x: m, y, w: half, h: rH }; out.likethis = { x: m + half + g, y, w: half, h: rH }; y += rH + g;
-      out.grown = { x: m, y, w: half, h: rH }; out.montauk = { x: m + half + g, y, w: half, h: rH }; y += rH + g;
-      out.art = { x: m, y, w: gw, h: rH * 0.8 }; y += rH * 0.8;
-      out._h = y + m; out._p = 18;
+      [["montauk", "grown"], ["makeit", "likethis"], ["art", "about"]].forEach(([a, b]) => { out[a] = { x: m, y, w: half, h: rH }; out[b] = { x: m + half + g, y, w: half, h: rH }; y += rH + g; });
+      out._h = y - g + m; out._p = 20;
     } else {
-      const gw = W - 2 * m, half = (gw - g) / 2;
-      const aH = Math.max(270, Math.min(H * 0.42, 340));
+      // one column: Manual for Manuals → GROWN → Make It! → Like this → ART & DESIGN → About Me
+      const gw = W - 2 * m, h = 228;
       let y = top;
-      out.about = { x: m, y, w: gw, h: aH }; y += aH + g;
-      out.makeit = { x: m, y, w: gw, h: 214 }; y += 214 + g;
-      out.likethis = { x: m, y, w: gw, h: 214 }; y += 214 + g;
-      out.grown = { x: m, y, w: gw, h: 226 }; y += 226 + g;
-      out.montauk = { x: m, y, w: gw, h: 226 }; y += 226 + g;
-      out.art = { x: m, y, w: gw, h: 204 }; y += 204;
-      out._h = y + m; out._p = 14;
+      DOM_ORDER.forEach((k) => { out[k] = { x: m, y, w: gw, h }; y += h + g; });
+      out._h = y - g + m; out._p = 16;
     }
     return out;
   }
@@ -144,24 +147,35 @@
     after.style.height = Math.max(0, Math.ceil(S.rects._h - H)) + "px";
     const p = S.rects._p, small = W < 761;
     root.style.setProperty("--banner-h", (small ? Math.round(Math.min(196, Math.max(150, H * 0.21))) : Math.round(Math.min(310, Math.max(240, H * 0.3)))) + "px");
-    for (const k of ORDER) {
+    // one common title size: the largest that fits every card's title (width and height), capped per screen size
+    const reserve = small ? 70 : 84, cap = small ? 34 : W >= 1024 ? 56 : 44;
+    let ts = cap;
+    for (const k of DOM_ORDER) {
+      const r = S.rects[k], lines = cardLines(k), avail = r.w - 2 * p - (k === "about" ? 0 : 4);
+      ts = Math.min(ts, avail / ctPer(lines), (r.h - 2 * p - reserve - (k === "about" ? 60 : 0)) / (CT.lh * lines.length));
+    }
+    ts = Math.max(18, Math.floor(ts));
+    S.ts = ts; root.style.setProperty("--cts", ts + "px");
+    for (const k of HOME) {
       const r = S.rects[k], b = els[k], c = byK[k];
       b.style.left = r.x + "px"; b.style.top = r.y + "px"; b.style.width = r.w + "px"; b.style.height = r.h + "px";
       b.style.setProperty("--p", p + "px");
-      // a long title breaks into more lines on a tall card (GROWN: GROWN / RECOVERY / SCAN)
-      const lines = TT(c, "tall") && r.h > r.w * 1.05 ? TT(c, "tall") : TT(c);
+      const lines = TT(c); // titles break at their meaning, the same on every card size
       if (b.dataset.lines !== lines.join("|")) { const ct = $(".ct", b); ct.innerHTML = lines.map((t) => `<span>${esc(t)}</span>`).join(""); ct.lang = isKo(lines) ? "ko" : "en"; b.dataset.lines = lines.join("|"); }
-      const reserve = small ? 74 : 88;
-      // Korean titles are heavier per line, so they stop a little smaller and leave room for the figure
-      const ts = fitTitle(lines, r.w - 2 * p, r.h - 2 * p, isKo(lines) ? (small ? 36 : (W >= 1024 ? 64 : 48)) : (small ? 40 : (W >= 1024 ? 84 : 58)), reserve);
       b.style.setProperty("--ts", ts + "px"); b.dataset.ts = ts;
       // the figure takes the free band between the title and the description
-      const cb = $(".cb", b), gTop = p + ts * (isKo(lines) ? 1.02 : 0.9) * lines.length + (small ? 10 : 16), gBot = p + Math.max(cb ? cb.offsetHeight : 0, 44) + (small ? 10 : 16), avail = r.h - gTop - gBot;
+      const cb = $(".cb", b), gTop = p + ts * CT.lh * lines.length + (small ? 10 : 16), gBot = p + Math.max(cb ? cb.offsetHeight : 0, 44) + (small ? 10 : 16), avail = r.h - gTop - gBot;
       b.style.setProperty("--gt", gTop + "px"); b.style.setProperty("--gb", gBot + "px");
       b.style.setProperty("--gw", Math.min(r.w - 2 * p, Math.max(0, avail) * 2) + "px"); // the figure is 2:1, so this keeps its height inside the free band
       b.classList.toggle("no-g", avail < 34);
-      // entry vectors: each card comes in from its own side of the frame
-      const dir = small ? { makeit: [-28, 0], likethis: [28, 0], grown: [0, 28], montauk: [0, 32], art: [0, 36] }[k] : { makeit: [-(r.x + r.w + 60), 0], likethis: [-(r.x + r.w + 60), H * 0.3], grown: [0, -(r.y + r.h + 60)], montauk: [W - r.x + 60, 0], art: [W - r.x + 40, H * 0.5] }[k];
+      // entry vectors: each card comes in from the side of the frame it sits nearest
+      const cx = r.x + r.w / 2, cy = r.y + r.h / 2;
+      let dir;
+      if (small) dir = [HOME.indexOf(k) % 2 ? 28 : -28, 0];
+      else if (k === "grown") dir = [0, -(r.y + r.h + 60)];
+      else if (k === "likethis") dir = [0, H - r.y + 60];
+      else if (cx < W / 2) dir = [-(r.x + r.w + 60), cy > H / 2 ? H * 0.2 : 0];
+      else dir = [W - r.x + 60, cy > H / 2 ? H * 0.3 : 0];
       S.start[k] = dir;
     }
     // about: from (almost) full frame to its cell
@@ -170,9 +184,11 @@
     const hintH = reduce || !hint.offsetHeight ? 0 : hint.offsetHeight, hintB = parseFloat(getComputedStyle(hint).bottom) || 20;
     S.aboutStart = { x: m, y: 68, w: W - 2 * m, h: H - 68 - (hintH ? hintB + hintH + (small ? 14 : 18) : m) };
     S.aboutEnd = S.rects.about;
-    const nameW = textW(["YOOSIN LEE"], 700, false, -0.03) / 100;
+    const nameW = ctPer(["YOOSIN LEE"]);
     S.nameStart = Math.min((W - 2 * m - 60) / nameW, H * 0.26, 260);
-    S.nameEnd = Math.min((S.aboutEnd.w - 2 * p - 60) / nameW, small ? 64 : 120, (S.aboutEnd.h - 2 * p) * 0.42);
+    S.nameEnd = ts; // the profile name settles at the same size as every other card title
+    // when the About card sits below the first screen (one or two columns), the opening box lifts away instead of shrinking off-screen
+    S.aboutBelow = S.aboutEnd.y + S.aboutEnd.h > H;
     if (!reduce && S.I) { /* keep the same assembly state across resizes */ window.scrollTo(0, Math.round(prevT * S.I)); }
     frame(true);
     if (S.detail) layoutBanner();
@@ -192,33 +208,51 @@
     // phase 1: the lilac intro settles into the About card
     const p1 = easeIO(clamp(t / 0.25)); // 0–25%: the name moves into the About card, the dots appear
     const a = S.aboutStart, e = S.aboutEnd, ab = els.about;
-    ab.style.left = lerp(a.x, e.x, p1) + "px"; ab.style.top = lerp(a.y, e.y, p1) + "px";
-    ab.style.width = lerp(a.w, e.w, p1) + "px"; ab.style.height = lerp(a.h, e.h, p1) + "px";
+    if (S.aboutBelow) {
+      // narrow screens: the profile is the last card. The opening box lifts and fades as the projects arrive,
+      // and is already settled in its place at the end of the list by the time the reader scrolls there.
+      const q = easeIO(clamp((t - 0.04) / 0.4));
+      if (q < 1) {
+        ab.style.left = a.x + "px"; ab.style.top = a.y + "px"; ab.style.width = a.w + "px"; ab.style.height = a.h + "px";
+        ab.style.transform = `translate3d(0, ${(-a.h * 0.35 * q).toFixed(1)}px, 0)`; ab.style.opacity = String(1 - q);
+      } else {
+        ab.style.left = e.x + "px"; ab.style.top = e.y + "px"; ab.style.width = e.w + "px"; ab.style.height = e.h + "px";
+        ab.style.transform = ""; ab.style.opacity = "";
+      }
+    } else {
+      ab.style.left = lerp(a.x, e.x, p1) + "px"; ab.style.top = lerp(a.y, e.y, p1) + "px";
+      ab.style.width = lerp(a.w, e.w, p1) + "px"; ab.style.height = lerp(a.h, e.h, p1) + "px";
+      ab.style.transform = ""; ab.style.opacity = "";
+    }
+    const pa = S.aboutBelow ? (t >= 0.44 ? 1 : 0) : p1; // the card's inner settling follows its own placement
     const small = S.W < 761;
-    ab.style.setProperty("--ap", lerp(small ? 20 : 32, S.rects._p, p1) + "px");
-    ab.style.setProperty("--an", lerp(S.nameStart, S.nameEnd, p1) + "px");
-    ab.style.setProperty("--ar", lerp(small ? 20 : 30, small ? 15 : 19, p1) + "px");
-    ab.style.setProperty("--ae", lerp(small ? 13 : 15, 13, p1) + "px");
-    ab.style.setProperty("--tg", lerp(small ? 26 : Math.min(46, S.W * 0.034), 22, p1) + "px");
-    ab.style.setProperty("--tl", String(1 - clamp(p1 / 0.7)));
+    ab.style.setProperty("--ap", lerp(small ? 20 : 32, S.rects._p, pa) + "px");
+    ab.style.setProperty("--an", lerp(S.nameStart, S.nameEnd, pa) + "px");
+    ab.style.setProperty("--ar", lerp(small ? 20 : 30, small ? 15 : 19, pa) + "px");
+    ab.style.setProperty("--ae", lerp(small ? 13 : 15, 13, pa) + "px");
+    ab.style.setProperty("--tg", lerp(small ? 26 : Math.min(46, S.W * 0.034), 22, pa) + "px");
+    ab.style.setProperty("--tl", String(1 - clamp(pa / 0.7)));
     // the name starts in the middle of the lilac box and settles at the bottom as the linework draws in — one progress value for both
     const who = $(".who", ab), tag = $(".tag", ab);
     if (who) {
-      const h = lerp(a.h, e.h, p1), ap = lerp(small ? 20 : 32, S.rects._p, p1), wh = who.offsetHeight;
+      const h = lerp(a.h, e.h, pa), ap = lerp(small ? 20 : 32, S.rects._p, pa), wh = who.offsetHeight;
       const tagBottom = tag ? tag.offsetTop + tag.offsetHeight : 0;
       const centerTop = Math.max(h / 2 - wh / 2, tagBottom + 18), endTop = h - ap - wh;
-      ab.style.setProperty("--wy", (Math.min(0, centerTop - endTop) * (1 - p1)).toFixed(1) + "px");
+      ab.style.setProperty("--wy", (Math.min(0, centerTop - endTop) * (1 - pa)).toFixed(1) + "px");
     }
-    ab.style.setProperty("--dt", p1.toFixed(3));
+    ab.style.setProperty("--dt", pa.toFixed(3));
     ab.style.setProperty("--lw", ease(clamp((t - 0.15) / 0.4)).toFixed(3)); // 15–55%: the lines extend
     // phase 2: the other five come in from different sides and complete the mosaic
-    ORDER.forEach((k, i) => {
+    HOME.forEach((k, i) => {
       const s = 0.3 + i * 0.07, p = ease(clamp((t - s) / 0.32)); // 30–90%: the cards assemble, 90–100% settles
       const [dx, dy] = S.start[k];
       const b = els[k];
       b.style.transform = p >= 1 ? "none" : `translate3d(${dx * (1 - p)}px, ${dy * (1 - p)}px, 0)`;
-      b.style.visibility = p <= 0 ? "hidden" : "visible";
-      b.style.opacity = small && p < 1 ? String(clamp(p * 1.6)) : "";
+      // not yet arrived: transparent but still in the tab order, so keyboard users reach the projects first
+      // (focusing one completes the grid, see the focusin handler below)
+      b.style.visibility = "visible";
+      b.style.opacity = p <= 0 ? "0" : small && p < 1 ? String(clamp(p * 1.6)) : "";
+      b.style.pointerEvents = p <= 0 ? "none" : "";
     });
     hint.style.opacity = String(1 - clamp(t / 0.08));
     root.classList.toggle("assembled", t >= 1);
@@ -311,7 +345,9 @@
     m.style.setProperty("--c", c.color); m.style.setProperty("--ci", c.ink);
     Object.assign(m.style, { left: rect.left + "px", top: rect.top + "px", width: rect.width + "px", height: rect.height + "px" });
     const lines = bannerLines(k);
-    m.innerHTML = `<h2 class="ct${isKo(lines) ? " ko" : ""}" style="${k === "about" ? "line-height:.86" : ""}">${lines.map((t) => `<span>${esc(t)}</span>`).join("")}</h2>`;
+    // two copies of the title travel together: the card's medium weight hands over to the banner's own setting on the way
+    const spans = lines.map((t) => `<span>${esc(t)}</span>`).join("");
+    m.innerHTML = `<h2 class="ct m-card${isKo(lines) ? " ko" : ""}">${spans}</h2><h2 class="ct m-ban${isKo(lines) ? " ko" : ""}" style="${k === "about" ? "line-height:.86" : ""}">${spans}</h2>`;
     document.body.appendChild(m);
     return m;
   }
@@ -360,7 +396,7 @@
     const br = banner.getBoundingClientRect();
     const m = makeMorph(k, cardRect);
     card.style.visibility = "hidden";
-    const h2 = $(".ct", m);
+    const hs = $$(".ct", m);
     // V4: the card fills with its colour first (~100ms), then the box and title move together; the body comes in over the last ~100ms
     const FILL = 100, D = S.W < 761 ? 320 : 420, EZ = "cubic-bezier(0.22,1,0.36,1)";
     const bg0 = getComputedStyle(card).backgroundColor;
@@ -370,11 +406,13 @@
       { left: cardRect.left + "px", top: cardRect.top + "px", width: cardRect.width + "px", height: cardRect.height + "px" },
       { left: br.left + "px", top: br.top + "px", width: br.width + "px", height: br.height + "px" }
     ], { duration: D, delay: FILL, easing: EZ, fill: "both" });
-    const a2 = h2.animate([
+    const a2 = hs.map((h) => h.animate([
       { left: tb.x + "px", top: tb.y + "px", fontSize: tb.fs + "px" },
       { left: bp + "px", top: bp + "px", fontSize: bts + "px" }
-    ], { duration: D, delay: FILL, easing: EZ, fill: "both" });
-    S.busy = [a1, a2];
+    ], { duration: D, delay: FILL, easing: EZ, fill: "both" }));
+    const fx = [hs[0].animate([{ opacity: 1 }, { opacity: 0 }], { duration: D * 0.6, delay: FILL + D * 0.2, easing: "ease", fill: "both" }),
+      hs[1].animate([{ opacity: 0 }, { opacity: 1 }], { duration: D * 0.6, delay: FILL + D * 0.2, easing: "ease", fill: "both" })];
+    S.busy = [a1, ...a2, ...fx];
     // body comes in over the last part of the move
     setTimeout(() => { if (S.detail === k) sheet.classList.replace("pre", "nob"); }, FILL + D - 100);
     a1.onfinish = done;
@@ -415,8 +453,8 @@
     }
     const tb = cardTitleBox(k);
     const m = makeMorph(k, br);
-    const h2 = $(".ct", m);
-    h2.style.left = S.bp + "px"; h2.style.top = S.bp + "px"; h2.style.fontSize = S.bannerTs + "px";
+    const hs = $$(".ct", m);
+    hs.forEach((h) => { h.style.left = S.bp + "px"; h.style.top = S.bp + "px"; h.style.fontSize = S.bannerTs + "px"; });
     sheet.classList.add("out", "nob");
     card.style.visibility = "hidden";
     const D = S.W < 761 ? 280 : 340, EZ = "cubic-bezier(0.22,1,0.36,1)";
@@ -424,13 +462,15 @@
       { left: br.left + "px", top: br.top + "px", width: br.width + "px", height: br.height + "px" },
       { left: cr.left + "px", top: cr.top + "px", width: cr.width + "px", height: cr.height + "px" }
     ], { duration: D, easing: EZ, fill: "forwards" });
-    const a2 = h2.animate([
+    const a2 = hs.map((h) => h.animate([
       { left: S.bp + "px", top: S.bp + "px", fontSize: S.bannerTs + "px" },
       { left: tb.x + "px", top: tb.y + "px", fontSize: tb.fs + "px" }
-    ], { duration: D, easing: EZ, fill: "forwards" });
+    ], { duration: D, easing: EZ, fill: "forwards" }));
+    hs[1].animate([{ opacity: 1 }, { opacity: 0 }], { duration: D * 0.6, delay: D * 0.15, easing: "ease", fill: "both" });
+    hs[0].animate([{ opacity: 0 }, { opacity: 1 }], { duration: D * 0.6, delay: D * 0.15, easing: "ease", fill: "both" });
     // the body fades out fast, then the white sheet no longer covers the mosaic
     const hideT = setTimeout(() => { sheetBody.style.visibility = "hidden"; }, 140);
-    S.busy = [a1, a2];
+    S.busy = [a1, ...a2];
     const end = () => { clearTimeout(hideT); sheetBody.style.visibility = ""; finish(); };
     a1.onfinish = end;
     setTimeout(end, D + 250);

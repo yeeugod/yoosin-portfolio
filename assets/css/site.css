@@ -934,3 +934,16 @@ html[data-lang="ko"] .split dt { font-family: inherit; letter-spacing: .02em; fo
 @keyframes hintDrop { 0% { transform: translateY(-100%); } 100% { transform: translateY(225%); } }
 @media (max-width: 760px) { .hint { font-size: 11.5px; padding: 0; letter-spacing: .22em; } .hint i { height: 28px; } }
 @media (prefers-reduced-motion: reduce) { .hint i::after { animation: none; transform: none; height: 100%; } }
+
+/* ───── home grid titles: one size, one weight, one leading for every card (size set by script as --ts / --cts) ───── */
+.card .ct, .card .ct[lang="ko"] { font-weight: 500; line-height: 1.04; }
+.card .ct { letter-spacing: -.02em; }
+.card .ct[lang="ko"] { font-family: var(--ko); letter-spacing: -.03em; text-transform: none; }
+.c-about .name { font-weight: 500; letter-spacing: -.02em; line-height: 1.04; }
+.morph .ct.m-card { font-weight: 500; letter-spacing: -.02em; line-height: 1.04; }
+.morph .ct.m-card.ko { font-family: var(--ko); font-weight: 500; letter-spacing: -.03em; line-height: 1.04; text-transform: none; }
+.morph.m-about .ct.m-card { line-height: 1.04; }
+/* the scattered Manual for Manuals lines stay clear of the title and the description on the larger cards */
+.cg-montauk { width: calc(var(--gw, 40%) * .72); top: calc(var(--gt, 50%) + 6px); bottom: calc(var(--gb, 80px) + 12px); }
+/* the profile line keeps clear of the arrow */
+.c-about .role { padding-right: 58px; }
