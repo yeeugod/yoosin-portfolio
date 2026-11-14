@@ -947,3 +947,4 @@ html[data-lang="ko"] .split dt { font-family: inherit; letter-spacing: .02em; fo
 .cg-montauk { width: calc(var(--gw, 40%) * .72); top: calc(var(--gt, 50%) + 6px); bottom: calc(var(--gb, 80px) + 12px); }
 /* the profile line keeps clear of the arrow */
 .c-about .role { padding-right: 58px; }
+.cats-mark { height: 0; margin: 0; }

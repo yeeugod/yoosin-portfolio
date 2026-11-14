@@ -268,7 +268,15 @@
   topbar.addEventListener("focusin", () => topbar.classList.remove("tb-hide"));
   // detail controls: step aside while reading down, come back on the way up (and whenever focused)
   let lastSy = 0;
-  sheetScroll.addEventListener("scroll", () => { const y = sheetScroll.scrollTop; sheetCtl.classList.toggle("away", y > 140 && y > lastSy + 2 ? true : y < lastSy - 2 ? false : sheetCtl.classList.contains("away")); sheet.classList.toggle("ctl-away", sheetCtl.classList.contains("away")); lastSy = y; }, { passive: true });
+  sheetScroll.addEventListener("scroll", () => {
+    const y = sheetScroll.scrollTop;
+    let away = y > 140 && y > lastSy + 2 ? true : y < lastSy - 2 ? false : sheetCtl.classList.contains("away");
+    // ART & DESIGN: while the category bar is pinned to the top, the controls stay away in both directions,
+    // so the bar never steps down on the way up; they come back once the bar is back in its own place
+    const mark = $(".cats-mark", sheetBody);
+    if (mark && mark.getBoundingClientRect().top - sheetScroll.getBoundingClientRect().top < sheetCtl.offsetHeight) away = y > 140 ? true : away;
+    sheetCtl.classList.toggle("away", away); sheet.classList.toggle("ctl-away", away); lastSy = y;
+  }, { passive: true });
   sheetCtl.addEventListener("focusin", () => { sheetCtl.classList.remove("away"); sheet.classList.remove("ctl-away"); });
   let rz = 0;
   window.addEventListener("resize", () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(layout); });
@@ -337,6 +345,8 @@
     sheetCtl.innerHTML = ctlHtml(); sheetCtl.classList.remove("away"); sheet.classList.remove("ctl-away");
     sheetBody.innerHTML = window.DETAIL.render(k);
     window.DETAIL.mount(k, sheetBody, sheetScroll);
+    const cats = $(".cats", sheetBody); // a marker at the category bar's own place tells when the bar is pinned
+    if (cats) { const mk = document.createElement("div"); mk.className = "cats-mark"; mk.setAttribute("aria-hidden", "true"); cats.before(mk); }
   }
   function makeMorph(k, rect, fromCard) {
     const c = byK[k];
