@@ -6,7 +6,7 @@
   const { L, esc, $, $$ } = YL;
   const STEPS = {
     makeit: [
-      { t: { ko: "예시 제품 프로젝트", en: "The sample product project" }, d: { ko: "A10 아트토이 한 제품의 제작 프로젝트입니다. 헤더에서 제품 이름, 문의서 버전, 진행 상태를 확인하세요. 아래 ‘다음’을 누르면 한 단계씩 이어집니다.", en: "One production project for the A10 art toy. Check the product name, brief version and status in the header. ‘Next’ below walks you through one step at a time." }, hl: ".mx-proj", app: 1 },
+      { t: { ko: "예시 제품 프로젝트", en: "The sample product project" }, d: { ko: "원화 아트토이 한 제품의 제작 프로젝트입니다. 헤더에서 제품 이름, 문의서 버전, 진행 상태를 확인하세요. 아래 ‘다음’을 누르면 한 단계씩 이어집니다.", en: "One production project for the art toy. Check the product name, brief version and status in the header. ‘Next’ below walks you through one step at a time." }, hl: ".mx-proj", app: 1 },
       { t: { ko: "제작 조건 정리", en: "Organising the production terms" }, d: { ko: "높이·제작 방식·수량·예산·기간이 업체에 전할 제작 조건이 됩니다. 아직 모르는 최소 두께는 ‘질문 중’으로 남습니다.", en: "Height, process, quantity, budget and timing become the terms a maker reads. The minimum thickness isn't known yet, so it stays ‘Asked’." }, hl: ".mx-spec", app: 2 },
       { t: { ko: "내 디자인에 맞는 업체", en: "Makers that fit my design" }, d: { ko: "수량 50개라면 실리콘 몰드 캐스팅이 맞아, 예시 업체 Cast & Co.가 먼저 옵니다. ‘업체 리스트’로 바꾸면 전체 업체를 볼 수 있습니다.", en: "For 50 pieces, silicone-mould casting fits, so the sample maker Cast & Co. comes first. Switch to ‘All makers’ to browse the full list." }, hl: ".makers", app: 3 },
       { t: { ko: "업체에 문의", en: "Enquiring with the maker" }, d: { ko: "Cast & Co.에 보낸 문의서입니다. 정하지 못한 최소 두께는 질문으로 들어갔습니다. 실제로 발송되지는 않습니다.", en: "The brief sent to Cast & Co. The undecided minimum thickness went in as a question. Nothing is actually sent." }, hl: ".brief", app: 4 },

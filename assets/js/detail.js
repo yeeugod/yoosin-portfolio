@@ -5,7 +5,8 @@
   const { L, esc, $, $$ } = YL;
   const C = window.CONTENT, M = window.MEDIA;
   const pad = (n) => String(n).padStart(2, "0");
-  const label = (n, t) => `<p class="label"><b>${typeof n === "number" ? pad(n) : esc(n)}</b>${esc(L(t))}</p>`;
+  // "·" marks a section without a number: it shows as a plain colour square
+  const label = (n, t) => `<p class="label">${n === "·" ? `<b class="dot" aria-hidden="true"></b>` : `<b>${typeof n === "number" ? pad(n) : esc(n)}</b>`}${esc(L(t))}</p>`;
   const fig = (name, cap, o = {}) => `<figure class="fig ${o.cls || ""}" ${o.anchor ? `data-anchor="${o.anchor}"` : ""}>
       <div class="ph ${o.ph || ""}" style="--ar:${o.ar || M.ratio(name)}">${o.video ? M.video(o.video, name, L(cap), o) : M.img(name, L(cap), o)}</div>
       ${cap ? `<figcaption class="cap">${esc(L(cap))}</figcaption>` : ""}</figure>`;
@@ -36,7 +37,7 @@
       <section class="aij-c"><h3>${esc(L("AI를 활용한 부분", "Where AI was used"))}</h3>
         <dl>${A.process.map((x) => `<div><dt><span class="aij-tag">${esc(L("기획·제작 과정", "Planning & making"))}</span>${esc(L(x.t))}</dt><dd>${esc(L(x.d))}</dd></div>`).join("")}
           <div><dt><span class="aij-tag app">${esc(L(A.app.t))}</span></dt><dd>${esc(L(A.app.d))}</dd></div></dl></section>
-      <section class="aij-c"><h3>${esc(L("내가 직접 판단한 것", "What I judged myself"))}</h3>
+      <section class="aij-c"><h3>${esc(L("내가 판단한 것", "What I judged"))}</h3>
         <ul>${A.mine.map((x) => `<li>${esc(L(x))}</li>`).join("")}</ul></section></div>`;
   const rows = (list) => `<ul class="rows">${list.map((r) => `<li><b>${esc(L(r.k))}</b><span>${esc(L(r.v))}</span></li>`).join("")}</ul>`;
   const items = (list, n) => `<ol class="list" style="--n:${n || list.length}">${list.map((x) => `<li><h3>${esc(L(x.t))}</h3><p>${esc(L(x.d))}</p></li>`).join("")}</ol>`;
@@ -64,8 +65,7 @@
         <ol class="tl" id="tl">${A.timeline.map((x, i) => `<li data-anchor="tl-${i}"><h3><small>${esc(L(x.when)) || "&nbsp;"}</small>${esc(L(x.t))}</h3><p>${esc(L(x.d))}</p></li>`).join("")}</ol>`, "first")
       + sec("a-why", `${label(2, { ko: "Why SK AIGEN", en: "Why SK AIGEN" })}<div class="why">${A.why[YL.lang].map((p, i) => `<p data-anchor="why-${i}">${esc(p)}</p>`).join("")}</div>`)
       + sec("a-links", `${label(3, { ko: "연락", en: "Contact" })}
-        <div class="links">${A.links.map((l) => `<a href="${l.href}" ${l.ext ? 'target="_blank" rel="noopener"' : ""}>${esc(l.t)}${l.d ? ` <small lang="en">${esc(l.d)}</small>` : ""} <span aria-hidden="true">${l.ext ? "↗" : "→"}</span>${l.ext ? `<span class="sr-only">${esc(L("(새 창)", "(opens in a new tab)"))}</span>` : ""}</a>`).join("")}</div>
-        <a class="btn resume-btn" href="${A.resume.href}" target="_blank" rel="noopener"><span>${esc(L("이력서 보기", "View Résumé"))}</span><span class="rs-alt" lang="${YL.lang === "ko" ? "en" : "ko"}">${esc(YL.lang === "ko" ? "View Résumé" : "이력서 보기")}</span><span class="arr" aria-hidden="true">↗</span><span class="sr-only">${esc(L("(PDF, 새 창)", "(PDF, opens in a new tab)"))}</span></a>`);
+        <div class="links">${A.links.map((l) => `<a href="${l.href}" ${l.ext ? 'target="_blank" rel="noopener"' : ""}>${esc(l.t)}${l.d ? ` <small lang="en">${esc(l.d)}</small>` : ""} <span aria-hidden="true">${l.ext ? "↗" : "→"}</span>${l.ext ? `<span class="sr-only">${esc(L("(새 창)", "(opens in a new tab)"))}</span>` : ""}</a>`).join("")}<a class="resume-link" href="${A.resume.href}" target="_blank" rel="noopener">${esc(L("이력서 보기", "View Résumé"))} <small lang="${YL.lang === "ko" ? "en" : "ko"}">${esc(YL.lang === "ko" ? "View Résumé" : "이력서 보기")}</small> <span aria-hidden="true">↗</span><span class="sr-only">${esc(L("(PDF, 새 창)", "(PDF, opens in a new tab)"))}</span></a></div>`);
   }
 
   /* ───── Art & Design ───── */
@@ -114,7 +114,7 @@
       <div class="s1-media">
         <figure>${zoom("s1", 0, `<span class="ph">${M.img("mk-ph-2", L(S1.phone), { sizes: "(max-width:760px) 100vw, 30vw" })}</span>`, L(S1.phone))}<figcaption class="cap">${esc(L(S1.phone))}</figcaption></figure>
         <span class="s1-ln" aria-hidden="true"><i></i></span>
-        <figure>${zoom("s1", 1, `<span class="ph page">${M.img("mkd-p4", L(S1.page), { sizes: "(max-width:760px) 100vw, 40vw" })}<b class="vchip d">${esc(L(K.direct.t))}</b></span>`, L(S1.page))}<figcaption class="cap">${esc(L(S1.page))}</figcaption></figure>
+        <figure>${zoom("s1", 1, `<span class="ph page">${M.img("mkd-p4", L(S1.page), { sizes: "(max-width:760px) 100vw, 40vw" })}</span><b class="vchip d">${esc(L(K.direct.t))}</b>`, L(S1.page))}<figcaption class="cap">${esc(L(S1.page))}</figcaption></figure>
       </div>`, "tight");
     const t = sec("m-turns", `${label(2, D.turns.label)}${turns(D.turns, "zig")}`);
     const app = sec("m-app", `${label(3, P.label)}<h2 class="h2" style="margin-bottom:20px">${esc(L(P.h))}</h2>
@@ -131,7 +131,7 @@
     // the whole path as one connected line (horizontal on desktop, top to bottom on mobile)
     const F = D.flow;
     const flow = sec("m-flow", `${label(5, F.label)}<ol class="pathline" data-path>${F.steps.map((s, i) => `<li class="${s.kind || ""}"><span class="pl-dot" aria-hidden="true"></span>
-        ${zoom("flow", i, `<span class="ph">${M.img(s.img, L(s.t), { sizes: "(max-width:760px) 60vw, 18vw" })}${s.kind ? `<b class="vchip ${s.kind === "direct" ? "d" : "a"}">${esc(L(s.kind === "direct" ? K.direct.t : K.app.t))}</b>` : ""}</span>`, L(s.t))}
+        ${zoom("flow", i, `<span class="ph">${M.img(s.img, L(s.t), { sizes: "(max-width:760px) 60vw, 18vw" })}</span>${s.kind ? `<b class="vchip ${s.kind === "direct" ? "d" : "a"}">${esc(L(s.kind === "direct" ? K.direct.t : K.app.t))}</b>` : ""}`, L(s.t))}
         <h3><i lang="en">${pad(i + 1)}</i>${esc(L(s.t))}</h3><p>${esc(L(s.d))}</p></li>`).join("")}</ol>`);
     return hero + s1 + t + app + cmp + flow;
   }
@@ -140,7 +140,7 @@
   function cmpPair(n) {
     const K = C.montauk.compare, pg = K.pages.find((p) => p.n === n);
     const side = (kind) => { const v = kind === "d" ? K.direct : K.app, img = (kind === "d" ? "mkd-p" : "mkf-p") + n, lab = `${L(v.t)} · ${L({ ko: `${n}쪽`, en: `p.${n}` })} · ${L(pg.t)}`;
-      return `<figure class="cmp2-f ${kind}">${zoom("cmp", (n - 1) * 2 + (kind === "d" ? 0 : 1), `<span class="ph page">${M.img(img, lab, { sizes: "(max-width:760px) 100vw, 42vw" })}<b class="vchip ${kind}">${esc(L(v.t))}</b></span>`, lab)}
+      return `<figure class="cmp2-f ${kind}">${zoom("cmp", (n - 1) * 2 + (kind === "d" ? 0 : 1), `<span class="ph page">${M.img(img, lab, { sizes: "(max-width:760px) 100vw, 42vw" })}</span>`, lab)}
         <figcaption><b>${esc(L(v.t))} · ${esc(L({ ko: `${n}쪽`, en: `p.${n}` }))}</b><span>${esc(L(v.d))}</span></figcaption></figure>`; };
     return side("d") + side("a");
   }
@@ -159,10 +159,11 @@
       </div>`,
       tool: `<dl class="split">${D.roles.split.map((r) => `<div><dt>${esc(L(r.k))}</dt><dd>${esc(L(r.v))}</dd></div>`).join("")}</dl>
         <div class="g-link"><p class="label sm"><b>·</b>${esc(L(D.link.label))}</p><h3 class="h3x">${esc(L(D.link.h))}</h3><p class="note-line">${esc(L(D.link.note))}</p>${grownLink()}</div>`,
-      // desktop: the diagnosis system on the left, the mobile app on the right; narrow: system video → the extension note → mobile video
-      mobile: `<div class="g-duo">
+      // the extension note right under the heading, then the web system, then the same flow on the phone (one after the other)
+      mobile: `<div class="g-duo g-stack">
+        <p class="g-duo-lead">${esc(L(D.mobile.lead))}</p>
         <div class="g-duo-a">${demo("grown", h, { note: h.demoNote, label: D.mobile.left })}</div>
-        <div class="g-duo-b"><p class="g-duo-lead">${esc(L(D.mobile.lead))}</p>${demo("grown-mobile", h, { noEn: true, label: D.mobile.right, note: D.mobile.cap })}</div>
+        <div class="g-duo-b">${demo("grown-mobile", h, { noEn: true, label: D.mobile.right, note: D.mobile.cap })}</div>
       </div>`
     };
     const story = sec("g-story", `${label(1, St.label)}<ol class="story" data-story>${St.steps.map((s, i) => `<li class="st-${s.k}" data-anchor="gs-${s.k}"><span class="sd" aria-hidden="true">${i + 1}</span>
@@ -200,11 +201,11 @@
     const D = C.makeit, h = D.hero;
     const hero = sec("k-hero", `<p class="hero-line">${esc(L(h.line))}</p>${aiBlock(D.ai)}`, "hero lead-only");
     const t = sec("k-turns", `${label(1, D.turns.label)}${turns(D.turns, "chain")}`);
-    const toy = sec("k-toy", `${label(2, { ko: "출발점 · A10 아트토이", en: "Where it started · the A10 art toy" })}
+    const toy = sec("k-toy", `${label(2, { ko: "출발점 · 원화 아트토이", en: "Where it started · the art toy from the drawing" })}
       <div class="toy" data-toy>
         <figure class="toy-art"><div class="ph" style="--ar:${M.ratio("a10")}">${M.img("a10", L("작가 원화 · 연필 드로잉", "Artist's original · pencil drawing"), { sizes: "(max-width:760px) 100vw, 45vw" })}</div><figcaption class="cap">${esc(L("작가 원화 · 연필", "Artist's original · pencil"))}</figcaption></figure>
-        <figure class="toy-3d">${window.VIEWER3D ? window.VIEWER3D.markup({ src: "assets/model/a10-arttoy.glb", video: "assets/video/a10-rotation.mp4", poster: "assets/img/a10-rotation-poster.jpg", alt: L("A10 아트토이 3D 모델의 대표 장면", "A10 art toy 3D model, representative frame") }) : ""}
-          <figcaption class="cap">${esc(L("A10 아트토이 · Tripo AI로 만든 3D 모델 · 직접 돌려 보기", "A10 art toy · 3D model made with Tripo AI · turn it yourself"))}</figcaption></figure></div>
+        <figure class="toy-3d">${window.VIEWER3D ? window.VIEWER3D.markup({ src: "assets/model/a10-arttoy.glb", video: "assets/video/a10-rotation.mp4", poster: "assets/img/a10-rotation-poster.jpg", alt: L("원화 아트토이 3D 모델의 대표 장면", "Art toy 3D model, representative frame") }) : ""}
+          <figcaption class="cap">${esc(L("원화 아트토이 · Tripo AI로 만든 3D 모델 · 직접 돌려 보기", "Art toy · 3D model made with Tripo AI · turn it yourself"))}</figcaption></figure></div>
       <p class="toy-cap">${esc(L(D.toy.cap))}</p>`);
     const ex = sec("k-ex", `${label(3, D.exchange.label)}<h2 class="h2" style="margin-bottom:24px">${esc(L(D.exchange.h))}</h2>${exchange()}<p class="cap">${esc(L(D.exchange.note))}</p>`);
     const tryIt = sec("k-try", `${label(4, { ko: "체험과 시연", en: "Try it, or watch" })}${demo("makeit", h)}`);

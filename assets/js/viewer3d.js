@@ -14,7 +14,7 @@
     loading: { ko: "3D 모델 불러오는 중", en: "Loading the 3D model" },
     load: { ko: "3D 모델 불러오기", en: "Load the 3D model" },
     fail: { ko: "이 환경에서는 3D를 표시할 수 없어 회전 영상으로 보여드립니다.", en: "3D can't be shown here, so the turntable video plays instead." },
-    label: { ko: "A10 아트토이 3D 모델. 드래그하거나 화살표 키로 돌리고, +와 − 키로 확대·축소합니다.", en: "A10 art toy 3D model. Drag or use the arrow keys to turn; + and − zoom." }
+    label: { ko: "원화 아트토이 3D 모델. 드래그하거나 화살표 키로 돌리고, +와 − 키로 확대·축소합니다.", en: "Art toy 3D model. Drag or use the arrow keys to turn; + and − zoom." }
   };
   const DEF = { yaw: 0, pitch: 0.08, dist: 3.3 }; // keeps the widest turn (±0.76 after fitting) inside the 4:5 frame with a margin
 
@@ -93,7 +93,7 @@
       canvas.hidden = true; ui.hidden = true; loadEl.hidden = true;
       const v = document.createElement("video");
       v.className = "v3-video"; v.muted = true; v.loop = true; v.playsInline = true; v.preload = "metadata"; v.controls = true;
-      v.poster = box.dataset.poster; v.src = box.dataset.video; v.setAttribute("aria-label", L({ ko: "A10 아트토이 회전 영상", en: "A10 art toy turntable video" }));
+      v.poster = box.dataset.poster; v.src = box.dataset.video; v.setAttribute("aria-label", L({ ko: "원화 아트토이 회전 영상", en: "Art toy turntable video" }));
       poster.after(v); poster.hidden = true;
       if (!reduce) v.play().catch(() => {});
       const note = document.createElement("p"); note.className = "v3-note"; note.textContent = L(T.fail); box.appendChild(note);

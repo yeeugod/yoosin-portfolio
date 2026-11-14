@@ -23,7 +23,7 @@
     { id: "m4", n: "CNC Proto Shop", city: { ko: "서울 금천구 (예시)", en: "Geumcheon, Seoul (sample)" }, mat: ["cnc"], moq: 1, max: 20, lead: [2, 4], mold: 0, unit: (s) => 42000 + s.h * 320, note: { ko: "CNC 가공 원형 · 캐스팅용 마스터 모델", en: "CNC-machined patterns · masters for casting" } }
   ];
   const fresh = () => ({ role: "designer", tab: "spec", mtab: "inbox", mview: "match", me: "m2", target: null, v: 1,
-    spec: { name: "A10 Art Toy", from: { ko: "작가 원화", en: "Artist's original drawing" }, h: 180, mat: "silicone", qty: 50, budget: 4000000, weeks: 10, base: "yes", minWall: 0, notes: "" },
+    spec: { name: "Art Toy", from: { ko: "작가 원화", en: "Artist's original drawing" }, h: 180, mat: "silicone", qty: 50, budget: 4000000, weeks: 10, base: "yes", minWall: 0, notes: "" },
     sent: [], replies: [], hist: [], picked: [] });
   let S = Object.assign(fresh(), YL.store.sget(KEY, {}));
   const save = () => YL.store.sset(KEY, S);
@@ -96,7 +96,7 @@
   function vSpec() {
     const s = S.spec, sp = suggestedProcess(s);
     return `<div class="mk-h" data-anchor="mk-spec"><h3>${esc(L("작품에서 제작 조건으로", "From artwork to production terms"))}</h3><p class="muted">${esc(L("모르는 항목은 ‘모름’으로 두거나 비워 두면 문의서에 질문으로 들어갑니다.", "Leave anything you don't know as ‘Not sure’ or blank — it becomes a question in the brief."))}</p></div>
-      <div class="mk-art"><figure><img src="assets/img/a10-sm.jpg" alt="${esc(L("작가 원화", "Artist's drawing"))}"><figcaption>${esc(L("원본 · 작가 원화", "Source · A10 drawing"))}</figcaption></figure>
+      <div class="mk-art"><figure><img src="assets/img/a10-sm.jpg" alt="${esc(L("작가 원화", "Artist's drawing"))}"><figcaption>${esc(L("원본 · 작가 원화", "Source · original drawing"))}</figcaption></figure>
         <figure><img src="assets/img/a10-rotation-poster.jpg" alt="${esc(L("Tripo AI 모델", "Tripo AI model"))}"><figcaption>${esc(L("형태 · Tripo AI 3D 모델", "Form · Tripo AI 3D model"))}</figcaption></figure></div>
       <div class="fg">
         <label class="fl"><span>${esc(L("제품 이름", "Product name"))}</span><input data-k="name" value="${esc(s.name)}"></label>

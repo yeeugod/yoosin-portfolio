@@ -5,28 +5,28 @@
   const C = {};
 
   C.cards = [
-    { k: "about", color: "#E9E4F2", ink: "#1C1A18",
+    { k: "about", color: "#E3DDEE", ink: "#1C1A18",
       title: ["About Me"], ko: "",
       desc: { ko: "SK 아이젠 1기 지원 포트폴리오 · 이유신", en: "Portfolio for SK AIGEN Cohort 1 · Yoosin Lee" } },
     /* V5 reading order after the intro: Make It! → Like this → GROWN → Manual for Manuals → ART & DESIGN.
        title / tall may differ by language ({ ko, en }); sub is the small line above the description
        (Korean mode: a Korean title in bold with the English project name as its sub; English mode keeps the English name first). */
-    { k: "makeit", color: "#A9E7CE", ink: "#1C1A18",
+    { k: "makeit", color: "#BFE4D2", ink: "#1C1A18",
       title: { ko: ["메이킷"], en: ["Make It!"] }, sub: null,
       desc: { ko: "원화를 제품으로, 제작 조건 정리부터 업체 문의·사양 수정까지", en: "A drawing into a product: specs, a maker enquiry and the revision" } },
-    { k: "likethis", color: "#F3B5CF", ink: "#1C1A18",
+    { k: "likethis", color: "#F1C6D6", ink: "#1C1A18",
       title: { ko: ["이런 느낌"], en: ["Like this"] }, sub: null,
       desc: { ko: "기본 번역 옆에 문화적 맥락과 이어서 할 말", en: "Cultural context and what to say next, beside the plain translation" } },
-    { k: "grown", color: "#FF4D23", ink: "#1C1A18",
+    { k: "grown", color: "#F4AE97", ink: "#1C1A18",
       title: { ko: ["공실 상가", "진단 시스템"], en: ["Retail Vacancy", "Diagnosis System"] },
       tall: { ko: ["공실 상가", "진단", "시스템"], en: ["Retail", "Vacancy", "Diagnosis", "System"] },
       sub: { ko: "GROWN RECOVERY SCAN", en: "GROWN RECOVERY SCAN" }, subEn: true,
       desc: { ko: "가상 호실을 골라 예비 판정 예시 보기", en: "Pick a fictional unit and see its preliminary verdict" } },
-    { k: "montauk", color: "#2745F5", ink: "#FFFFFF",
+    { k: "montauk", color: "#A7B6EC", ink: "#1C1A18",
       title: { ko: ["매뉴얼을 위한", "매뉴얼"], en: ["Manual for", "Manuals"] },
       sub: { ko: "MANUAL FOR MANUALS", en: "" }, subEn: true,
       desc: { ko: "직접 만든 조립 가이드에서 사내 가이드 제작 앱까지", en: "From a hand-made assembly guide to an in-house guide-making app" } },
-    { k: "art", color: "#E6F34B", ink: "#1C1A18",
+    { k: "art", color: "#ECEDAA", ink: "#1C1A18",
       title: ["ART&", "DESIGN:)"], sub: null,
       desc: { ko: "미술학도의 이런저런 작업물들", en: "Odds and ends from an art student" } }
   ];
@@ -449,10 +449,10 @@
       line: { ko: "학생 작가의 작품을 상품으로 만들어 팔 방법을 찾다가, 개인 창작자가 제품 조건에 맞는 제조업체를 찾아 협의하는 일 자체가 어렵다는 것을 알게 됐습니다. 그 발견이 개인 디자이너와 로컬 제조업체를 연결하는 플랫폼, Make It!으로 이어졌습니다.", en: "Looking for a way to turn student artists' work into products to sell, I found that for an individual creator, finding a maker that fits the product and negotiating with them is itself the hard part. That led to Make It!, a platform connecting individual designers with local makers." },
       app: { ko: "체험해보기", en: "Try it" },
       tryLead: { ko: "예시 프로젝트를 열고, 사양 정리부터 제작 문의서 작성, 업체 비교, 예시 회신에 따른 사양 수정까지 체험해보세요.", en: "Open the sample project and go from organising the specs to writing the build brief, comparing makers, and revising the specs after a sample reply." },
-      tryStatus: { ko: "준비된 A10 예시로 진행합니다. 업체·견적·회신은 예시이며 실제로 발송하지 않습니다. 언어 모델은 아직 연결하지 않았고, 서비스는 출시 전입니다.", en: "It runs on the prepared A10 example. Makers, quotes and replies are samples and nothing is actually sent. No language model is connected yet, and the service has not launched." }
+      tryStatus: { ko: "준비된 원화 예시로 진행합니다. 업체·견적·회신은 예시이며 실제로 발송하지 않습니다. 언어 모델은 아직 연결하지 않았고, 서비스는 출시 전입니다.", en: "It runs on the prepared drawing example. Makers, quotes and replies are samples and nothing is actually sent. No language model is connected yet, and the service has not launched." }
     },
     ai: {
-      process: [{ t: { ko: "Tripo AI · A10 입체 모델", en: "Tripo AI · the A10 3D model" }, d: { ko: "작가 원화를 Tripo AI로 3D 모델로 만들어 입체 형태를 확인했고, 그 모델을 문의서의 첨부 자료로 씁니다.", en: "I turned the artist's original drawing into a 3D model with Tripo AI to see the form in three dimensions, and the model goes with the brief as an attachment." } }],
+      process: [{ t: { ko: "Tripo AI · 원화 입체 모델", en: "Tripo AI · a 3D model of the drawing" }, d: { ko: "작가 원화를 Tripo AI로 3D 모델로 만들어 입체 형태를 확인했고, 그 모델을 문의서의 첨부 자료로 씁니다.", en: "I turned the artist's original drawing into a 3D model with Tripo AI to see the form in three dimensions, and the model goes with the brief as an attachment." } }],
       app: { t: { ko: "앱 안에서", en: "Inside the app" }, d: { ko: "언어 모델은 연결하지 않았습니다. 업체 추천은 공정·수량·기간·예산 조건을 비교하는 규칙으로 계산하고, 업체 회신은 준비된 예시입니다.", en: "No language model is connected. Maker matches are calculated by rules that compare process, quantity, lead time and budget; maker replies are prepared samples." } },
       mine: [
         { ko: "원화의 가는 가지와 감긴 선이 입체에서는 얇은 돌출부가 된다는 점을 보고, ‘가는 부분이 버틸 최소 두께’를 문의서의 첫 질문으로 정했습니다.", en: "Seeing that the drawing's thin branches and coiled lines become thin protrusions in 3D, I made ‘the minimum thickness thin parts can hold’ the brief's first question." },
@@ -464,7 +464,7 @@
       label: { ko: "학생 작가의 작품에서 제조업체 연결까지", en: "From student artists' work to connecting makers" },
       list: [
         { t: { ko: "학생 작가의 작품을 상품으로", en: "Student artists' work, as products" },
-          p: [{ ko: "학생 작가들이 작품을 상품으로 만들어 판매하고, 미술 활동을 이어갈 수 있는 수익 경로를 찾고 싶었습니다. A10은 그 가능성을 제 작품으로 먼저 시험해 본 예입니다.", en: "I wanted student artists to be able to turn their work into products, sell them, and have an income that keeps their art going. A10 is where I tested that with my own work first." }] },
+          p: [{ ko: "학생 작가들이 작품을 상품으로 만들어 판매하고, 미술 활동을 이어갈 수 있는 수익 경로를 찾고 싶었습니다. 원화는 그 가능성을 제 작품으로 먼저 시험해 본 예입니다.", en: "I wanted student artists to be able to turn their work into products, sell them, and have an income that keeps their art going. The drawing is where I tested that with my own work first." }] },
         { t: { ko: "디자인과 제작 준비에 직접 개입해야 했다", en: "I had to step into the design and production prep myself" },
           p: [{ ko: "회화나 추상 조형을 하는 동료들에게는 형태·소재·제작 방식을 함께 설계할 사람이 필요했고, 당시에는 제가 그 역할을 맡아야 했습니다. 학교에서 빠르게 시도할 수 있던 3D 프린팅으로는 원하는 표면 품질과 생산 수량을 맞추기 어려웠습니다.", en: "Friends who paint or make abstract sculpture needed someone to work out form, material and process with them, and at the time that had to be me. The 3D printing I could try quickly at school couldn't reach the surface quality or the quantity we wanted." }] },
         { t: { ko: "조건에 맞는 제조업체를 찾는 일 자체가 어려웠다", en: "Finding a maker that fit was the hard part" },
@@ -474,14 +474,14 @@
       ]
     },
     toy: {
-      cap: { ko: "A10은 이 문제를 직접 겪게 된 출발점입니다. 원화의 가는 가지와 감긴 선은 입체로 옮기면 얇은 돌출부가 되어, ‘가는 부분이 버틸 최소 두께’가 문의서의 첫 질문이 되었습니다.", en: "A10 is where I ran into this problem myself. The drawing's thin branches and coiled lines become thin protrusions in 3D, so ‘the minimum thickness thin parts can hold’ became the brief's first question." }
+      cap: { ko: "원화는 이 문제를 직접 겪게 된 출발점입니다. 원화의 가는 가지와 감긴 선은 입체로 옮기면 얇은 돌출부가 되어, ‘가는 부분이 버틸 최소 두께’가 문의서의 첫 질문이 되었습니다.", en: "The drawing is where I ran into this problem myself. The drawing's thin branches and coiled lines become thin protrusions in 3D, so ‘the minimum thickness thin parts can hold’ became the brief's first question." }
     },
     exchange: {
       label: { ko: "문의서와 예시 회신", en: "Brief and sample reply" },
       h: { ko: "모르는 조건은 질문으로 남고, 회신이 같은 문의서의 사양을 바꿉니다.", en: "Unknown terms stay as questions, and the reply changes the specs of the same brief." },
       v1note: { ko: "질문: 가는 부분의 최소 두께", en: "Question: minimum thickness of thin parts" },
       change: { ko: "변경: 최소 두께 2mm 추가 · 수량 50개 → 100개", en: "Changed: minimum thickness 2 mm added · quantity 50 → 100" },
-      note: { ko: "준비된 A10 예시의 문의서와 예시 회신입니다. 업체 이름·견적·회신 내용은 예시이며, 실제 업체에 보내거나 받은 기록이 아닙니다.", en: "The brief and sample reply from the prepared A10 example. Maker names, quotes and replies are samples, not records of anything sent to or received from a real maker." }
+      note: { ko: "준비된 원화 예시의 문의서와 예시 회신입니다. 업체 이름·견적·회신 내용은 예시이며, 실제 업체에 보내거나 받은 기록이 아닙니다.", en: "The brief and sample reply from the prepared drawing example. Maker names, quotes and replies are samples, not records of anything sent to or received from a real maker." }
     },
     s3: {
       label: { ko: "디자인 결정", en: "Design decisions" },
@@ -494,7 +494,7 @@
     s5: {
       label: { ko: "현재 작동하는 범위", en: "What works today" },
       rows: [
-        { k: { ko: "체험", en: "Try it" }, v: { ko: "준비된 A10 예시로 제작 조건 정리 → 업체 리스트·맞는 업체 → 업체에 예시 문의 → 예시 회신 → 사양 수정 → 공통 이력", en: "With the prepared A10 example: specs → maker list or best matches → sample enquiry → sample reply → revision → shared history" } },
+        { k: { ko: "체험", en: "Try it" }, v: { ko: "준비된 원화 예시로 제작 조건 정리 → 업체 리스트·맞는 업체 → 업체에 예시 문의 → 예시 회신 → 사양 수정 → 공통 이력", en: "With the prepared drawing example: specs → maker list or best matches → sample enquiry → sample reply → revision → shared history" } },
         { k: { ko: "예시", en: "Sample" }, v: { ko: "업체, 견적 금액, 회신 내용은 예시입니다", en: "Makers, quote amounts and replies are samples" } },
         { k: { ko: "연결하지 않음", en: "Not connected" }, v: { ko: "실제 발송, 결제, 업체 계정, 언어 모델 · 실제 생산·판매·펀딩 실적 없음", en: "Real sending, payment, maker accounts, language models · no real production, sales or funding yet" } }
       ]
