@@ -73,12 +73,14 @@
       { when: { ko: "2021년 가을 입학 · BFA 2025", en: "Entered fall 2021 · BFA 2025" }, t: { ko: "School of the Art Institute of Chicago", en: "School of the Art Institute of Chicago" },
         d: { ko: "드로잉·회화·사진을 경험한 뒤 산업디자인을 전공하고 졸업했습니다(Presidential Scholarship).", en: "After drawing, painting and photography, I majored in industrial design and graduated with a BFA (Presidential Scholarship)." } },
       // from the résumé: 280 Digital Fabrication Studio | 2022 - 2025 · Advanced Instructor · Chicago, IL
-      { when: { ko: "2022–2025", en: "2022–2025" }, t: { ko: "280 Digital Fabrication Studio · Advanced Instructor", en: "280 Digital Fabrication Studio · Advanced Instructor" },
+      { when: { ko: "2022–2025 · Advanced Instructor", en: "2022–2025 · Advanced Instructor" }, t: { ko: "280 Digital Fabrication Studio", en: "280 Digital Fabrication Studio" },
         d: { ko: "학교 디지털 패브리케이션 스튜디오에서 학생 작업에 쓰이는 레이저 커터와 3D 프린터를 운영하고 관리했습니다. 학생들에게 장비를 안전하게 쓰는 법을 가르치고 기술 문제를 해결하며, 직접 만들어 보며 배우는 작업 환경을 만들었습니다.", en: "At the school's digital fabrication studio I ran and maintained the laser cutters and 3D printers used for student projects, trained students to use the equipment safely, solved technical problems and kept the studio a place for hands-on learning." } },
-      { when: { ko: "2025–2026", en: "2025–2026" }, t: { ko: "졸업 후 디자인 실무 · 몬탁소파 시카고", en: "Design practice after graduating · Montauk Sofa Chicago" },
-        d: { ko: "몬탁소파 시카고에서 디자인 인턴으로 일했습니다.", en: "Worked as a design intern at Montauk Sofa in Chicago." } },
-      { when: { ko: "2026", en: "2026" }, t: { ko: "프리랜스 인테리어 디자인 렌더링 아티스트", en: "Freelance interior design rendering artist" },
-        d: { ko: "인테리어 디자인 렌더링을 프리랜스로 작업했습니다.", en: "Worked freelance on interior design renderings." } },
+      // from the résumé: Montauk Sofa | Design Intern · Chicago, IL
+      { when: { ko: "2025–2026 · 디자인 인턴", en: "2025–2026 · Design Intern" }, t: { ko: "Montauk Sofa Chicago", en: "Montauk Sofa Chicago" },
+        d: { ko: "디자인 팀을 도와 사진 촬영, 벡터 일러스트레이션, AI 보조 렌더링과 배경 정리를 거쳐 제품 이미지를 만들었습니다. 매뉴얼에 들어갈 정면도와 조립 도해를 제작해 연결 부위를 더 알아보기 쉽게 했고, 쇼룸과 마케팅에 쓰일 이미지를 완성했습니다.", en: "Supported the design team with product images made through photography, vector illustration, AI-assisted rendering and background cleanup. I produced the orthographic and assembly drawings for the manuals, made the connection details easier to read, and finished imagery for the showroom and marketing." } },
+      // from the résumé: Freelance 3D Visualization Designer · Chicago, IL (SketchUp modelling and generative-AI rendering, as the owner describes it)
+      { when: { ko: "2026", en: "2026" }, t: { ko: "인테리어 디자인 프리랜스", en: "Freelance interior design" },
+        d: { ko: "SketchUp으로 공간과 가구를 모델링하고 생성형 AI로 렌더링했습니다. 쇼룸, 마케팅, 클라이언트 프레젠테이션에 쓰일 인테리어와 가구 이미지를 만들고, 사실적인 장면과 함께 정면도와 조립 일러스트도 제작했습니다.", en: "I modelled spaces and furniture in SketchUp and rendered them with generative AI, making interior and furniture images for showrooms, marketing and client presentations, along with orthographic views and assembly illustrations." } },
       { when: { ko: "2026–현재", en: "2026–now" }, t: { ko: "IDSA 커뮤니티와 멘토링", en: "IDSA community and mentoring" },
         d: { ko: "학교 IDSA 커뮤니티에 소속되어 졸업 후에도 교수님들과 활동을 이어갔고, Meta에서 VR 헤드셋을 디자인하는 디자이너에게 멘토링을 받으며 디자인을 배웠습니다. 지금도 교수님, 디자이너들과 꾸준히 교류하고 있습니다.", en: "As part of my school's IDSA community I kept working with professors after graduating, and learned design through mentoring from a designer who designs VR headsets at Meta. I still stay in regular touch with professors and designers." } }
     ],
