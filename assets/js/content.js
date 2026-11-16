@@ -286,7 +286,8 @@
      story: the guide I made → it depended on one person → the handover → staff feedback → the follow-up tool → demo and the two guides */
   C.montauk = {
     hero: {
-      line: { ko: "제작법을 넘긴 뒤에야, 현장에서 왜 쓰기 어려운지 알았습니다.", en: "Only after handing over the method did I see why it was hard to use on the floor." }
+      line: { ko: "제작법을 넘긴 뒤에야, 현장에서 왜 쓰기 어려운지 알았습니다.", en: "Only after handing over the method did I see why it was hard to use on the floor." },
+      intro: { ko: "몬탁에서 조립 가이드를 만들 때마다 촬영부터 편집까지 같은 작업을 되풀이했고, 그 과정은 제 숙련도에 기대고 있었습니다. 처음에는 제작법을 정리해 넘기면 직원들도 이어갈 수 있다고 생각했습니다. 하지만 직원들은 현장에서는 말로 설명하는 편이 더 빠르다고 했습니다. 그 말을 듣고 직원에게 제 제작 방식을 익히게 하기보다, 평소처럼 설명한 내용을 고객이 다시 볼 수 있는 가이드로 옮기는 방식을 설계했습니다.", en: "Every time I made an assembly guide at Montauk, I repeated the same work from the shoot to the layout, and it depended on my skill. At first I thought that if I wrote the method down and handed it over, staff could carry it on. But staff said that on the floor, explaining out loud was faster. Hearing that, instead of asking staff to learn my way of making guides, I designed a way to turn what they would normally say into a guide customers can read again." }
     },
     lead: {
       made: { t: { ko: "기존 제작 절차", en: "How the guide was made" },
@@ -375,7 +376,8 @@
      story: the brand work → the repeated cross-checking → the proposal → the conditions set with the expert → the result screen → web and mobile demos */
   C.grown = {
     hero: {
-      line: { ko: "초기 진단을 자동화하되, 어디서 전문가의 확인이 필요한지는 함께 정했습니다.", en: "I automated the first diagnosis — and decided with the expert where an expert check is still needed." },
+      line: { ko: "반복 대조는 줄이고, 전문가가 판단할 지점은 남겼습니다.", en: "Less repeated cross-checking — and the points where an expert decides, kept." },
+      intro: { ko: "GROWN의 브랜딩을 맡으면서, 담당자가 회생 전략을 검토하기 전에 여러 자료를 수기로 대조한다는 걸 알게 됐습니다. 초기 진단을 자동화하자고 제안한 뒤, 진단 전문가와 함께 어떤 정보가 필요하고 어디서 계산을 멈춰야 하는지 정리했습니다. 그 결과 화면에는 예비 판정과 함께 근거, 추가로 확인할 자료, 다음 조치가 남도록 설계했습니다.", en: "Working on GROWN's branding, I learned that before reviewing a recovery strategy, staff cross-checked several sources by hand. After I proposed automating the first diagnosis, I worked out with the diagnosis expert what information was needed and where the calculation had to stop. So the result screen keeps, alongside the preliminary verdict, its reasons, the data still to check, and the next action." },
       demoNote: { ko: "회사 관련 사정으로 전체 진단 도구는 시연 영상으로 소개합니다.", en: "For company-related reasons the full diagnosis tool is shown as a demo recording." }
     },
     lead: {
@@ -439,7 +441,8 @@
      story: why → the limits I met → why creators and makers don't meet → one product, one workspace → v1 · reply · v2 → try it */
   C.makeit = {
     hero: {
-      line: { ko: "제 원화를 입체로 옮기고 나니, 혼자 제작을 시작하는 창작자가 어디서 막히는지 보였습니다.", en: "Once I turned my own drawing into a 3D form, I could see where a creator starting production alone gets stuck." },
+      line: { ko: "제 원화를 제품으로 만들려다, 개인 창작자가 제조업체를 만나기까지 어디서 막히는지 알게 됐습니다.", en: "Trying to turn my own drawing into a product, I found where an individual creator gets stuck before ever reaching a maker." },
+      intro: { ko: "학생 작가의 작품을 상품으로 만들어보고 싶어 제 원화부터 입체로 옮겨봤습니다. 형태를 만드는 데서 끝나지 않았습니다. 공정과 수량, 예산에 맞는 업체를 찾고, 아직 정하지 못한 사양을 설명하고, 답변을 받아 다시 고쳐야 했습니다. 저처럼 혼자 제작을 시작하는 창작자도 이 과정에서 막힐 수 있다고 보고, 개인 디자이너와 로컬 제조업체가 하나의 문의서를 바탕으로 제작 조건을 함께 맞춰가는 작업 공간을 만들었습니다.", en: "Wanting to turn student artists' work into products, I started by taking my own drawing into 3D. Making the form wasn't the end of it: I had to find a maker that fit the process, quantity and budget, explain specs I hadn't settled yet, and revise after the reply. Seeing that a creator starting production alone could get stuck in the same places, I built a workspace where individual designers and local makers settle the production terms together, around a single brief." },
       app: { ko: "체험해보기", en: "Try it" },
       tryLead: { ko: "예시 프로젝트를 열고, 사양 정리부터 제작 문의서 작성, 업체 비교, 예시 회신에 따른 사양 수정까지 체험해보세요.", en: "Open the sample project and go from organising the specs to writing the build brief, comparing makers, and revising the specs after a sample reply." },
       tryStatus: { ko: "준비된 작가 원화 예시로 진행합니다. 업체·견적·회신은 예시이며 실제로 발송하지 않습니다. 언어 모델은 아직 연결하지 않았고, 서비스는 출시 전입니다.", en: "It runs on the prepared Artist’s Original Drawing example. Makers, quotes and replies are samples and nothing is actually sent. No language model is connected yet, and the service has not launched." }
@@ -505,7 +508,8 @@
      story: the real conversation → understanding vs. feeling close → why three readings on one screen → try it → early experiments */
   C.likethis = {
     hero: {
-      line: { ko: "서로 어떤 만화를 봤는지는 설명할 수 있었습니다. 이야기가 이어진 건, 그 만화를 매일 기다리던 마음을 알아봤을 때였습니다.", en: "We could explain which cartoons we'd watched. The conversation only carried on once we recognised the feeling of waiting for one every day." },
+      line: { ko: "같은 문장을 이해해도, 같은 마음으로 듣는 건 아니었습니다.", en: "Understanding the same sentence didn't mean hearing it the same way." },
+      intro: { ko: "유학 시절 현지 친구와 어린 시절 애니메이션을 이야기했습니다. 저는 뽀로로를, 친구는 사무라이 잭을 떠올렸습니다. 서로 어떤 작품을 봤는지는 말로 설명할 수 있었지만, 그 이야기로 가까워지는 데 더 중요했던 건 방과 후마다 만화를 기다리던 마음을 알아보는 일이었습니다. 그래서 표현의 뜻과 함께 상대에게 그 말이 어떤 기억을 불러오는지 살펴보고, 그 경험에 대해 한 걸음 더 물어볼 수 있는 도구를 만들었습니다.", en: "Studying abroad, I talked with a local friend about childhood cartoons. I thought of Pororo; my friend thought of Samurai Jack. We could explain which shows we had watched, but what brought us closer was recognising the feeling of waiting for a cartoon after school every day. So I built a tool that looks at what an expression means alongside the memory it brings back for the other person, and helps you ask one step further about that experience." },
       app: { ko: "체험해보기", en: "Try it" },
       tryLead: { ko: "예시 문장을 선택하고, 기본 번역과 문화적 맥락, 이어서 할 말을 비교해보세요.", en: "Pick a sample sentence and compare the plain translation, the cultural context and what to say next." },
       tryStatus: { ko: "결과는 직접 작성해 준비한 예시입니다. 자유 입력은 직접 작성한 다섯 표현의 맥락만 보여주며, 문장 전체 번역과 언어 모델은 연결하지 않았습니다. 출시 전입니다.", en: "Results are examples I wrote and prepared. Free input only shows context for five hand-written expressions; whole-sentence translation and language models are not connected. Not launched yet." },

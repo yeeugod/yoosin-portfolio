@@ -44,7 +44,7 @@
   /* where AI was used sits beside the work it was used for; what I decided sits in the scene where it was decided */
   const aiNote = (x) => `<aside class="ai-note"><p class="an-k">${esc(L({ ko: "AI를 활용한 부분", en: "Where AI was used" }))}</p><p><b>${esc(L(x.t))}</b>${esc(L(x.d))}</p></aside>`;
   const judge = (list) => `<div class="judge"><p class="jg-k">${esc(L({ ko: "내가 판단한 것", en: "What I decided" }))}</p><ul>${list.map((x) => `<li>${esc(L(x))}</li>`).join("")}</ul></div>`;
-  const heroLine = (line) => `<p class="hero-line">${esc(L(line))}</p>`;
+  const heroLine = (h) => `<p class="hero-line">${esc(L(h.line))}</p>${h.intro ? `<p class="hero-intro">${esc(L(h.intro))}</p>` : ""}`;
   /* one numbered story per project: kicker, heading, text (with its AI note beside it), the decision, then the material */
   const story = (id, S, media) => sec(id, `${label(1, S.label)}<ol class="story" data-story>${S.steps.map((s, i) => {
       const text = (s.p || []).map((p) => `<p class="p">${esc(L(p))}</p>`).join("") + (s.src ? `<p class="cap st-src">${srcTag(s.src)}</p>` : "");
@@ -125,7 +125,7 @@
   /* ───── Manual for Manuals: what I learned → the old process · staff feedback · the app's question screen → the story → the two guides → what's left to check ───── */
   function montauk() {
     const D = C.montauk, Ld = D.lead, K = D.compare, S = D.story, st = (k) => S.steps.find((x) => x.k === k);
-    const lead = sec("m-hero", `${heroLine(D.hero.line)}
+    const lead = sec("m-hero", `${heroLine(D.hero)}
       <div class="lead3" data-lead>
         <figure class="l3 l3-made"><p class="l3-k"><i>1</i>${esc(L(Ld.made.t))}</p>
           ${zoom("mlead", 0, pic("mkd-p4", L(Ld.made.cap), { page: true, sizes: "(max-width:760px) 100vw, 30vw" }), L(Ld.made.cap))}
@@ -166,7 +166,7 @@
   /* ───── GROWN: one unit's result, with the further-checks step marked → the story → the scope of calculation and confirmation ───── */
   function grown() {
     const D = C.grown, h = D.hero, Ld = D.lead;
-    const lead = sec("g-hero", `${heroLine(h.line)}
+    const lead = sec("g-hero", `${heroLine(h)}
       <figure class="lead-gr" data-lead>${grownResult("B1|101", true)}${capOf("demo", Ld.cap)}</figure>`, "hero lead-only");
     const media = {
       brand: `<div class="vi">
@@ -218,7 +218,7 @@
     const D = C.makeit, h = D.hero, Ld = D.lead, E = D.exchange;
     // the same thin branch, circled on the drawing and on the model
     const pin = (x, y) => `<span class="mk-pin" style="left:${x}%;top:${y}%" aria-hidden="true"></span>`;
-    const lead = sec("k-hero", `${heroLine(h.line)}
+    const lead = sec("k-hero", `${heroLine(h)}
       <div class="lead3 lead-mk" data-lead>
         <figure class="l3"><p class="l3-k"><i>1</i>${esc(L(Ld.drawing))}</p><span class="ph pinned" style="--ar:${M.ratio("a10")}">${M.img("a10", L(Ld.drawing), { sizes: "(max-width:760px) 100vw, 30vw" })}${pin(21, 18)}</span>${capOf("real", Ld.drawing)}</figure>
         <figure class="l3"><p class="l3-k"><i>2</i>${esc(L(Ld.model))}</p><span class="ph pinned" style="--ar:${M.ratio("a10-rotation-poster")}">${M.img("a10-rotation-poster", L(Ld.model), { sizes: "(max-width:760px) 100vw, 30vw" })}${pin(28, 27)}</span>${capOf("real", Ld.model)}</figure>
@@ -265,7 +265,7 @@
     const D = C.likethis, h = D.hero, R = D.read, T = D.talk;
     let src = esc(R.src);
     ["Samurai Jack", "every day after school"].forEach((p) => { src = src.replace(esc(p), `<mark data-from="1">${esc(p)}</mark>`); });
-    const lead = sec("l-hero", `${heroLine(h.line)}<p class="lead-scene">${esc(L(D.lead.scene))}</p><p class="cap">${srcTag("real")}<span>${esc(L(T.cap))}</span></p>
+    const lead = sec("l-hero", `${heroLine(h)}<p class="cap">${srcTag("real")}<span>${esc(L(T.cap))}</span></p>
       <div class="lread" data-lread data-lead><p class="lread-src" lang="en">“${src}”</p><p class="cap">${srcTag("rebuilt")}<span>${esc(L(R.srcNote))}</span></p>
         <ol class="lread-l three">${R.layers.map((l, i) => `<li data-layer="${i}" ${l.from ? `data-src="${i}" tabindex="0"` : ""}><h3><i>${i + 1}</i>${esc(L(l.t))}</h3><p ${l.lang ? `lang="${l.lang}" class="q"` : ""}>${esc(L(l.d))}</p>${l.miss ? `<p class="miss">${esc(L(l.miss))}</p>` : ""}</li>`).join("")}</ol></div>`, "hero lead-only");
     const media = {

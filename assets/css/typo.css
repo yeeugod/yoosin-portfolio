@@ -352,3 +352,6 @@ html[data-lang="en"] .sheet .l3-ask .ask { font-family: var(--en); font-weight: 
 @media (max-width: 1080px) { .sheet .lread-l.three { grid-template-columns: minmax(0, 1fr); } }
 .sheet .cmp2-f figcaption .src { justify-self: start; align-self: start; width: max-content; }
 @media (max-width: 760px) { .sheet .l3-made .zoom { width: min(100%, 320px); } }
+.sheet .hero .hero-line { margin-bottom: 14px; font-weight: 700; }
+.sheet .hero-intro { margin: 0 0 8px; max-width: 64ch; font-size: 17px; line-height: 1.75; color: var(--ink); }
+html[data-lang="en"] .sheet .hero-intro { font-family: var(--en); }
