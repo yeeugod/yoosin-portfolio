@@ -48,9 +48,10 @@
   /* one numbered story per project: kicker, heading, text (with its AI note beside it), the decision, then the material */
   const story = (id, S, media) => sec(id, `${label("·", S.label)}<ol class="story" data-story>${S.steps.map((s, i) => {
       const text = (s.p || []).map((p) => `<p class="p">${esc(L(p))}</p>`).join("") + (s.src ? `<p class="cap st-src">${srcTag(s.src)}</p>` : "");
-      const body = text || s.ai ? `<div class="st-body ${s.ai ? "has-ai" : ""}"><div class="st-text">${text}</div>${s.ai ? aiNote(s.ai) : ""}</div>` : "";
+      const left = text + (s.mine ? judge(s.mine) : "");
+      const body = left || s.ai ? `<div class="st-body ${s.ai ? "has-ai" : ""} ${text ? "" : "no-text"}"><div class="st-text">${left}</div>${s.ai ? aiNote(s.ai) : ""}</div>` : "";
       return `<li class="st-${s.k}" data-anchor="${id}-${s.k}"><span class="sd" aria-hidden="true">${i + 1}</span>
-        <p class="st-k">${esc(L(s.t))}</p>${s.h ? `<h3>${esc(L(s.h))}</h3>` : ""}${body}${s.mine ? judge(s.mine) : ""}${media[s.k] ? `<div class="st-m">${media[s.k]}</div>` : ""}</li>`;
+        <p class="st-k">${esc(L(s.t))}</p>${s.h ? `<h3>${esc(L(s.h))}</h3>` : ""}${body}${media[s.k] ? `<div class="st-m">${media[s.k]}</div>` : ""}</li>`;
     }).join("")}</ol>`);
   const closeSec = (id, n, X) => sec(id, `${label("·", X.label)}${X.q ? `<h2 class="h2 close-q">${esc(L(X.q))}</h2>` : ""}${rows(X.rows)}`);
   const pic = (name, alt, o = {}) => `<span class="ph ${o.page ? "page" : ""}" style="--ar:${M.ratio(name)}">${M.img(name, alt, { sizes: o.sizes || "(max-width:760px) 50vw, 24vw" })}</span>`;
@@ -78,10 +79,10 @@
   /* ───── About: the banner carries the name; the detail starts straight with the path so far ───── */
   function about() {
     const A = C.about;
-    return sec("a-tl", `${label(1, { ko: "지나온 길", en: "The path so far" })}
+    return sec("a-tl", `${label("·", { ko: "지나온 길", en: "The path so far" })}
         <ol class="tl" id="tl">${A.timeline.map((x, i) => `<li data-anchor="tl-${i}"><span class="tl-when">${esc(L(x.when)) || "&nbsp;"}</span><h3>${esc(L(x.t))}</h3><p>${esc(L(x.d))}</p></li>`).join("")}</ol>`, "first")
-      + sec("a-why", `${label(2, { ko: "Why SK AIGEN", en: "Why SK AIGEN" })}<div class="why">${A.why[YL.lang].map((p, i) => `<p data-anchor="why-${i}">${esc(p)}</p>`).join("")}</div>`)
-      + sec("a-links", `${label(3, { ko: "연락", en: "Contact" })}
+      + sec("a-why", `${label("·", { ko: "Why SK AIGEN", en: "Why SK AIGEN" })}<div class="why">${A.why[YL.lang].map((p, i) => `<p data-anchor="why-${i}">${esc(p)}</p>`).join("")}</div>`)
+      + sec("a-links", `${label("·", { ko: "연락", en: "Contact" })}
         <div class="links">${A.links.map((l) => `<a href="${l.href}" ${l.ext ? 'target="_blank" rel="noopener"' : ""}>${esc(l.t)}${l.d ? ` <small lang="en">${esc(l.d)}</small>` : ""} <span aria-hidden="true">${l.ext ? "↗" : "→"}</span>${l.ext ? `<span class="sr-only">${esc(L("(새 창)", "(opens in a new tab)"))}</span>` : ""}</a>`).join("")}<a class="resume-link" href="${A.resume.href}" target="_blank" rel="noopener">${esc(L("이력서 보기", "View Résumé"))} <small lang="${YL.lang === "ko" ? "en" : "ko"}">${esc(YL.lang === "ko" ? "View Résumé" : "이력서 보기")}</small> <span aria-hidden="true">↗</span><span class="sr-only">${esc(L("(PDF, 새 창)", "(PDF, opens in a new tab)"))}</span></a></div>`);
   }
 

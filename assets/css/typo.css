@@ -538,3 +538,26 @@ html[data-lang="en"] .sheet .split dt { text-transform: none; letter-spacing: .0
 @media (min-width: 761px) { .sheet .story { gap: 64px; } }
 .sheet .st-m { margin-top: 24px; }
 .sheet .judge { margin-top: 20px; }
+/* the decision now lives inside the text column, so it takes that column's width */
+.sheet .st-text > .judge { width: auto; max-width: none; }
+.sheet .st-body.no-text .st-text > .judge { margin-top: 0; }
+@media (min-width: 1081px) { .sheet .st-body.has-ai { align-items: start; } }
+@media (min-width: 1081px) { .sheet .st-body:not(.has-ai) .st-text > .judge { width: calc((100% - 11 * var(--g)) / 12 * 8 + 7 * var(--g)); } }
+/* the breathing room before the note belongs to the running text only; the decision runs to the column edge */
+@media (min-width: 1081px) {
+  .sheet .st-body.has-ai .st-text { padding-right: 0; }
+  .sheet .st-body.has-ai .st-text > .p, .sheet .st-body.has-ai .st-text > .cap { padding-right: 32px; }
+}
+
+/* About · the timeline on the same 12 columns: the year and title in 1–5, the description in 7–12;
+   where the margin has room, its markers and line hang in it like the story steps */
+@media (min-width: 1081px) {
+  .sheet .tl li { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); }
+  .sheet .tl .tl-when, .sheet .tl li h3 { grid-column: 1 / span 5; }
+  .sheet .tl li p { grid-column: 7 / -1; max-width: none; }
+}
+@media (min-width: 1300px) {
+  .sheet .tl { padding-left: 0; }
+  .sheet .tl::before, .sheet .tl::after { left: -31px; }
+  .sheet .tl li::before { left: -37px; }
+}
