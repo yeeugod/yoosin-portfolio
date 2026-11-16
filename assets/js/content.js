@@ -463,7 +463,7 @@
     field: {
       label: { ko: "실사용 피드백", en: "Field feedback" },
       h: { ko: "도구가 맡을 범위와 전문가가 설명할 범위", en: "What the tool takes on, and what the expert explains" },
-      src: "field", meta: { ko: "GROWN 공실 진단 전문가(지원자의 부친 · 협업자) · 2026-10", en: "GROWN's vacancy-diagnosis expert (my father · collaborator) · 2026-10" },
+      src: "field", meta: { ko: "GROWN 공실 진단 전문가(협업자) · 2026-10", en: "GROWN's vacancy-diagnosis expert (collaborator) · 2026-10" },
       cols: [
         { t: { ko: "전문가가 본 한계", en: "Limits the expert saw" },
           d: { ko: "일부 고객은 AI의 영향이 큰 종합 진단에 신중하다. 고객은 경험과 실적이 검증된 전문가에게 상권과 물건 조건을 직접 듣고 조치를 논의하는 과정에 더 가치를 둔다. AI가 최종 판단에 얼마나 관여했는지 불분명하면 결과를 신뢰하거나 비용을 지불하는 데 주저하기도 한다.",
