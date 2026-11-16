@@ -109,10 +109,10 @@
       : `<a href="#/${g.k}"><span lang="en">${esc(g.name)}</span> · ${esc(L(r.at))}</a>`;
     const body = V.groups.map((g) => `<tbody>${g.rows.map((r, i) => `<tr>
         ${i === 0 ? `<th scope="rowgroup" rowspan="${g.rows.length}" lang="en">${esc(g.name)}</th>` : ""}
-        <td class="ev-t" data-h="${esc(L(c.t))}">${esc(L(r.t))}</td>
-        <td data-h="${esc(L(c.l))}">${srcTag(r.src)}${r.note ? `<small>${esc(L(r.note))}</small>` : ""}</td>
-        <td class="ev-d" data-h="${esc(L(c.d))}" lang="en">${esc(r.d)}</td>
-        <td data-h="${esc(L(c.w))}">${where(g, r)}</td></tr>`).join("")}</tbody>`).join("");
+        <td class="ev-t" data-h="${esc(L(c.t))}"><div>${esc(L(r.t))}</div></td>
+        <td data-h="${esc(L(c.l))}"><div>${srcTag(r.src)}${r.note ? `<small>${esc(L(r.note))}</small>` : ""}</div></td>
+        <td class="ev-d" data-h="${esc(L(c.d))}" lang="en"><div>${esc(r.d)}</div></td>
+        <td data-h="${esc(L(c.w))}"><div>${where(g, r)}</div></td></tr>`).join("")}</tbody>`).join("");
     return sec("e-table", `<p class="lead" style="margin:0 0 18px">${esc(L(V.lead))}</p>
         <div class="ev-wrap"><table class="ev"><thead><tr><th scope="col">${esc(L(c.p))}</th><th scope="col">${esc(L(c.t))}</th><th scope="col">${esc(L(c.l))}</th><th scope="col">${esc(L(c.d))}</th><th scope="col">${esc(L(c.w))}</th></tr></thead>${body}</table></div>`, "first")
       + sec("e-none", `${label("·", V.noneT)}<ul class="ev-none">${V.none.map((x) => `<li>${esc(L(x))}</li>`).join("")}</ul>`);
