@@ -240,3 +240,7 @@ html[data-lang="ko"] .sheet .tl .tl-when { font-family: var(--ko); letter-spacin
   .sheet .tl li h3, .sheet .tl li p { grid-column: 1; grid-row: auto; }
   .sheet .tl li p { margin-top: 4px; }
 }
+
+/* ───── timeline: the line runs behind the square markers, never across them ───── */
+.sheet .tl::before, .sheet .tl::after { z-index: 0; }
+.sheet .tl li::before { z-index: 1; }
