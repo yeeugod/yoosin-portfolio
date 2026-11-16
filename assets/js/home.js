@@ -89,7 +89,7 @@
       $("[data-i=d]", a).textContent = L(byK[k].desc);
       const r = rowsL[k]; r.setAttribute("aria-label", cardLabel(k));
       const rk = $("[data-i=k]", r); rk.textContent = nameOf(k); rk.hidden = !nameOf(k);
-      $("[data-i=d]", r).textContent = L(byK[k].desc);
+      $("[data-i=d]", r).textContent = L(byK[k].sum || byK[k].desc); // the list reads each case as one line
     });
     vt.innerHTML = viewGroup();
     const s = SUBLINE();
@@ -191,7 +191,7 @@
       // the list takes the same box as the row: five rows, one title size that fits the longest name on one line
       Object.assign(list.style, { left: row.style.left, top: row.style.top, width: rw + "px", height: rh + "px" });
       // the title column: the row minus its padding, the number, the name/description column (33%), the arrow, the gaps and the hover shift
-      const tcol = rw - 28 - 52 - 36 - 3 * 16 - (rw - 28) * 0.33 - 18;
+      const tcol = rw - 28 - 52 - 36 - 3 * 16 - (rw - 28) * 0.40 - 18;
       const lts = Math.floor(Math.min(rh / HOME.length * 0.46, tcol / per(HOME.map((k) => BIG[k].join(" "))), 64));
       root.style.setProperty("--pl-ts", Math.max(20, lts) + "px");
     } else {
@@ -676,13 +676,11 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layout(); });
   history.scrollRestoration = "manual";
   const first = parse();
-  /* first arrival: the name sets letter by letter, then its caption, then the cue to scroll.
-     The letters are plain text again once they have landed, so the name keeps its kerning. */
+  /* first arrival: the name is revealed left to right as one word, then its caption, then the cue to scroll.
+     The text is never split into letters, so its kerning (the Y–O pair) is the same before, during and after. */
   if (!reduce && !first.k && window.scrollY < 4) {
-    nm.setAttribute("aria-label", "YOOSIN LEE");
-    nm.innerHTML = [..."YOOSIN LEE"].map((c, i) => `<span class="ch" aria-hidden="true" style="--i:${i}">${c === " " ? "&nbsp;" : c}</span>`).join("");
-    root.classList.add("ty-intro"); layout();
-    setTimeout(() => { root.classList.remove("ty-intro"); nm.textContent = "YOOSIN LEE"; nm.removeAttribute("aria-label"); layout(); }, 1900);
+    root.classList.add("ty-intro");
+    setTimeout(() => root.classList.remove("ty-intro"), 1900);
   }
   if (first.k) { history.replaceState({ yl: 0 }, "", location.hash); apply(first); }
   window.HOME = { go, back, frame: () => frame(true), get state() { return S; } };

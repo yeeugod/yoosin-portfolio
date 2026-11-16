@@ -183,7 +183,7 @@ html.ty-listv:not(.ty-small) .pcs { opacity: 0; visibility: hidden; transition: 
 html:not(.ty-listv) .pl { visibility: hidden; border-bottom-color: transparent; transition: visibility 0s linear 300ms, border-color 300ms ease; }
 .pl li { min-height: 0; border-top: 1px solid var(--rule); transition: opacity 460ms ease calc(var(--i) * 55ms + 80ms), transform 620ms var(--ease-out) calc(var(--i) * 55ms + 80ms); }
 html:not(.ty-listv) .pl li { opacity: 0; transform: translate3d(0, 16px, 0); transition: opacity 240ms ease, transform 240ms ease; }
-.pl-r { position: relative; isolation: isolate; display: grid; grid-template-columns: 52px minmax(0, 1fr) minmax(0, 33%) 36px; column-gap: 16px; align-items: center; height: 100%; padding: 0 14px; color: var(--ink); text-decoration: none; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+.pl-r { position: relative; isolation: isolate; display: grid; grid-template-columns: 52px minmax(0, 1fr) minmax(0, 40%) 36px; column-gap: 16px; align-items: center; height: 100%; padding: 0 14px; color: var(--ink); text-decoration: none; overflow: hidden; -webkit-tap-highlight-color: transparent; }
 .pl-r::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--c); transform: scaleX(0); transform-origin: left; transition: transform 560ms var(--pc-ez); }
 .pl-r:hover::before, .pl-r:focus-visible::before, .pl-r.hl::before { transform: none; }
 .pl-r:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
@@ -560,4 +560,59 @@ html[data-lang="en"] .sheet .split dt { text-transform: none; letter-spacing: .0
   .sheet .tl { padding-left: 0; }
   .sheet .tl::before, .sheet .tl::after { left: -31px; }
   .sheet .tl li::before { left: -37px; }
+}
+
+/* landing name: one word revealed left to right (clip and opacity only, so the travelling transform is untouched) */
+html.ty-intro .ty-name { animation: tyWipe 1000ms var(--ez-out) 140ms both; }
+@keyframes tyWipe { from { clip-path: inset(-10% 100% -10% 0); opacity: .2; } to { clip-path: inset(-10% 0 -10% 0); opacity: 1; } }
+
+/* ═════ final package: handover summary, GROWN scope lines, Make It! brief, Like this hierarchy ═════ */
+/* Montauk · the handover PDF stays as it is; the site only frames its first page and links it */
+.sheet .doc { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: var(--g) 24px; align-items: end; }
+.sheet .doc-p { display: block; border: 1px solid var(--ink); background: #fff; line-height: 0; transition: transform var(--m2) var(--ez-out); }
+.sheet .doc-p .ph { display: block; position: relative; aspect-ratio: var(--ar); }
+.sheet .doc-p img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.sheet .doc-p:hover { transform: translateY(-3px); }
+.sheet .doc-t { min-width: 0; display: grid; gap: 6px; }
+.sheet .doc-link { justify-self: start; font-size: 16px; font-weight: 700; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.sheet .doc-link:hover { text-decoration-thickness: 2px; }
+.sheet .doc-meta { margin: 0; color: var(--ink-2); }
+/* GROWN · the result on the left, the three lines that explain its 'further checks' beside it */
+.sheet .lead-grx { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; margin-top: 26px; }
+.sheet .lead-grx .lead-gr { margin: 0; max-width: 784px; }
+.sheet .gr-scope { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--ink); }
+.sheet .gr-scope li { padding: 12px 0 14px; border-bottom: 1px solid var(--line); }
+.sheet .gr-scope b { display: flex; gap: 8px; align-items: center; font-size: 13.5px; font-weight: 700; }
+.sheet .gr-scope b i { flex: none; width: 22px; height: 22px; display: grid; place-items: center; border: 1px solid var(--ink); background: var(--c); font: 500 12px/1 var(--en); font-style: normal; }
+.sheet .gr-scope p { margin: 6px 0 0; font-size: 15px; line-height: 1.6; }
+.sheet .collab { margin: 0; }
+.sheet .collab .zoom { display: block; width: 100%; padding: 0; border: 1px solid var(--ink); background: #fff; cursor: zoom-in; }
+.sheet .collab .ph { display: block; position: relative; aspect-ratio: var(--ar); }
+.sheet .collab .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.sheet .collab .cap { margin-top: 8px; }
+@media (min-width: 1081px) {
+  .sheet .lead-grx { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); align-items: start; }
+  .sheet .lead-grx .lead-gr { grid-column: 1 / span 8; max-width: none; }
+  .sheet .lead-grx .gr-scope { grid-column: 9 / -1; }
+}
+/* Make It! · the brief: v1 asks, the sample reply turns it into v2 */
+.sheet .l3-brief .bf { border: 1px solid var(--ink); background: #fff; }
+.sheet .l3-brief .bf > p { margin: 0; padding: 0 16px; }
+.sheet .l3-brief .bf-k { padding-top: 14px !important; font: 500 12px/1.3 var(--en); color: var(--ink-2); letter-spacing: .02em; }
+.sheet .l3-brief .bf-2 { margin-top: 14px !important; border-top: 1px solid var(--ink); background: var(--c); }
+.sheet .l3-brief .ask { margin: 8px 0 0 !important; font-size: clamp(17px, 1.5vw, 20px); font-weight: 700; line-height: 1.45; }
+html[data-lang="en"] .sheet .l3-brief .ask { font-family: var(--en); font-weight: 500; }
+.sheet .l3-brief .bf-n { padding-top: 6px !important; padding-bottom: 14px !important; font-size: 13.5px; color: var(--ink-2); }
+.sheet .l3-brief .bf-2 ~ p { background: var(--c); }
+.sheet .l3-brief .bf-v { display: flex; flex-wrap: wrap; gap: 4px 14px; padding-top: 8px !important; font-size: clamp(17px, 1.5vw, 20px); font-weight: 700; }
+.sheet .lead-line { margin: 26px 0 6px; max-width: 40em; font-size: 17px; font-weight: 600; line-height: 1.6; }
+/* Like this · the label above the demo sentence; one plain line under each step's title */
+.sheet .lread-k { margin: 0 0 8px; font-size: 13.5px; font-weight: 700; color: var(--ink-2); }
+.sheet .lread-l .lh { margin: 0 0 8px; font-size: 15px; font-weight: 700; }
+.sheet .lread-l li > .cap { margin-top: 10px; }
+@media (max-width: 760px) {
+  .sheet .doc { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; }
+  /* the three app screens stack at full width so their text is readable without zooming */
+  .sheet .stills { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .sheet .stills .zoom { max-width: 420px; }
 }

@@ -37,7 +37,10 @@
     demo: { ko: "준비된 시연 자료", en: "Prepared demo material" },
     rebuilt: { ko: "설명을 위해 재구성한 자료", en: "Rebuilt to explain" },
     field: { ko: "현장에서 들은 피드백", en: "Heard on the floor" },
-    sample: { ko: "준비된 예시", en: "Prepared example" }
+    sample: { ko: "준비된 예시", en: "Prepared example" },
+    portfolio: { ko: "포트폴리오용 재구성", en: "Reconstructed for the portfolio" },
+    flow: { ko: "시연 흐름 재구성", en: "Demo flow, reconstructed" },
+    suggest: { ko: "답변 제안", en: "Suggested reply" }
   };
   const srcTag = (k) => `<span class="src src-${k}">${esc(L(SRC[k]))}</span>`;
   const capOf = (k, t) => `<figcaption class="cap">${srcTag(k)}<span>${esc(L(t))}</span></figcaption>`;
@@ -69,9 +72,10 @@
     cmp: () => C.montauk.compare.pages.flatMap((p) => [
       { img: "mkd-p" + p.n, t: { ko: `직접 제작한 가이드 · ${p.n}쪽 · ${p.t.ko}`, en: `The guide I made · p.${p.n} · ${p.t.en}` } },
       { img: "mkf-p" + p.n, t: { ko: `앱 버전 가이드 · ${p.n}쪽 · ${p.t.ko}`, en: `App-version guide · p.${p.n} · ${p.t.en}` } }]),
-    mlead: () => [{ img: "mkd-p4", t: C.montauk.lead.made.cap }, { img: enImg("mk-st-a"), t: C.montauk.lead.app.cap }],
+    mlead: () => [{ img: "mkd-p4", t: C.montauk.lead.made.cap }, { img: "mt-studio-2", t: C.montauk.lead.app.cap }],
+    gcol: () => { const c = C.grown.story.steps.find((x) => x.k === "expert").collab; return [{ img: c.img, t: c.cap }]; },
     mproc: () => C.montauk.story.steps[0].media.map((m) => ({ img: m.img, t: m.t })),
-    mst: () => C.montauk.story.steps.find((x) => x.k === "demo").stills.map((x) => ({ img: enImg(x.img), t: x.t }))
+    mst: () => C.montauk.story.steps.find((x) => x.k === "demo").stills.map((x) => ({ img: x.img, t: x.t }))
   };
   const zoom = (set, i, inner, labelText) => `<button type="button" class="zoom" data-zoom="${set}|${i}" aria-label="${esc(labelText + " — " + L(C.ui.viewLarge))}">${inner}</button>`;
   const pages = (set, n, prefix, aria) => `<div class="pages" tabindex="0" role="region" aria-label="${esc(aria)}">${Array.from({ length: n }, (_, i) => `<figure>${zoom(set, i, `<span class="ph fig" style="position:relative;display:block">${M.img(prefix + (i + 1), `${aria} p.${i + 1}`, { sizes: "230px" })}</span>`, `${aria} p.${i + 1}`)}<figcaption>p.${i + 1}</figcaption></figure>`).join("")}</div>`;
@@ -133,15 +137,20 @@
           <ol class="l3-chain">${Ld.made.chain.map((c) => `<li>${esc(L(c))}</li>`).join("")}</ol>${capOf("real", Ld.made.cap)}</figure>
         <div class="l3 l3-voice"><p class="l3-k"><i>2</i>${esc(L(Ld.feedback.t))}</p><blockquote>${esc(L(Ld.feedback.p))}</blockquote><p class="cap">${srcTag("field")}</p></div>
         <figure class="l3 l3-app"><p class="l3-k"><i>3</i>${esc(L(Ld.app.t))}</p>
-          ${zoom("mlead", 1, pic(enImg("mk-st-a"), L(Ld.app.cap), { sizes: "(max-width:760px) 70vw, 22vw" }), L(Ld.app.cap))}${capOf("demo", Ld.app.cap)}</figure>
+          ${zoom("mlead", 1, pic("mt-studio-2", L(Ld.app.alt), { sizes: "(max-width:760px) 70vw, 22vw" }), L(Ld.app.cap))}${capOf("flow", Ld.app.cap)}</figure>
       </div>`, "hero lead-only");
-    const made = st("made"), tool = st("tool"), demoStep = st("demo");
+    const made = st("made"), tool = st("tool"), demoStep = st("demo"), doc = st("handover").doc;
+    const docLink = (inner, cls) => `<a class="${cls}" href="${doc.file}" target="_blank" rel="noopener">${inner}<span class="sr-only">${esc(L("(PDF, 새 창)", "(PDF, opens in a new tab)"))}</span></a>`;
     const media = {
+      handover: `<div class="doc">
+          ${docLink(pic(doc.img, L(doc.link), { page: true, sizes: "(max-width:760px) 60vw, 22vw" }), "doc-p")}
+          <div class="doc-t">${docLink(`${esc(L(doc.link))} <span aria-hidden="true">↗</span>`, "doc-link")}<p class="cap doc-meta">${esc(L(doc.meta))}</p>
+            <p class="cap">${srcTag("portfolio")}<span>${esc(L(doc.cap))}</span></p></div></div>`,
       made: `<div class="proc">${made.media.map((m, i) => `<figure>${zoom("mproc", i, pic(m.img, L(m.t), { page: m.page }), L(m.t))}${capOf("real", m.t)}</figure>`).join("")}</div>`,
       tool: `<ol class="flowchips" aria-label="${esc(L("앱의 흐름", "The app's flow"))}">${tool.flow.map((f, i) => `<li><b>${i + 1}</b>${esc(L(f))}</li>`).join("")}</ol>`,
       // the stills carry the flow without playing; the recording sits beside them
-      demo: `<div class="vpair"><div class="vp-stills"><ol class="stills">${demoStep.stills.map((s, i) => `<li><figure>${zoom("mst", i, pic(enImg(s.img), L(s.t), { sizes: "(max-width:760px) 30vw, 16vw" }), L(s.t))}<figcaption><b lang="en">${pad(i + 1)}</b>${esc(L(s.t))}</figcaption></figure></li>`).join("")}</ol>
-          <p class="cap">${srcTag("demo")}<span>${esc(L(demoStep.stillsCap))}</span></p></div>
+      demo: `<div class="vpair"><div class="vp-stills"><ol class="stills">${demoStep.stills.map((s, i) => `<li><figure>${zoom("mst", i, pic(s.img, L(s.alt), { sizes: "(max-width:760px) 100vw, 18vw" }), L(s.t))}<figcaption><b lang="en">${pad(i + 1)}</b>${esc(L(s.t))}</figcaption></figure></li>`).join("")}</ol>
+          <p class="cap">${srcTag("flow")}<span>${esc(L(demoStep.stillsCap))}</span></p></div>
         <div class="vp-video">${demo("montauk", {}, { note: demoStep.note })}</div></div>`
     };
     const body = story("m-story", S, media);
@@ -168,7 +177,9 @@
   function grown() {
     const D = C.grown, h = D.hero, Ld = D.lead;
     const lead = sec("g-hero", `${heroLine(h)}
-      <figure class="lead-gr" data-lead>${grownResult("B1|101", true)}${capOf("demo", Ld.cap)}</figure>`, "hero lead-only");
+      <div class="lead-grx"><figure class="lead-gr" data-lead>${grownResult("B1|101", true)}${capOf("demo", Ld.cap)}</figure>
+        <ol class="gr-scope">${Ld.scope.map((x, i) => `<li><b><i lang="en">${i + 1}</i>${esc(L(x.k))}</b><p>${esc(L(x.v))}</p></li>`).join("")}</ol></div>`, "hero lead-only");
+    const collab = D.story.steps.find((x) => x.k === "expert").collab;
     const media = {
       brand: `<div class="vi">
         ${fig("gr-vi-1", { ko: "GROWN 심벌", en: "GROWN symbol" }, { ph: "contain", ar: "16 / 9" })}
@@ -177,7 +188,7 @@
         ${fig("gr-card-logo", { ko: "명함 로고 면", en: "Card front" }, { cls: "s4", ar: "16 / 9" })}
         <figure class="fig s4"><div class="ph" style="--ar:16/9"><div class="card-re" aria-hidden="true"><span class="lg">GROWN</span><span><span class="nmx">홍 길 동</span><span class="rlx">Founder &amp; CEO</span></span><span class="ad">010-0000-0000<br>서울 ○○구 ○○로 00<br>name@example.com</span></div></div><figcaption class="cap">${srcTag("rebuilt")}<span>${esc(L(D.s1.cardCap))}</span></figcaption></figure>
       </div><p class="cap">${srcTag("real")}<span>${esc(L({ ko: "GROWN 브랜딩 작업물", en: "GROWN branding work" }))}</span></p>`,
-      expert: `<dl class="split">${D.roles.split.map((r) => `<div><dt>${esc(L(r.k))}</dt><dd>${esc(L(r.v))}</dd></div>`).join("")}</dl>`,
+      expert: `<figure class="collab">${zoom("gcol", 0, pic(collab.img, L(collab.alt), { sizes: "(max-width:760px) 100vw, 70vw" }), L(collab.cap))}${capOf("rebuilt", collab.cap)}</figure>`,
       result: `${grownLink()}<p class="cap">${srcTag("demo")}<span>${esc(L({ ko: "미리 계산한 가상 호실 8개", en: "8 fictional units, calculated in advance" }))}</span></p>`,
       // the extension note under the heading, then the web system, then the same flow on the phone (one after the other)
       mobile: `<div class="g-duo g-stack">
@@ -223,8 +234,12 @@
       <div class="lead3 lead-mk" data-lead>
         <figure class="l3"><p class="l3-k"><i>1</i>${esc(L(Ld.drawing))}</p><span class="ph pinned" style="--ar:${M.ratio("a10")}">${M.img("a10", L(Ld.drawing), { sizes: "(max-width:760px) 100vw, 30vw" })}${pin(21, 18)}</span>${capOf("real", Ld.drawing)}</figure>
         <figure class="l3"><p class="l3-k"><i>2</i>${esc(L(Ld.model))}</p><span class="ph pinned" style="--ar:${M.ratio("a10-rotation-poster")}">${M.img("a10-rotation-poster", L(Ld.model), { sizes: "(max-width:760px) 100vw, 30vw" })}${pin(28, 27)}</span>${capOf("real", Ld.model)}</figure>
-        <div class="l3 l3-ask"><p class="l3-k"><i>3</i>${esc(L(Ld.askT))}</p><p class="ask">“${esc(L(Ld.ask))}”</p><p class="cap">${srcTag("sample")}<span>${esc(L(Ld.askCap))}</span></p><p class="cap l3-mark">${srcTag("rebuilt")}<span>${esc(L(Ld.mark))}</span></p></div>
-      </div>`, "hero lead-only");
+        <div class="l3 l3-brief"><p class="l3-k"><i>3</i>${esc(L(Ld.briefT))}</p>
+          <div class="bf"><p class="bf-k">${esc(L(Ld.v1k))}</p><p class="ask">“${esc(L(Ld.ask))}”</p><p class="bf-n">${esc(L(Ld.v1n))}</p>
+            <p class="bf-k bf-2">${esc(L(Ld.v2k))}</p><p class="bf-v">${Ld.v2a.map((x) => `<span>${esc(L(x))}</span>`).join("")}</p><p class="bf-n">${esc(L(Ld.v2n))}</p></div>
+          <p class="cap">${srcTag("sample")}<span>${esc(L(Ld.sampleNote))}</span></p></div>
+      </div>
+      <p class="lead-line">${esc(L(Ld.line))}</p><p class="cap l3-mark">${srcTag("rebuilt")}<span>${esc(L(Ld.mark))}</span></p>`, "hero lead-only");
     const S = D.story, st = (k) => S.steps.find((x) => x.k === k);
     const X = window.MAKEIT && window.MAKEIT.sample(YL.lang);
     const media = {
@@ -233,14 +248,8 @@
         <figure class="toy-3d">${window.VIEWER3D ? window.VIEWER3D.markup({ src: "assets/model/a10-arttoy.glb", video: "assets/video/a10-rotation.mp4", poster: "assets/img/a10-rotation-poster.jpg", alt: L(Ld.model) }) : ""}
           ${capOf("real", { ko: "작가 원화를 바탕으로 만든 3D 모델 · Tripo AI · 직접 돌려 보기", en: "3D Model Based on the Original Drawing · Tripo AI · turn it yourself" })}</figure></div>`,
       design: items(st("design").items, 3),
-      // the changed specs first, the reply right beside them; the full briefs wait below
-      brief: `<div class="xdiff" data-xdiff>
-          <div class="xd-t"><p class="xd-k">${esc(L(E.diffT))}</p>
-            <table><thead><tr><th scope="col"></th><th scope="col" lang="en">v1</th><th scope="col" lang="en">v2</th></tr></thead>
-              <tbody>${E.diff.map((r) => `<tr><th scope="row">${esc(L(r.k))}</th><td>${esc(L(r.a))}</td><td><b>${esc(L(r.b))}</b></td></tr>`).join("")}</tbody></table></div>
-          ${X ? `<div class="xd-r"><p class="xd-k">${esc(L("예시 회신", "Sample reply"))} ${srcTag("sample")}</p><p class="xd-m"><b lang="en">${esc(X.maker)}</b>“${esc(X.msg)}”</p></div>` : ""}
-        </div>
-        <details class="xfull"><summary>${esc(L(E.full))}</summary>${exchange()}<p class="cap">${esc(L(E.note))}</p></details>`,
+      // the opening sums up what changed; here are the whole briefs and the reply that changed them
+      brief: `${exchange()}<p class="cap">${srcTag("sample")}<span>${esc(L(E.note))}</span></p>`,
       try: demo("makeit", h)
     };
     return lead + story("k-story", S, media) + closeSec("k-close", 2, D.close);
@@ -267,8 +276,9 @@
     let src = esc(R.src);
     ["Samurai Jack", "every day after school"].forEach((p) => { src = src.replace(esc(p), `<mark data-from="1">${esc(p)}</mark>`); });
     const lead = sec("l-hero", `${heroLine(h)}<p class="cap">${srcTag("real")}<span>${esc(L(T.cap))}</span></p>
-      <div class="lread" data-lread data-lead><p class="lread-src" lang="en">“${src}”</p><p class="cap">${srcTag("rebuilt")}<span>${esc(L(R.srcNote))}</span></p>
-        <ol class="lread-l three">${R.layers.map((l, i) => `<li data-layer="${i}" ${l.from ? `data-src="${i}" tabindex="0"` : ""}><h3><i>${i + 1}</i>${esc(L(l.t))}</h3><p ${l.lang ? `lang="${l.lang}" class="q"` : ""}>${esc(L(l.d))}</p>${l.miss ? `<p class="miss">${esc(L(l.miss))}</p>` : ""}</li>`).join("")}</ol></div>`, "hero lead-only");
+      <div class="lread" data-lread data-lead><p class="lread-k">${esc(L(R.label))}</p><p class="lread-src" lang="en">“${src}”</p><p class="cap">${srcTag("rebuilt")}<span>${esc(L(R.srcNote))}</span></p>
+        <ol class="lread-l three">${R.layers.map((l, i) => `<li data-layer="${i}" ${l.from ? `data-src="${i}" tabindex="0"` : ""}><h3><i lang="en">${pad(i + 1)}</i>${esc(L(l.t))}</h3><p class="lh">${esc(L(l.head))}</p><p>${esc(L(l.d))}</p>${l.tag ? `<p class="cap">${srcTag(l.tag)}</p>` : ""}</li>`).join("")}</ol>
+        <p class="lead-line">${esc(L(R.line))}</p></div>`, "hero lead-only");
     const media = {
       talk: `<div class="pair">${T.items.map((x) => `<div><h3 lang="${x.tlang}">${esc(x.t)}</h3>${x.ko ? `<span lang="ko">${esc(x.ko)}</span>` : ""}<p class="p" style="margin:0">${esc(L(x.d))}</p></div>`).join("")}</div>
         <p class="bridge">${esc(L(T.bridge))}</p><p class="cap">${srcTag("real")}<span>${esc(L(T.cap))}</span></p>`,
