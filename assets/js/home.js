@@ -13,7 +13,7 @@
   const HOME = ["montauk", "grown", "makeit", "likethis", "art", "about"]; // reading order of the row: the projects, then About Me at the far right
   const byK = Object.fromEntries(C.cards.map((c) => [c.k, c]));
   // the large set title on each card and in its detail header (project names stay as written)
-  const BIG = { montauk: ["Manual for", "Manuals"], grown: ["GROWN", "Recovery Scan"], makeit: ["Make It!"], likethis: ["Like this"], art: ["ART&", "DESIGN:)"], about: ["About Me"] };
+  const BIG = { evidence: ["Evidence"], montauk: ["Manual for", "Manuals"], grown: ["GROWN", "Recovery Scan"], makeit: ["Make It!"], likethis: ["Like this"], art: ["ART&", "DESIGN:)"], about: ["About Me"] };
   const TT = (c) => { const v = c.title; return !v ? [] : Array.isArray(v) ? v : L(v); };
   const isKo = (s) => /[가-힣]/.test(s);
   // the line under the set title: the Korean name in Korean, the descriptive English name where it adds one
@@ -399,7 +399,8 @@
   }
   // the element a detail opens from (and returns to): its card, or the About Me link in the footer
   const listOn = () => S.view === "list" && !S.small;
-  const srcOf = (k) => listOn() ? rowsL[k] : els[k];
+  const homeOf = (k) => els[k] ? k : "about";
+  const srcOf = (k) => listOn() ? rowsL[homeOf(k)] : els[homeOf(k)];
   function srcBox(k) {
     const el = srcOf(k), r = el.getBoundingClientRect();
     const t = $(".pc-t, .pl-t", el), tr = t.getBoundingClientRect();

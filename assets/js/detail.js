@@ -99,7 +99,23 @@
         <ol class="tl" id="tl">${A.timeline.map((x, i) => `<li data-anchor="tl-${i}"><span class="tl-when">${esc(L(x.when)) || "&nbsp;"}</span><h3>${esc(L(x.t))}</h3><p>${esc(L(x.d))}</p></li>`).join("")}</ol>`, "first")
       + sec("a-why", `${label("·", { ko: "Why SK AIGEN", en: "Why SK AIGEN" })}<div class="why">${A.why[YL.lang].map((p, i) => `<p data-anchor="why-${i}">${esc(p)}</p>`).join("")}</div>`)
       + sec("a-links", `${label("·", { ko: "연락", en: "Contact" })}
-        <div class="links">${A.links.map((l) => `<a href="${l.href}" ${l.ext ? 'target="_blank" rel="noopener"' : ""}>${esc(l.t)}${l.d ? ` <small lang="en">${esc(l.d)}</small>` : ""} <span aria-hidden="true">${l.ext ? "↗" : "→"}</span>${l.ext ? `<span class="sr-only">${esc(L("(새 창)", "(opens in a new tab)"))}</span>` : ""}</a>`).join("")}<a class="resume-link" href="${A.resume.href}" target="_blank" rel="noopener">${esc(L("이력서 보기", "View Résumé"))} <small lang="${YL.lang === "ko" ? "en" : "ko"}">${esc(YL.lang === "ko" ? "View Résumé" : "이력서 보기")}</small> <span aria-hidden="true">↗</span><span class="sr-only">${esc(L("(PDF, 새 창)", "(PDF, opens in a new tab)"))}</span></a></div>`);
+        <div class="links"><a class="ev-link" href="#/evidence">${esc(L("근거 한눈에 보기", "Evidence at a glance"))} <span aria-hidden="true">→</span></a>${A.links.map((l) => `<a href="${l.href}" ${l.ext ? 'target="_blank" rel="noopener"' : ""}>${esc(l.t)}${l.d ? ` <small lang="en">${esc(l.d)}</small>` : ""} <span aria-hidden="true">${l.ext ? "↗" : "→"}</span>${l.ext ? `<span class="sr-only">${esc(L("(새 창)", "(opens in a new tab)"))}</span>` : ""}</a>`).join("")}<a class="resume-link" href="${A.resume.href}" target="_blank" rel="noopener">${esc(L("이력서 보기", "View Résumé"))} <small lang="${YL.lang === "ko" ? "en" : "ko"}">${esc(YL.lang === "ko" ? "View Résumé" : "이력서 보기")}</small> <span aria-hidden="true">↗</span><span class="sr-only">${esc(L("(PDF, 새 창)", "(PDF, opens in a new tab)"))}</span></a></div>`);
+  }
+
+  /* ───── Evidence at a glance: one table, the five labels, links back to each page ───── */
+  function evidence() {
+    const V = C.evidence, c = V.cols;
+    const where = (g, r) => r.file ? `<a href="${r.file}" target="_blank" rel="noopener">${esc(L(r.at))} <span aria-hidden="true">↗</span><span class="sr-only">${esc(L("(PDF, 새 창)", "(PDF, opens in a new tab)"))}</span></a>`
+      : `<a href="#/${g.k}"><span lang="en">${esc(g.name)}</span> · ${esc(L(r.at))}</a>`;
+    const body = V.groups.map((g) => `<tbody>${g.rows.map((r, i) => `<tr>
+        ${i === 0 ? `<th scope="rowgroup" rowspan="${g.rows.length}" lang="en">${esc(g.name)}</th>` : ""}
+        <td class="ev-t" data-h="${esc(L(c.t))}">${esc(L(r.t))}</td>
+        <td data-h="${esc(L(c.l))}">${srcTag(r.src)}${r.note ? `<small>${esc(L(r.note))}</small>` : ""}</td>
+        <td class="ev-d" data-h="${esc(L(c.d))}" lang="en">${esc(r.d)}</td>
+        <td data-h="${esc(L(c.w))}">${where(g, r)}</td></tr>`).join("")}</tbody>`).join("");
+    return sec("e-table", `<p class="lead" style="margin:0 0 18px">${esc(L(V.lead))}</p>
+        <div class="ev-wrap"><table class="ev"><thead><tr><th scope="col">${esc(L(c.p))}</th><th scope="col">${esc(L(c.t))}</th><th scope="col">${esc(L(c.l))}</th><th scope="col">${esc(L(c.d))}</th><th scope="col">${esc(L(c.w))}</th></tr></thead>${body}</table></div>`, "first")
+      + sec("e-none", `${label("·", V.noneT)}<ul class="ev-none">${V.none.map((x) => `<li>${esc(L(x))}</li>`).join("")}</ul>`);
   }
 
   /* ───── Art & Design ───── */
@@ -305,7 +321,7 @@
     return lead + story("l-story", D.story, media) + closeSec("l-close", 2, D.close);
   }
 
-  const R = { about, art, montauk, grown, makeit, likethis };
+  const R = { about, art, montauk, grown, makeit, likethis, evidence };
 
   /* ───── behaviours ───── */
   let cleanup = [];

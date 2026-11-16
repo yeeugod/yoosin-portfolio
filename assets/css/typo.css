@@ -685,3 +685,25 @@ html[data-lang="en"] .sheet .l3-voice .vq { font-family: var(--en); }
 .lq .lx-copy { position: absolute; top: 10px; right: 12px; }
 .lq li:last-child p { padding-right: 64px; }
 .lq-note { margin: 0; font-size: 12.5px; color: var(--ink-2); }
+/* Evidence at a glance */
+.sheet .ev-wrap { overflow-x: auto; }
+.sheet table.ev { width: 100%; border-collapse: collapse; font-size: 14.5px; line-height: 1.55; }
+.sheet .ev th, .sheet .ev td { padding: 10px 10px 10px 0; border-top: 1px solid var(--line); text-align: left; vertical-align: top; }
+.sheet .ev thead th { border-top: 0; border-bottom: 1px solid var(--ink); font-size: 12.5px; font-weight: 700; color: var(--ink-2); }
+.sheet .ev tbody { border-top: 1px solid var(--ink); }
+.sheet .ev tbody th { width: 16%; font: 600 14px/1.4 var(--en); }
+.sheet .ev .ev-t { width: 34%; }
+.sheet .ev .ev-d { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.sheet .ev td small { display: block; margin-top: 4px; font-size: 12px; color: var(--ink-2); }
+.sheet .ev a { color: var(--ink); text-underline-offset: 3px; }
+.sheet .ev-none { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; font-size: 16px; line-height: 1.6; }
+.sheet .links .ev-link { font-weight: 700; }
+@media (max-width: 760px) {
+  .sheet table.ev, .sheet .ev tbody, .sheet .ev tr, .sheet .ev td, .sheet .ev tbody th { display: block; width: auto; }
+  .sheet .ev thead { display: none; }
+  .sheet .ev tbody th { padding: 18px 0 6px; border-top: 0; font-size: 16px; }
+  .sheet .ev tr { padding: 10px 0; border-top: 1px solid var(--line); }
+  .sheet .ev td { padding: 2px 0; border: 0; display: grid; grid-template-columns: 4.5em minmax(0, 1fr); gap: 8px; }
+  .sheet .ev td::before { content: attr(data-h); font-size: 12px; color: var(--ink-2); padding-top: 2px; }
+  .sheet .ev .ev-t { font-weight: 600; }
+}

@@ -34,6 +34,10 @@
       ev: { ko: "시연 단계 · 시카고점 직원 시범 사용 피드백 · 2026-02", en: "Demo stage · trial-use feedback from Chicago store staff · 2026-02" },
       sum: { ko: "직원의 구두 안내 방식을 바탕으로 가이드 제작 절차를 다시 설계하다", en: "Redesigning how guides are made around the way staff explain things out loud" },
       desc: { ko: "직접 만든 조립 가이드에서 사내 가이드 제작 앱까지", en: "From a hand-made assembly guide to an in-house guide-making app" } },
+    // not on the home row: opened from About Me
+    { k: "evidence", color: "#E6E3DC", ink: "#1C1A18",
+      title: { ko: ["근거 한눈에 보기"], en: ["Evidence at a glance"] }, sub: null,
+      desc: { ko: "프로젝트별 근거 · 라벨 · 날짜 · 위치", en: "Each project's evidence · label · date · where to find it" } },
     { k: "art", color: "#ECEDAA", ink: "#1C1A18",
       title: ["ART&", "DESIGN:)"], sub: null,
       desc: { ko: "미술학도의 이런저런 작업물들", en: "Odds and ends from an art student" } }
@@ -652,6 +656,53 @@
         { k: { ko: "확인 방법 제안", en: "A way to check" }, v: { ko: "같은 예문을 보여주되 한쪽에는 기본 번역만, 다른 쪽에는 문화적 맥락까지 보여준 뒤, 이어서 할 말 후보 중 어떤 답을 고르는지 비교합니다. 상대의 경험을 묻는 질문을 고르는 비율이 달라지는지, 맥락 설명이 지나친 해석으로 이어지지 않는지도 함께 봅니다", en: "Show the same sample sentence with only the plain translation to one group and with the cultural context to another, then compare which reply each picks from the options — whether more people choose a question about the other person's experience, and whether the context leads to over-reading" } }
       ]
     }
+  };
+
+  /* ───────────── Evidence at a glance ─────────────
+     one row per piece of material, with its label, date (— where none is recorded) and where to find it */
+  C.evidence = {
+    lead: { ko: "각 프로젝트의 주장 옆에 둔 자료를 한곳에 모았습니다. 라벨은 사이트 전체에서 같은 다섯 가지만 씁니다.", en: "The material behind each project's claims, in one place. The whole site uses the same five labels." },
+    cols: { p: { ko: "프로젝트", en: "Project" }, t: { ko: "근거", en: "Evidence" }, l: { ko: "라벨", en: "Label" }, d: { ko: "날짜", en: "Date" }, w: { ko: "위치", en: "Where" } },
+    groups: [
+      { k: "montauk", name: "Manual for Manuals", rows: [
+        { t: { ko: "직접 제작한 고객용 가이드 · 영문·스페인어 8쪽", en: "The customer guide I made · 8 pages, English and Spanish" }, src: "real", d: "2025", at: { ko: "1 직접 제작한 고객용 가이드", en: "1 The customer guide I made" } },
+        { t: { ko: "쇼룸 촬영 · 배경 정리 · 도해 과정 이미지", en: "Showroom shoot · background cleanup · diagram, in process" }, src: "real", d: "2025", at: { ko: "1 직접 제작한 고객용 가이드", en: "1 The customer guide I made" } },
+        { t: { ko: "인수인계 요약 PDF", en: "Handover summary PDF" }, src: "rebuilt", note: { ko: "포트폴리오용 재구성", en: "Reconstructed for the portfolio" }, d: "2026", file: "assets/docs/Montauk_Assembly_Guide_Production_Handoff.pdf", at: { ko: "PDF · 2쪽 · 영문", en: "PDF · 2 pages · English" } },
+        { t: { ko: "직원 피드백 · 현장에서는 말로 설명하는 편이 빠르다", en: "Staff feedback · explaining out loud is faster on the floor" }, src: "field", d: "—", at: { ko: "3 직원 피드백", en: "3 Staff feedback" } },
+        { t: { ko: "시카고점 직원의 Manual Studio 시범 사용 피드백", en: "Chicago store staff's feedback after trying Manual Studio" }, src: "field", d: "2026-02", at: { ko: "실사용 피드백", en: "Field feedback" } },
+        { t: { ko: "앱 화면 3장 · 질문 → 직원 답변 → 출력 미리보기", en: "Three app screens · question → staff answer → output preview" }, src: "rebuilt", note: { ko: "시연 흐름 재구성", en: "Demo flow, reconstructed" }, d: "2026", at: { ko: "5 시연", en: "5 Demo" } },
+        { t: { ko: "시연 영상 · 앱 버전 가이드 미리보기와 PDF", en: "Demo recording · the app-version guide preview and PDF" }, src: "sample", d: "2026", at: { ko: "5 시연 · 두 가이드 비교", en: "5 Demo · the two guides, compared" } }
+      ] },
+      { k: "grown", name: "GROWN Recovery Scan", rows: [
+        { t: { ko: "GROWN 브랜딩 · BI·VI, 명함, 웹사이트", en: "GROWN branding · identity, business cards, website" }, src: "real", d: "—", at: { ko: "1 처음 맡은 일", en: "1 The job I was given" } },
+        { t: { ko: "협업 과정 이미지", en: "The collaboration, as an image" }, src: "rebuilt", d: "—", at: { ko: "4 전문가와 함께 정한 판정 조건", en: "4 Verdict conditions set with the expert" } },
+        { t: { ko: "가상 호실 8개의 미리 계산한 결과", en: "Results for 8 fictional units, calculated in advance" }, src: "sample", d: "—", at: { ko: "맨 위 결과 예시 · 5 결과 화면", en: "Opening example · 5 The result screen" } },
+        { t: { ko: "웹·모바일 시연 영상 (예시·가상 데이터)", en: "Web and mobile demo recordings (example, fictional data)" }, src: "sample", d: "—", at: { ko: "6 웹·모바일 시연", en: "6 Web and mobile demos" } },
+        { t: { ko: "공실 진단 전문가의 실사용 피드백", en: "The vacancy-diagnosis expert's feedback from use" }, src: "field", d: "2026-10", at: { ko: "실사용 피드백", en: "Field feedback" } }
+      ] },
+      { k: "makeit", name: "Make It!", rows: [
+        { t: { ko: "작가 원화", en: "Artist’s Original Drawing" }, src: "real", d: "—", at: { ko: "맨 위 · 2 직접 제작하며 만난 제약", en: "Opening · 2 The limits I met making it myself" } },
+        { t: { ko: "작가 원화를 바탕으로 만든 3D 모델", en: "3D Model Based on the Original Drawing" }, src: "real", d: "—", at: { ko: "맨 위 · 2 직접 제작하며 만난 제약", en: "Opening · 2 The limits I met making it myself" } },
+        { t: { ko: "문의서 v1 · 예시 회신 · v2 (최소 두께 2mm, 수량 50 → 100개)", en: "Brief v1 · sample reply · v2 (min. thickness 2 mm, quantity 50 → 100)" }, src: "sample", d: "—", at: { ko: "맨 위 · 5 문의서", en: "Opening · 5 The brief" } },
+        { t: { ko: "안내형 체험 · 준비된 작가 원화 예시", en: "Guided trial · the prepared Artist’s Original Drawing example" }, src: "sample", d: "—", at: { ko: "6 체험과 시연", en: "6 Try it, or watch" } },
+        { t: { ko: "공장 연결 기반 · 이용자 모집 · 공장 데이터의 한계", en: "Limits: groundwork with factories, gathering users, factory data" }, src: "limit", d: "—", at: { ko: "직접 해 보고 확인한 한계", en: "Limits I found by trying it" } }
+      ] },
+      { k: "likethis", name: "Like this", rows: [
+        { t: { ko: "현지 친구와의 대화 · 뽀로로와 사무라이 잭", en: "The talk with a local friend · Pororo and Samurai Jack" }, src: "real", d: "—", at: { ko: "1 실제 대화", en: "1 The real conversation" } },
+        { t: { ko: "시연 예문 (실제 경험을 바탕으로 다시 씀)", en: "The demo sentence (rewritten from the real experience)" }, src: "rebuilt", d: "—", at: { ko: "맨 위 예문 비교", en: "Opening comparison" } },
+        { t: { ko: "이어서 할 말 · 답변 제안", en: "What to say next · suggested reply" }, src: "sample", d: "—", at: { ko: "맨 위 예문 비교", en: "Opening comparison" } },
+        { t: { ko: "안내형 체험 · 직접 작성한 다섯 표현", en: "Guided trial · five hand-written expressions" }, src: "sample", d: "—", at: { ko: "4 체험과 시연", en: "4 Try it, or watch" } },
+        { t: { ko: "언어 모델 대화와 큰 차이가 없었다는 한계", en: "Limit: not much different from talking with a language model" }, src: "limit", d: "—", at: { ko: "5 직접 해 보고 확인한 한계", en: "5 Limits I found by trying it" } },
+        { t: { ko: "v2 빠른 모드 시제품", en: "v2 quick-mode prototype" }, src: "sample", note: { ko: "v2 시제품 · 사용 검증 전", en: "v2 prototype · not yet tested with users" }, d: "—", at: { ko: "5 직접 해 보고 확인한 한계 · 체험해보기", en: "5 Limits I found by trying it · Try it" } }
+      ] }
+    ],
+    noneT: { ko: "측정하지 않은 것", en: "Not measured" },
+    none: [
+      { ko: "재문의 감소 수치 (몬탁 · 직원 체감만 있음)", en: "How far repeat questions fell (Montauk · staff impression only)" },
+      { ko: "진단 정확도 (GROWN)", en: "Diagnosis accuracy (GROWN)" },
+      { ko: "시간 절감 (몬탁 · GROWN)", en: "Time saved (Montauk · GROWN)" },
+      { ko: "이용자 수 (메이킷 · 이런 느낌)", en: "Number of users (Make It! · Like this)" }
+    ]
   };
 
   window.CONTENT = C;
