@@ -486,3 +486,55 @@ html:not(.ty-reduce) .sheet .ty-rv:not(.ty-in) { opacity: .35; transform: transl
   .sheet .vp-video { grid-column: 10 / -1; }
   .sheet .vp-video .demo.phone .demo-stage { width: 100%; }
 }
+
+/* ═════ design refinement pass ═════
+   Motion: one orchestrated moment per view (the name on arrival; the card opening into its page).
+   Everything else answers the person: a press, a hover, a choice. Nothing moves because text scrolled. */
+
+/* no lag on scrolling text: the header stays put and the page simply scrolls over it */
+.sheet .ty-banner .b-title { transform: none; will-change: auto; }
+.sheet .ty-meta { opacity: 1; }
+/* the decision squares are simply filled; the story line already marks where you are */
+.sheet .story > li .jg-k::before, .sheet .story > li.on .jg-k::before { transform: none; background: var(--c); transition: none; }
+
+/* the name on arrival: letters rise into place, no tilt, no blur (transform and opacity only) */
+@keyframes tyLetter { from { opacity: 0; transform: translate3d(0, .38em, 0); } to { opacity: 1; transform: none; } }
+
+/* press: every control gives way on pointer-down, then springs back; taps don't wait on a double-tap check */
+.sheet :is(.demo-bar button, .cmp2-tabs button, .links a, .more-btn, .xfull summary, .cats a, .demo-go .btn, .gx-r, .ty-back),
+.ty-lang button, .ty-vt button, .pc, .pl-r, .ty-down { touch-action: manipulation; }
+.sheet :is(.demo-bar button, .cmp2-tabs button, .links a, .more-btn, .xfull summary, .cats a, .demo-go .btn):active { transform: scale(.97); transition-duration: 90ms; }
+.ty-lang button:active, .ty-vt button:active { transform: scale(.94); }
+.pc:active, html.ty-small .pc.seen:active { transform: scale(.99); }
+
+/* text controls: an underline draws from the left on hover and retracts to the right */
+.sheet .ty-back span:last-child, .ty-vt button:not([aria-pressed="true"]), .ty-lang button:not([aria-pressed="true"]) {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size var(--m2) var(--ez-out), color var(--m2) ease; }
+.sheet .ty-back:hover span:last-child, .ty-vt button:not([aria-pressed="true"]):hover, .ty-lang button:not([aria-pressed="true"]):hover { background-size: 100% 1px; }
+.ty-vt button, .ty-lang button { line-height: 1.25; }
+
+/* one control family: small controls 44px, primary ones 48px, one border, one type size */
+.sheet .demo-bar button, .sheet .cmp2-tabs button { min-height: 44px; font-size: 14px; }
+.sheet .links a, .sheet .xfull summary, .sheet .more-btn { min-height: 48px; font-size: 14.5px; }
+.sheet .cmp2-tabs { gap: var(--g); }
+
+/* one focus ring everywhere: 2px ink, 3px clear of the control */
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.pl-r:focus-visible { outline-offset: -2px; }
+
+/* translucent bars carry no hard divider; with reduced transparency they turn solid */
+.sheet .sheet-ctl { box-shadow: none; }
+@media (prefers-reduced-transparency: reduce) {
+  .sheet .sheet-ctl, html.ty-small .ty-foot, html.ty-small.arrived .topbar.ty-top { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* typography: no tracked capitals as labels in English; small text a touch open, large text tight */
+html[data-lang="en"] .sheet .label { text-transform: none; letter-spacing: .01em; font-size: 13.5px; }
+html[data-lang="en"] .sheet .split dt { text-transform: none; letter-spacing: .01em; font-size: 13px; }
+.sheet .cap, .sheet .src, .sheet .l3-k, .sheet .jg-k, .sheet .an-k, .sheet .st-k, .pc-d, .pl-d { letter-spacing: .005em; }
+.sheet .story h3 { letter-spacing: -.015em; }
+.sheet .h2 { letter-spacing: -.025em; }
+/* rhythm: steps a little further apart than the parts inside a step */
+@media (min-width: 761px) { .sheet .story { gap: 64px; } }
+.sheet .st-m { margin-top: 24px; }
+.sheet .judge { margin-top: 20px; }

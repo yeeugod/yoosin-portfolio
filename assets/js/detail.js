@@ -285,18 +285,17 @@
     unmount();
     M.wireVideos(root);
     const reduce = YL.reduceMotion();
-    /* project pages: each block arrives as it is reached — a short rise and fade, siblings a beat apart.
-       Only the arrival is animated; the class comes off afterwards so the block's own hover motion stays its own.
-       A language switch re-renders in place, so nothing re-arrives then. */
+    /* project pages: one orchestrated opening. When the page opens, its subtitle, paragraph and opening material
+       follow the travelling title in, 40 ms apart; everything further down is simply there when you reach it.
+       The class comes off afterwards so each block's own hover motion stays its own; a language switch re-renders in place. */
     if (/^(montauk|grown|makeit|likethis)$/.test(k)) {
-      const RV = ".hero-line, .hero-intro, .hero > .in > .cap, .lead3 > .l3, .lead-gr, .hero .lread-src, .hero .lread-l > li, .sec > .in > .label, .sec > .in > .h2, .story > li, .rows > li, .cmp2, .xdiff > *, .pair > div, .bridge, .list > li, .vpair > *";
+      const RV = ".hero-line, .hero-intro, .hero > .in > .cap, .lead3 > .l3, .lead-gr, .hero .lread-src, .hero .lread-l > li";
       const els = $$(RV, root);
       if (reduce || opts.relang) els.forEach((el) => el.classList.add("ty-in"));
       else {
         els.forEach((el) => {
-          const sib = el.parentElement ? [...el.parentElement.children].filter((x) => x.matches(RV)) : [el];
-          const i = Math.min(sib.indexOf(el), 5), hero = !!el.closest(".hero");
-          el.style.setProperty("--rv-d", (hero ? 160 : 0) + i * 70 + "ms");
+          const i = Math.min([...$$(RV, root)].indexOf(el), 8);
+          el.style.setProperty("--rv-d", 140 + i * 40 + "ms");
           el.classList.add("ty-rv");
         });
         const done = (e) => { if (e.target.classList.contains("ty-rv") && e.propertyName === "transform") { e.target.classList.remove("ty-rv"); e.target.style.removeProperty("--rv-d"); } };

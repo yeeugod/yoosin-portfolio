@@ -328,8 +328,6 @@
     // a thin line in the project's colour shows how far into the page you are
     const max = sheetScroll.scrollHeight - sheetScroll.clientHeight;
     sheet.style.setProperty("--rp", max > 0 ? Math.min(1, y / max).toFixed(4) : "0");
-    // the header title lags a little behind the page and its caption lets go as it leaves: the page slides over the header
-    if (!reduce) { const bh = banner.offsetHeight; if (y < bh + 60) { banner.style.setProperty("--by", (Math.min(y, bh) * 0.16).toFixed(1) + "px"); banner.style.setProperty("--bo", Math.min(1, y / (bh * 0.75)).toFixed(3)); } }
     let away = y > 140 && y > lastSy + 2 ? true : y < lastSy - 2 ? false : sheetCtl.classList.contains("away");
     // ART & DESIGN: while the category bar is pinned to the top, the controls stay away in both directions
     const mark = $(".cats-mark", sheetBody);
@@ -449,7 +447,7 @@
     const tr = bTitle.getBoundingClientRect();
     const m = makeMorph(k, sb.r), h = $(".ty-mt", m);
     srcOf(k).style.visibility = "hidden";
-    const D = S.small ? 420 : 560, EZ = "cubic-bezier(0.76,0,0.24,1)";
+    const D = S.small ? 420 : 560, EZ = "cubic-bezier(0.65,0,0.35,1)"; // the same travel curve both ways
     const a1 = m.animate([
       { left: sb.r.left + "px", top: sb.r.top + "px", width: sb.r.width + "px", height: sb.r.height + "px" },
       { left: "0px", top: "0px", width: S.W + "px", height: S.H + "px" }
@@ -499,7 +497,7 @@
     const m = makeMorph(k, { left: 0, top: 0, width: S.W, height: S.H }), h = $(".ty-mt", m);
     sheet.classList.add("out", "nob");
     src.style.visibility = "hidden";
-    const D = S.small ? 380 : 480, EZ = "cubic-bezier(0.76,0,0.24,1)";
+    const D = S.small ? 280 : 360, EZ = "cubic-bezier(0.65,0,0.35,1)"; // leaving takes about two thirds of arriving
     const a1 = m.animate([
       { left: "0px", top: "0px", width: S.W + "px", height: S.H + "px" },
       { left: cr.left + "px", top: cr.top + "px", width: cr.width + "px", height: cr.height + "px" }
