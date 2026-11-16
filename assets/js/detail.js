@@ -86,6 +86,7 @@
     mlead: () => [{ img: "mkd-p4", t: C.montauk.lead.made.cap }, { img: "mt-studio-2", t: C.montauk.lead.app.cap }],
     gcol: () => { const c = C.grown.story.steps.find((x) => x.k === "expert").collab; return [{ img: c.img, t: c.cap }]; },
     mproc: () => C.montauk.story.steps[0].media.map((m) => ({ img: m.img, t: m.t })),
+    ltv: () => { const s = C.likethis.story.steps.find((x) => x.k === "limits"); return [{ img: enImg("lt-v1"), t: s.v1 }, { img: enImg("lt-v2"), t: s.v2 }]; },
     mst: () => C.montauk.story.steps.find((x) => x.k === "demo").stills.map((x) => ({ img: x.img, t: x.t }))
   };
   const zoom = (set, i, inner, labelText) => `<button type="button" class="zoom" data-zoom="${set}|${i}" aria-label="${esc(labelText + " — " + L(C.ui.viewLarge))}">${inner}</button>`;
@@ -289,13 +290,17 @@
     ["Samurai Jack", "every day after school"].forEach((p) => { src = src.replace(esc(p), `<mark data-from="1">${esc(p)}</mark>`); });
     const lead = sec("l-hero", `${heroLine(h)}<p class="cap">${srcTag("real")}<span>${esc(L(T.cap))}</span></p>
       <div class="lread" data-lread data-lead><p class="lread-k">${esc(L(R.label))}</p><p class="lread-src" lang="en">“${src}”</p><p class="cap">${srcTag("rebuilt")}<span>${esc(L(R.srcNote))}</span></p>
-        <ol class="lread-l three">${R.layers.map((l, i) => `<li data-layer="${i}" ${l.from ? `data-src="${i}" tabindex="0"` : ""}><h3><i lang="en">${pad(i + 1)}</i>${esc(L(l.t))}</h3><p class="lh">${esc(L(l.head))}</p><p>${esc(L(l.d))}</p>${l.tag ? `<p class="cap">${srcTag(l.tag)}</p>` : ""}</li>`).join("")}</ol>
+        <ol class="lread-l three">${R.layers.map((l, i) => `<li data-layer="${i}" ${l.from ? `data-src="${i}" tabindex="0"` : ""}><h3><i lang="en">${pad(i + 1)}</i>${esc(L(l.t))}</h3><p class="lh">${esc(L(l.head))}</p><p>${esc(L(l.d))}</p>${l.tag ? `<p class="cap">${srcTag("sample")}<span>${esc(L("답변 제안", "Suggested reply"))}</span></p>` : ""}</li>`).join("")}</ol>
         <p class="lead-line">${esc(L(R.line))}</p></div>`, "hero lead-only");
     const media = {
       talk: `<div class="pair">${T.items.map((x) => `<div><h3 lang="${x.tlang}">${esc(x.t)}</h3>${x.ko ? `<span lang="ko">${esc(x.ko)}</span>` : ""}<p class="p" style="margin:0">${esc(L(x.d))}</p></div>`).join("")}</div>
         <p class="bridge">${esc(L(T.bridge))}</p><p class="cap">${srcTag("real")}<span>${esc(L(T.cap))}</span></p>`,
       three: items(D.story.steps.find((x) => x.k === "three").items, 3),
-      try: demo("likethis", h)
+      try: demo("likethis", h),
+      // v1 and the v2 quick-mode prototype, side by side
+      limits: (() => { const s = D.story.steps.find((x) => x.k === "limits");
+        const f = (img, t) => `<figure>${zoom("ltv", img === "lt-v1" ? 0 : 1, pic(enImg(img), L(t), { sizes: "(max-width:760px) 100vw, 40vw" }), L(t))}<figcaption class="cap">${srcTag("sample")}<span>${esc(L(t))}</span></figcaption></figure>`;
+        return `<div class="ltv">${f("lt-v1", s.v1)}${f("lt-v2", s.v2)}</div><p class="cap">${esc(L(s.vCap))}</p>`; })()
     };
     return lead + story("l-story", D.story, media) + closeSec("l-close", 2, D.close);
   }

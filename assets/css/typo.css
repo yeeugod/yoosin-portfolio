@@ -657,3 +657,31 @@ html[data-lang="en"] .sheet .l3-voice .vq { font-family: var(--en); }
   .sheet .fb-steps li { padding-bottom: 12px; border-bottom: 1px solid var(--line); }
 }
 .sheet .gr-roles { margin: 10px 0 0; padding-top: 8px; border-top: 1px dashed var(--line); font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+/* Like this · v1 and v2 side by side in the limits step */
+.sheet .ltv { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--g); margin-bottom: 8px; }
+.sheet .ltv figure { margin: 0; min-width: 0; }
+.sheet .ltv .zoom { display: block; width: 100%; padding: 0; border: 1px solid var(--ink); background: #fff; cursor: zoom-in; }
+.sheet .ltv .ph { display: block; position: relative; aspect-ratio: var(--ar); }
+.sheet .ltv .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.sheet .ltv .cap { margin-top: 8px; }
+@media (max-width: 760px) { .sheet .ltv { grid-template-columns: minmax(0, 1fr); } }
+/* Like this app · the quick-mode switch and its compact result (v2 prototype) */
+.lx-mode { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; margin: 0 0 14px; }
+.lx-qt { display: inline-flex; gap: 8px; align-items: center; padding: 6px 12px; border: 1px solid var(--ink); border-radius: 999px; background: #fff; font-size: 14px; font-weight: 700; cursor: pointer; }
+.lx-qt input { width: 16px; height: 16px; margin: 0; accent-color: #A2305F; }
+.lx-qtag { font-size: 12px; color: var(--ink-2); }
+.lx-quick { display: grid; gap: 12px; }
+.lx-quick textarea { width: 100%; box-sizing: border-box; padding: 14px 16px; border: 1px solid var(--ink); font: inherit; font-size: 17px; line-height: 1.5; resize: vertical; }
+.lq-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.lq-chips button { padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-size: 13px; cursor: pointer; }
+.lq-chips button[aria-pressed="true"] { border-color: var(--ink); background: #FFF0F6; }
+.lq { list-style: none; margin: 0; padding: 0; border: 1px solid var(--ink); background: #fff; }
+.lq li { position: relative; padding: 12px 16px; }
+.lq li + li { border-top: 1px solid var(--line); }
+.lq b { display: block; margin-bottom: 4px; font-size: 12px; font-weight: 700; color: var(--ink-2); }
+.lq p { margin: 0; font-size: 16px; line-height: 1.6; }
+.lq .lq-big { font-size: 18px; font-weight: 600; }
+.lq small { font-size: 12px; font-weight: 400; color: var(--ink-2); }
+.lq .lx-copy { position: absolute; top: 10px; right: 12px; }
+.lq li:last-child p { padding-right: 64px; }
+.lq-note { margin: 0; font-size: 12.5px; color: var(--ink-2); }

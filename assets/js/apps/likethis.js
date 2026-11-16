@@ -50,7 +50,7 @@
   ];
   const TONES = [["casual", { ko: "가볍게", en: "Casual" }], ["polite", { ko: "정중하게", en: "Polite" }], ["ask", { ko: "되묻기", en: "Ask back" }]];
 
-  const fresh = () => ({ ex: "samurai", text: X[0].text, out: "ko", rel: "close", sit: "trouble", shown: false, tone: null });
+  const fresh = () => ({ ex: "samurai", text: X[0].text, out: "ko", rel: "close", sit: "trouble", shown: false, tone: null, quick: false });
   let S = Object.assign(fresh(), YL.store.sget(KEY, {}));
   if (!YL.store.sget(KEY, null)) S.out = YL.lang === "en" ? "en" : "ko";
   const save = () => YL.store.sset(KEY, S);
@@ -58,13 +58,34 @@
   const O = (o) => o == null ? "" : typeof o === "string" ? o : (o[S.out] != null ? o[S.out] : o.ko); // text in the result language
 
   let pane, scroller, prev = {};
+  const first = (t) => { const m = (t || "").match(/^.*?[.!?](?=\s|$)/); return m ? m[0] : t; }; // the first sentence only
+  /* v2 prototype (not yet tested with users): paste a sentence → translation, one line of context, one line to say next.
+     Same five prepared expressions as v1; no language model is connected. */
+  const modeBar = () => `<div class="lx-mode"><label class="lx-qt"><input type="checkbox" data-k="quick" ${S.quick ? "checked" : ""}><span>${esc(L("빠른 모드", "Quick mode"))}</span></label>
+      <span class="lx-qtag">${esc(L("준비된 예시 · v2 시제품(사용 검증 전)", "Prepared example · v2 prototype (not yet tested with users)"))}</span></div>`;
+  function quick() {
+    const x = find(S.text), exact = x && S.text.trim() === x.text, H = (ko, en) => S.out === "ko" ? ko : en;
+    const tone = S.rel === "close" ? "casual" : "polite";
+    const res = !S.text.trim() ? "" : !x ? `<div class="lt-none" role="status"><b>${esc(L("준비된 표현이 아닙니다", "Not a prepared expression"))}</b><p>${esc(L("빠른 모드도 준비된 다섯 표현에서만 동작합니다: ", "Quick mode also works only on the five prepared expressions: "))}${X.map((e) => `<button type="button" class="linkbtn" data-ex="${e.id}">${esc(e.keys[0])}</button>`).join(" · ")}</p></div>`
+      : `<ol class="lq" lang="${S.out}" aria-live="polite">
+          <li><b>${esc(x.srcLang === S.out ? H("쉬운 말로", "In plain words") : H("번역", "Translation"))}</b><p class="lq-big">${exact ? esc(O(x.basic)) : `<span lang="${x.srcLang}">“${esc(x.keys[0])}”</span> <small>${esc(H("문장 전체 번역은 만들지 않습니다", "No whole-sentence translation"))}</small>`}</p></li>
+          <li><b>${esc(H("맥락 한 줄", "Context, one line"))}</b><p>${esc(first(O(x.context)))}</p></li>
+          <li><b>${esc(H("이어서 할 말", "What to say next"))}</b><p lang="en">${esc(x.rep[tone])}</p><button type="button" class="lx-copy" data-copy="${tone}" aria-label="${esc(L("복사: ", "Copy: ") + x.rep[tone])}">${esc(L("복사", "Copy"))}</button></li>
+        </ol>`;
+    return `<section class="lx-quick" data-anchor="lt-q">
+        <label for="lt-text" class="sr-only">${esc(L("문장", "Sentence"))}</label><textarea id="lt-text" data-k="text" rows="2" maxlength="280" spellcheck="false" placeholder="${esc(L("들은 문장을 붙여 넣으세요", "Paste a sentence you heard"))}">${esc(S.text)}</textarea>
+        <div class="lq-chips" role="group" aria-label="${esc(L("준비된 표현", "Prepared expressions"))}">${X.map((e) => `<button type="button" data-ex="${e.id}" aria-pressed="${x === e && S.text === e.text}"><span lang="${e.srcLang}">${esc(e.keys[0])}</span></button>`).join("")}</div>
+        ${res}
+        <p class="lq-note">${esc(L("언어 모델은 연결하지 않았습니다. 직접 작성한 다섯 표현에서만 동작하는 시제품이며, 사용 검증 전입니다.", "No language model is connected. This prototype works only on the five hand-written expressions and has not been tested with users."))}</p></section>`;
+  }
   function render() {
+    if (S.quick) { pane.innerHTML = `<div class="lx">${modeBar()}${quick()}</div>`; prev = YL.flashChanged(pane, prev); return; }
     const x = find(S.text);
     const tone = S.tone || (S.rel === "close" ? "casual" : "polite");
     const order = [tone, ...TONES.map((t) => t[0]).filter((t) => t !== tone)];
     const srcName = x ? (x.srcLang === "en" ? "English" : "한국어") : (/[가-힣]/.test(S.text) ? "한국어" : "English");
     const seg = (name, cur, opts, legend) => `<fieldset class="lx-seg"><legend>${esc(L(legend))}</legend>${opts.map(([v, t]) => `<label><input type="radio" name="${name}" value="${v}" data-k="${name}" ${cur === v ? "checked" : ""}><span>${esc(L(t))}</span></label>`).join("")}</fieldset>`;
-    pane.innerHTML = `<div class="lx">
+    pane.innerHTML = `<div class="lx">${modeBar()}
       <section class="lx-io" data-anchor="lt-1">
         <div class="lx-langs"><span class="lx-from" data-watch="lt-src">${esc(srcName)}</span><span class="lx-arrow" aria-hidden="true">→</span>
           <fieldset class="lx-to"><legend class="sr-only">${esc(L("결과 언어", "Result language"))}</legend>${[["ko", "한국어"], ["en", "English"]].map(([v, t]) => `<label><input type="radio" name="out" value="${v}" data-k="out" ${S.out === v ? "checked" : ""}><span lang="${v}">${t}</span></label>`).join("")}</fieldset>
@@ -119,12 +140,13 @@
     if (e.target.dataset.k === "text") {
       S.text = e.target.value; e.target.removeAttribute("aria-invalid"); save();
       const cnt = $(".lx-cnt", pane); if (cnt) cnt.textContent = `${S.text.length} / 280`;
-      clearTimeout(typing); typing = setTimeout(() => { if (S.shown) rr(); else { // keep chips in sync without stealing focus
+      clearTimeout(typing); typing = setTimeout(() => { if (S.shown || S.quick) rr(); else { // keep chips in sync without stealing focus
         $$(".lx-chips [data-ex]", pane).forEach((b) => b.setAttribute("aria-pressed", String(X.find((z) => z.id === b.dataset.ex).text === S.text))); } }, 350);
     }
   }
   function onChange(e) {
     const k = e.target.dataset.k; if (!k || k === "text") return;
+    if (k === "quick") { S.quick = e.target.checked; save(); rr(); return; }
     S[k] = e.target.value; if (k === "rel") S.tone = null; save(); rr();
   }
 

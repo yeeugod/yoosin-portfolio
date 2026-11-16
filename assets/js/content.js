@@ -571,7 +571,7 @@
       intro: { ko: "유학 시절 현지 친구와 어린 시절 애니메이션을 이야기했습니다. 저는 뽀로로를, 친구는 사무라이 잭을 떠올렸습니다. 서로 어떤 작품을 봤는지는 말로 설명할 수 있었지만, 그 이야기로 가까워지는 데 더 중요했던 건 방과 후마다 만화를 기다리던 마음을 알아보는 일이었습니다. 그래서 표현의 뜻과 함께 상대에게 그 말이 어떤 기억을 불러오는지 살펴보고, 그 경험에 대해 한 걸음 더 물어볼 수 있는 도구를 만들었습니다.", en: "Studying abroad, I talked with a local friend about childhood cartoons. I thought of Pororo; my friend thought of Samurai Jack. We could explain which shows we had watched, but what brought us closer was recognising the feeling of waiting for a cartoon after school every day. So I built a tool that looks at what an expression means alongside the memory it brings back for the other person, and helps you ask one step further about that experience." },
       app: { ko: "체험해보기", en: "Try it" },
       tryLead: { ko: "예시 문장을 선택하고, 기본 번역과 문화적 맥락, 이어서 할 말을 비교해보세요.", en: "Pick a sample sentence and compare the plain translation, the cultural context and what to say next." },
-      tryStatus: { ko: "결과는 직접 작성해 준비한 예시입니다. 자유 입력은 직접 작성한 다섯 표현의 맥락만 보여주며, 문장 전체 번역과 언어 모델은 연결하지 않았습니다. 출시 전입니다.", en: "Results are examples I wrote and prepared. Free input only shows context for five hand-written expressions; whole-sentence translation and language models are not connected. Not launched yet." },
+      tryStatus: { ko: "결과는 직접 작성해 준비한 예시입니다. 자유 입력은 직접 작성한 다섯 표현의 맥락만 보여주며, 문장 전체 번역과 언어 모델은 연결하지 않았습니다. 빠른 모드(v2 시제품, 사용 검증 전)도 같은 다섯 표현에서만 동작합니다. 출시 전입니다.", en: "Results are examples I wrote and prepared. Free input only shows context for five hand-written expressions; whole-sentence translation and language models are not connected. Quick mode (v2 prototype, not yet tested with users) also works only on the same five. Not launched yet." },
       five: "Samurai Jack, 뽀로로, Saturday morning, This is fine, Bless your heart"
     },
     lead: {
@@ -617,6 +617,16 @@
             { ko: "어떤 사이인지, 직전에 무슨 일이 있었는지에 따라 이어서 할 말의 말투가 달라지도록 상황 선택을 넣었습니다.", en: "Choosing the relationship and what just happened changes the tone of what to say next." }
           ] },
         { k: "try", t: { ko: "체험과 시연", en: "Try it, or watch" } },
+        { k: "limits", t: { ko: "직접 해 보고 확인한 한계", en: "Limits I found by trying it" }, h: { ko: "별도 앱을 거칠 이유가 약했다", en: "There was little reason to go through a separate app" },
+          src: "limit", meta: { ko: "지원자 본인 사용 검토", en: "My own review of using it" },
+          ul: [
+            { ko: "직접 써 보니, 이 앱의 기능을 쓰는 것은 언어 모델을 쓰는 것과 큰 차이가 없었다.", en: "Using it myself, using this app's features was not much different from using a language model." },
+            { ko: "언어 모델과 실시간으로 대화하면 문화적 맥락까지 바로 번역하고 설명해 주기 때문이다. 별도 앱을 거칠 이유가 약했다.", en: "A live conversation with a language model translates and explains even the cultural context straight away, so there was little reason to go through a separate app." }
+          ],
+          mine: [{ ko: "맥락 설명을 더하는 것만으로는 차별점이 되지 않는다. 앞으로는 그 과정마저 더 간략하게 줄여, 번역기처럼 바로 꺼내 쓰는 도구로 실용적으로 다듬는 방향으로 간다.", en: "Adding a context explanation alone doesn't set it apart. From here, the direction is to cut even that process shorter, and refine it practically into a tool you pull out and use straight away, like a translator." }],
+          v1: { ko: "v1 · 지금의 3단 화면 (기본 번역 → 문화적 설명 → 답변 제안)", en: "v1 · the current three-column screen (plain translation → cultural context → suggested replies)" },
+          v2: { ko: "v2 시제품(사용 검증 전) · 빠른 모드: 번역 + 맥락 한 줄 + 이어서 할 말 한 줄", en: "v2 prototype (not yet tested with users) · Quick mode: translation + one line of context + one line to say next" },
+          vCap: { ko: "두 화면 모두 준비된 다섯 표현에서만 동작하며, 언어 모델은 연결하지 않았습니다. 빠른 모드는 체험해보기 화면 위쪽에서 켤 수 있습니다.", en: "Both screens work only on the five prepared expressions; no language model is connected. Quick mode can be switched on at the top of the trial." } },
         { k: "early", t: { ko: "초기 표현 실험과 제작 과정", en: "Early experiments and how it was made" }, h: { ko: "자연스러운 영어를 얻으려 GPT를 써보다", en: "Trying GPT for natural English" },
           p: [{ ko: "친구에게 초기 GPT-3를 소개받아, 학교 에세이에서 자연스러운 영어 표현을 얻으려 했습니다. 어색한 관용구와 표현을 어떻게 다룰지 고민했고, TOEFL 라이팅 템플릿처럼 문장을 모듈로 나눠 바꿔보려 했습니다.", en: "A friend introduced me to early GPT-3, and I tried to get natural English for school essays from it. I wondered how to deal with awkward idioms, and tried breaking sentences into modules to swap, like a TOEFL writing template." }],
           ai: { t: { ko: "GPT-3 · 표현 실험", en: "GPT-3 · phrasing experiments" }, d: { ko: "초기 GPT-3를 써보며 자연스러운 영어 표현을 얻으려 했고, 관용구와 어색한 표현을 어떻게 다룰지 고민한 경험에서 이 도구가 시작됐습니다.", en: "The tool began with trying early GPT-3 to get natural English, and thinking about how to handle idioms and awkward phrasing." } } }
@@ -625,6 +635,7 @@
     close: {
       label: { ko: "다음 확인", en: "The next check" },
       q: { ko: "맥락을 알게 되면 상대에게 건네는 다음 말도 달라질까?", en: "Once you know the context, does what you say next change too?" },
+      qNote: { src: "limit", t: { ko: "직접 써 본 결과: 언어 모델과의 실시간 대화와 큰 차이가 없었다 → 개선 방향: 단계 축소, 번역기형 사용", en: "From using it myself: not much different from a live conversation with a language model → direction: fewer steps, translator-style use" } },
       rows: [
         { k: { ko: "지금 체험 범위", en: "What the trial covers" }, v: { ko: "준비된 예시 문장·상황 선택, 기본 번역·문화적 맥락·이어서 할 말 비교, 답변 복사. 자유 입력은 직접 작성한 다섯 표현(Samurai Jack, 뽀로로, Saturday morning, This is fine, Bless your heart)의 맥락만 보여줍니다", en: "Prepared sample lines and situations, plain translation vs. cultural context vs. what to say next, copying a reply. Free input only shows context for the five hand-written expressions (Samurai Jack, Pororo, Saturday morning, This is fine, Bless your heart)" } },
         { k: { ko: "연결하지 않음", en: "Not connected" }, v: { ko: "문장 전체 번역, 실시간 언어 모델", en: "Whole-sentence translation, live language models" } },
