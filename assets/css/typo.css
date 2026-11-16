@@ -229,3 +229,14 @@ html[data-lang="en"] .sheet .links a.resume-link small { font-family: var(--ko);
 .sheet .turn h3 { margin-bottom: 18px; }
 .sheet .story h3 { margin-bottom: 16px; }
 .sheet .list h3, .sheet .xch-c h3 { margin-bottom: 10px; }
+
+/* ───── timeline: the year above, the heading and its description level with each other ───── */
+.sheet .tl .tl-when { display: block; grid-column: 1; grid-row: 1; font-family: var(--en); font-size: 13px; font-weight: 500; letter-spacing: .08em; color: var(--ink-2); text-transform: uppercase; line-height: 1.3; }
+html[data-lang="ko"] .sheet .tl .tl-when { font-family: var(--ko); letter-spacing: .02em; font-weight: 600; }
+.sheet .tl li { grid-template-rows: auto auto; row-gap: 6px; }
+.sheet .tl li h3 { grid-column: 1; grid-row: 2; align-self: start; }
+.sheet .tl li p { grid-column: 2; grid-row: 2; align-self: start; margin-top: .35em; }
+@media (max-width: 1080px) {
+  .sheet .tl li h3, .sheet .tl li p { grid-column: 1; grid-row: auto; }
+  .sheet .tl li p { margin-top: 4px; }
+}

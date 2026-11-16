@@ -62,7 +62,7 @@
   function about() {
     const A = C.about;
     return sec("a-tl", `${label(1, { ko: "지나온 길", en: "The path so far" })}
-        <ol class="tl" id="tl">${A.timeline.map((x, i) => `<li data-anchor="tl-${i}"><h3><small>${esc(L(x.when)) || "&nbsp;"}</small>${esc(L(x.t))}</h3><p>${esc(L(x.d))}</p></li>`).join("")}</ol>`, "first")
+        <ol class="tl" id="tl">${A.timeline.map((x, i) => `<li data-anchor="tl-${i}"><span class="tl-when">${esc(L(x.when)) || "&nbsp;"}</span><h3>${esc(L(x.t))}</h3><p>${esc(L(x.d))}</p></li>`).join("")}</ol>`, "first")
       + sec("a-why", `${label(2, { ko: "Why SK AIGEN", en: "Why SK AIGEN" })}<div class="why">${A.why[YL.lang].map((p, i) => `<p data-anchor="why-${i}">${esc(p)}</p>`).join("")}</div>`)
       + sec("a-links", `${label(3, { ko: "연락", en: "Contact" })}
         <div class="links">${A.links.map((l) => `<a href="${l.href}" ${l.ext ? 'target="_blank" rel="noopener"' : ""}>${esc(l.t)}${l.d ? ` <small lang="en">${esc(l.d)}</small>` : ""} <span aria-hidden="true">${l.ext ? "↗" : "→"}</span>${l.ext ? `<span class="sr-only">${esc(L("(새 창)", "(opens in a new tab)"))}</span>` : ""}</a>`).join("")}<a class="resume-link" href="${A.resume.href}" target="_blank" rel="noopener">${esc(L("이력서 보기", "View Résumé"))} <small lang="${YL.lang === "ko" ? "en" : "ko"}">${esc(YL.lang === "ko" ? "View Résumé" : "이력서 보기")}</small> <span aria-hidden="true">↗</span><span class="sr-only">${esc(L("(PDF, 새 창)", "(PDF, opens in a new tab)"))}</span></a></div>`);
