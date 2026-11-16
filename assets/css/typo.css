@@ -708,3 +708,9 @@ html[data-lang="en"] .sheet .l3-voice .vq { font-family: var(--en); }
   .sheet .ev .ev-t { width: auto; font-weight: 600; }
   .sheet .ev td > div { min-width: 0; }
 }
+/* short quotes from the actual feedback, above the summary */
+.sheet .fb-q { list-style: none; margin: 4px 0 18px; padding: 2px 0 2px 16px; border-left: 3px solid var(--c); display: grid; gap: 8px; max-width: 46em; }
+.sheet .fb-q li { font-size: 18px; font-weight: 600; line-height: 1.5; text-wrap: pretty; }
+html[data-lang="en"] .sheet .fb-q li { font-family: var(--en); font-weight: 500; }
+.sheet .fb-qn { margin: -10px 0 18px; }
+@media (max-width: 760px) { .sheet .fb-q li { font-size: 16.5px; } }

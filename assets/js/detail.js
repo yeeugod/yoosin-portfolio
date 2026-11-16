@@ -50,7 +50,7 @@
   const heroLine = (h) => `<p class="hero-line">${esc(L(h.line))}</p>${h.intro ? `<p class="hero-intro">${esc(L(h.intro))}</p>` : ""}`;
   /* one numbered story per project: kicker, heading, text (with its AI note beside it), the decision, then the material */
   const story = (id, S, media) => sec(id, `${label("·", S.label)}<ol class="story" data-story>${S.steps.map((s, i) => {
-      const text = (s.src ? `<p class="cap st-src">${srcTag(s.src)}${s.meta ? `<span>${esc(L(s.meta))}</span>` : ""}</p>` : "")
+      const text = (s.src ? `<p class="cap st-src">${srcTag(s.src)}${s.meta ? `<span>${esc(L(s.meta))}</span>` : ""}</p>` : "") + quotes(s.quotes)
         + (s.p || []).map((p) => `<p class="p">${esc(L(p))}</p>`).join("")
         + (s.ul ? `<ul class="fb-l">${s.ul.map((x) => `<li>${esc(L(x))}</li>`).join("")}</ul>` : "");
       const left = text + (s.mine ? judge(s.mine) : "");
@@ -58,10 +58,12 @@
       return `<li class="st-${s.k}" data-anchor="${id}-${s.k}"><span class="sd" aria-hidden="true">${i + 1}</span>
         <p class="st-k">${esc(L(s.t))}</p>${s.h ? `<h3>${esc(L(s.h))}</h3>` : ""}${body}${media[s.k] ? `<div class="st-m">${media[s.k]}</div>` : ""}</li>`;
     }).join("")}</ol>`);
+  const quotes = (list) => list ? `<ul class="fb-q">${list.map((q) => `<li>“${esc(L(q))}”</li>`).join("")}</ul>${YL.lang === "en" ? `<p class="cap fb-qn">Said in Korean; translated.</p>` : ""}` : "";
   const closeSec = (id, n, X) => sec(id, `${label("·", X.label)}${X.q ? `<h2 class="h2 close-q">${esc(L(X.q))}</h2>` : ""}${X.qNote ? `<p class="cap close-qn">${srcTag(X.qNote.src)}<span>${esc(L(X.qNote.t))}</span></p>` : ""}${rows(X.rows)}`);
   /* feedback from real use, or limits found by trying it: label, heading, who and when, the scope, what was said, then what I decided */
   const fbSec = (id, F) => sec(id, `${label("·", F.label)}${F.h ? `<h2 class="h2 fb-h">${esc(L(F.h))}</h2>` : ""}
       <p class="cap fb-meta">${srcTag(F.src)}<span>${esc(L(F.meta))}</span></p>
+      ${quotes(F.quotes)}
       ${F.scope ? `<p class="fb-scope">${esc(L(F.scope))}</p>` : ""}
       ${F.items ? `<ul class="fb-l">${F.items.map((x) => `<li>${esc(L(x))}</li>`).join("")}</ul>` : ""}
       ${F.cols ? `<div class="fb-cols">${F.cols.map((c) => `<div><h3>${esc(L(c.t))}</h3><p>${esc(L(c.d))}</p>${c.note ? `<p class="cap">${esc(L(c.note))}</p>` : ""}</div>`).join("")}</div>` : ""}

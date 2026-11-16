@@ -379,6 +379,11 @@
       label: { ko: "실사용 피드백", en: "Field feedback" },
       h: { ko: "시카고점 직원이 Manual Studio를 직접 써 본 뒤", en: "After Chicago store staff tried Manual Studio themselves" },
       src: "field", meta: { ko: "몬탁소파 시카고점 직원 · 2026-02", en: "Montauk Sofa Chicago store staff · 2026-02" },
+      quotes: [
+        { ko: "그 자리에서 말로 설명할 때보다 거쳐야 할 단계가 조금 더 있다", en: "There are a few more steps than explaining it out loud on the spot" },
+        { ko: "앱의 질문에 답하는 방식은 평소 고객을 안내할 때와 비슷하다", en: "Answering the app's questions is like how we usually guide customers" },
+        { ko: "같은 내용을 묻는 문의가 눈에 띄게 줄었다", en: "Questions asking the same thing dropped noticeably" }
+      ],
       scope: { ko: "사내 공식 도입 전, 시카고점 직원들이 시연 단계의 앱을 써 본 결과입니다.", en: "Before any official in-house adoption: what Chicago store staff found after trying the app at its demo stage." },
       items: [
         { ko: "그 자리에서 말로 설명할 때보다 거쳐야 할 단계가 조금 더 있다.", en: "There are a few more steps to go through than when explaining out loud on the spot." },
@@ -464,6 +469,10 @@
       label: { ko: "실사용 피드백", en: "Field feedback" },
       h: { ko: "도구가 맡을 범위와 전문가가 설명할 범위", en: "What the tool takes on, and what the expert explains" },
       src: "field", meta: { ko: "GROWN 공실 진단 전문가(협업자) · 2026-10", en: "GROWN's vacancy-diagnosis expert (collaborator) · 2026-10" },
+      quotes: [
+        { ko: "AI가 최종 판단에 얼마나 관여했는지 불분명하면, 결과를 신뢰하거나 비용을 지불하는 데 주저한다", en: "When it's unclear how far AI was involved in the final judgement, clients hesitate to trust the result or to pay for it" },
+        { ko: "반복적인 확인과 대조가 간소해져, 검토가 필요한 조건과 회생 전략에 더 집중할 수 있다", en: "With the repeated checking and cross-matching simplified, I can focus more on the conditions that need review and on the recovery strategy" }
+      ],
       cols: [
         { t: { ko: "전문가가 본 한계", en: "Limits the expert saw" },
           d: { ko: "일부 고객은 AI의 영향이 큰 종합 진단에 신중하다. 고객은 경험과 실적이 검증된 전문가에게 상권과 물건 조건을 직접 듣고 조치를 논의하는 과정에 더 가치를 둔다. AI가 최종 판단에 얼마나 관여했는지 불분명하면 결과를 신뢰하거나 비용을 지불하는 데 주저하기도 한다.",
@@ -558,6 +567,11 @@
     limit: {
       label: { ko: "직접 해 보고 확인한 한계", en: "Limits I found by trying it" },
       src: "limit", meta: { ko: "지원자 본인 실행 검토", en: "My own review of running it" },
+      quotes: [
+        { ko: "공장과 개인 디자이너들을 이어 줄 수 있는 기반이 다져지지 않았다", en: "The groundwork to connect factories with individual designers wasn't there" },
+        { ko: "이용자 모집을 하는 것 자체가 어려웠다", en: "Even recruiting users was hard" },
+        { ko: "전문가의 도움이 필요했던 한계에 부딪혔다", en: "I hit a limit where I needed an expert's help" }
+      ],
       items: [
         { ko: "공장과 개인 디자이너를 실제로 이어 줄 기반을 다지지 못했다.", en: "I couldn't lay the groundwork to actually connect factories with individual designers." },
         { ko: "이용자를 모으는 일 자체가 어려웠다.", en: "Gathering users was itself hard." },
@@ -633,6 +647,10 @@
         { k: "try", t: { ko: "체험과 시연", en: "Try it, or watch" } },
         { k: "limits", t: { ko: "직접 해 보고 확인한 한계", en: "Limits I found by trying it" }, h: { ko: "별도 앱을 거칠 이유가 약했다", en: "There was little reason to go through a separate app" },
           src: "limit", meta: { ko: "지원자 본인 사용 검토", en: "My own review of using it" },
+          quotes: [
+            { ko: "그 기능을 사용하는 것은 언어 모델을 쓰는 것과 큰 차이는 없었다", en: "Using those features wasn't much different from using a language model" },
+            { ko: "그 과정조차도 더 간략화하고, 번역기처럼 도구적으로 쓸 수 있게 실용적으로 개선해 나가는 것이 앞으로의 방향이다", en: "The way forward is to simplify even that process, and make it practical — something you can use as a tool, like a translator" }
+          ],
           ul: [
             { ko: "직접 써 보니, 이 앱의 기능을 쓰는 것은 언어 모델을 쓰는 것과 큰 차이가 없었다.", en: "Using it myself, using this app's features was not much different from using a language model." },
             { ko: "언어 모델과 실시간으로 대화하면 문화적 맥락까지 바로 번역하고 설명해 주기 때문이다. 별도 앱을 거칠 이유가 약했다.", en: "A live conversation with a language model translates and explains even the cultural context straight away, so there was little reason to go through a separate app." }
