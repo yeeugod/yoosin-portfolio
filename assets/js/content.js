@@ -71,7 +71,10 @@
       { when: { ko: "2021", en: "2021" }, t: { ko: "프로복싱 라이선스 취득", en: "Professional boxing licence" },
         d: { ko: "프로 선수 자격을 땄습니다.", en: "Earned a licence to box professionally." } },
       { when: { ko: "2021년 가을 입학 · BFA 2025", en: "Entered fall 2021 · BFA 2025" }, t: { ko: "School of the Art Institute of Chicago", en: "School of the Art Institute of Chicago" },
-        d: { ko: "드로잉·회화·사진을 경험한 뒤 산업디자인을 전공하고 졸업했습니다(Presidential Scholarship). 2022년부터 2025년까지 학교 디지털 패브리케이션 스튜디오에서 레이저 커터와 3D 프린터 운영과 교육을 맡았습니다.", en: "After drawing, painting and photography, I majored in industrial design and graduated with a BFA (Presidential Scholarship). From 2022 to 2025 I ran and taught the laser cutters and 3D printers in the school's digital fabrication studio." } },
+        d: { ko: "드로잉·회화·사진을 경험한 뒤 산업디자인을 전공하고 졸업했습니다(Presidential Scholarship).", en: "After drawing, painting and photography, I majored in industrial design and graduated with a BFA (Presidential Scholarship)." } },
+      // from the résumé: 280 Digital Fabrication Studio | 2022 - 2025 · Advanced Instructor · Chicago, IL
+      { when: { ko: "2022–2025", en: "2022–2025" }, t: { ko: "280 Digital Fabrication Studio · Advanced Instructor", en: "280 Digital Fabrication Studio · Advanced Instructor" },
+        d: { ko: "학교 디지털 패브리케이션 스튜디오에서 학생 작업에 쓰이는 레이저 커터와 3D 프린터를 운영하고 관리했습니다. 학생들에게 장비를 안전하게 쓰는 법을 가르치고 기술 문제를 해결하며, 직접 만들어 보며 배우는 작업 환경을 만들었습니다.", en: "At the school's digital fabrication studio I ran and maintained the laser cutters and 3D printers used for student projects, trained students to use the equipment safely, solved technical problems and kept the studio a place for hands-on learning." } },
       { when: { ko: "2025–2026", en: "2025–2026" }, t: { ko: "졸업 후 디자인 실무 · 몬탁소파 시카고", en: "Design practice after graduating · Montauk Sofa Chicago" },
         d: { ko: "몬탁소파 시카고에서 디자인 인턴으로 일했습니다.", en: "Worked as a design intern at Montauk Sofa in Chicago." } },
       { when: { ko: "2026", en: "2026" }, t: { ko: "프리랜스 인테리어 디자인 렌더링 아티스트", en: "Freelance interior design rendering artist" },
