@@ -82,7 +82,7 @@
       { when: { ko: "2026", en: "2026" }, t: { ko: "인테리어 디자인 프리랜스", en: "Freelance interior design" },
         d: { ko: "SketchUp으로 공간과 가구를 모델링하고 생성형 AI로 렌더링했습니다. 쇼룸, 마케팅, 클라이언트 프레젠테이션에 쓰일 인테리어와 가구 이미지를 만들고, 사실적인 장면과 함께 정면도와 조립 일러스트도 제작했습니다.", en: "I modelled spaces and furniture in SketchUp and rendered them with generative AI, making interior and furniture images for showrooms, marketing and client presentations, along with orthographic views and assembly illustrations." } },
       { when: { ko: "2026–현재", en: "2026–now" }, t: { ko: "IDSA 커뮤니티와 멘토링", en: "IDSA community and mentoring" },
-        d: { ko: "학교 IDSA 커뮤니티에 소속되어 졸업 후에도 교수님들과 활동을 이어갔고, Meta에서 VR 헤드셋을 디자인하는 디자이너에게 멘토링을 받으며 디자인을 배웠습니다. 지금도 교수님, 디자이너들과 꾸준히 교류하고 있습니다.", en: "As part of my school's IDSA community I kept working with professors after graduating, and learned design through mentoring from a designer who designs VR headsets at Meta. I still stay in regular touch with professors and designers." } }
+        d: { ko: "학교 IDSA 커뮤니티에 소속되어 졸업 후에도 교수님들과 활동을 이어갔고, Meta 디자이너에게 멘토링을 받으며 디자인을 배웠습니다. 지금도 교수님, 디자이너들과 꾸준히 교류하고 있습니다.", en: "As part of my school's IDSA community I kept working with professors after graduating, and learned design through mentoring from a Meta designer. I still stay in regular touch with professors and designers." } }
     ],
     why: {
       ko: [
