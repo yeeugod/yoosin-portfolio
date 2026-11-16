@@ -551,13 +551,23 @@
       change: { ko: "변경: 최소 두께 2mm 추가 · 수량 50개 → 100개", en: "Changed: minimum thickness 2 mm added · quantity 50 → 100" },
       note: { ko: "준비된 작가 원화 예시의 문의서와 예시 회신입니다. 업체 이름·견적·회신 내용은 예시이며, 실제 업체에 보내거나 받은 기록이 아닙니다.", en: "The brief and sample reply from the prepared Artist’s Original Drawing example. Maker names, quotes and replies are samples, not records of anything sent to or received from a real maker." }
     },
+    limit: {
+      label: { ko: "직접 해 보고 확인한 한계", en: "Limits I found by trying it" },
+      src: "limit", meta: { ko: "지원자 본인 실행 검토", en: "My own review of running it" },
+      items: [
+        { ko: "공장과 개인 디자이너를 실제로 이어 줄 기반을 다지지 못했다.", en: "I couldn't lay the groundwork to actually connect factories with individual designers." },
+        { ko: "이용자를 모으는 일 자체가 어려웠다.", en: "Gathering users was itself hard." },
+        { ko: "로컬 공장을 목록으로 정리하고 데이터로 만드는 일은 내 전공 범위로는 어려웠다.", en: "Listing local factories and turning them into data was hard within the scope of my major." }
+      ],
+      mine: [{ ko: "문의서와 사양 수정 흐름은 설계했지만, 이 서비스가 작동하려면 공장 데이터와 이용자 네트워크가 먼저 있어야 한다. 제조·유통 쪽 전문가의 도움이 필요한 단계라고 판단했다.", en: "I designed the brief and the spec-revision flow, but for this service to work, factory data and a user network have to come first. I judged it a stage that needs help from experts in manufacturing and distribution." }]
+    },
     close: {
       label: { ko: "체험에서 볼 수 있는 것과 다음 확인", en: "What the trial shows, and the next check" },
       rows: [
         { k: { ko: "체험에서 확인할 수 있는 협의 흐름", en: "The negotiation the trial shows" }, v: { ko: "준비된 작가 원화 예시로 제작 조건 정리 → 업체 리스트·맞는 업체 → 업체에 예시 문의 → 예시 회신 → 사양 수정 → 공통 이력까지 이어서 볼 수 있습니다", en: "With the prepared Artist’s Original Drawing example: specs → maker list or best matches → sample enquiry → sample reply → revision → shared history, one after another" } },
         { k: { ko: "예시", en: "Sample" }, v: { ko: "업체, 견적 금액, 회신 내용은 예시입니다", en: "Makers, quote amounts and replies are samples" } },
         { k: { ko: "연결하지 않음", en: "Not connected" }, v: { ko: "실제 발송, 결제, 업체 계정, 언어 모델 · 실제 생산·판매·펀딩 실적 없음", en: "Real sending, payment, maker accounts, language models · no real production, sales or funding yet" } },
-        { k: { ko: "다음 확인", en: "Next check" }, v: { ko: "실제 제조업체가 이 문의서를 받았을 때 어떤 정보로 견적을 내고, 무엇을 다시 묻는지 확인하기", en: "When a real maker receives this brief: which details they quote from, and what they ask again" } }
+        { k: { ko: "다음 확인", en: "Next check" }, v: { ko: "이 한계 때문에 다음 단계는 두 가지입니다. 실제 제조업체가 이 문의서를 받았을 때 어떤 정보로 견적을 내고 무엇을 다시 묻는지 확인하기(실제 제조업체 회신 확인), 그리고 공장 데이터 구축을 도울 전문가 찾기", en: "Because of these limits, the next steps are two: when a real maker receives this brief, checking which details they quote from and what they ask again (a real maker's reply), and finding experts who can help build the factory data" } }
       ]
     }
   };

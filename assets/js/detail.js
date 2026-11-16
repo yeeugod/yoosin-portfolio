@@ -265,7 +265,7 @@
       brief: `${exchange()}<p class="cap">${srcTag("sample")}<span>${esc(L(E.note))}</span></p>`,
       try: demo("makeit", h)
     };
-    return lead + story("k-story", S, media) + closeSec("k-close", 2, D.close);
+    return lead + story("k-story", S, media) + fbSec("k-limit", D.limit) + closeSec("k-close", 2, D.close);
   }
   /* the full exchange: the question in v1 → the maker's reply → the changed lines in v2, joined by drawn lines */
   function exchange() {
