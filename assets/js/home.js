@@ -325,6 +325,11 @@
   let lastSy = 0;
   sheetScroll.addEventListener("scroll", () => {
     const y = sheetScroll.scrollTop;
+    // a thin line in the project's colour shows how far into the page you are
+    const max = sheetScroll.scrollHeight - sheetScroll.clientHeight;
+    sheet.style.setProperty("--rp", max > 0 ? Math.min(1, y / max).toFixed(4) : "0");
+    // the header title lags a little behind the page and its caption lets go as it leaves: the page slides over the header
+    if (!reduce) { const bh = banner.offsetHeight; if (y < bh + 60) { banner.style.setProperty("--by", (Math.min(y, bh) * 0.16).toFixed(1) + "px"); banner.style.setProperty("--bo", Math.min(1, y / (bh * 0.75)).toFixed(3)); } }
     let away = y > 140 && y > lastSy + 2 ? true : y < lastSy - 2 ? false : sheetCtl.classList.contains("away");
     // ART & DESIGN: while the category bar is pinned to the top, the controls stay away in both directions
     const mark = $(".cats-mark", sheetBody);
@@ -380,6 +385,7 @@
     fillBanner(k);
     sheet.setAttribute("aria-label", k === "about" ? "About Me" : BIG[k].join(" "));
     sheetCtl.innerHTML = ctlHtml(); sheetCtl.classList.remove("away"); sheet.classList.remove("ctl-away");
+    sheet.style.setProperty("--rp", "0"); banner.style.setProperty("--by", "0px"); banner.style.setProperty("--bo", "0");
     sheetBody.innerHTML = window.DETAIL.render(k);
     window.DETAIL.mount(k, sheetBody, sheetScroll);
     const cats = $(".cats", sheetBody); // a marker at the category bar's own place tells when the bar is pinned
@@ -672,6 +678,14 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layout(); });
   history.scrollRestoration = "manual";
   const first = parse();
+  /* first arrival: the name sets letter by letter, then its caption, then the cue to scroll.
+     The letters are plain text again once they have landed, so the name keeps its kerning. */
+  if (!reduce && !first.k && window.scrollY < 4) {
+    nm.setAttribute("aria-label", "YOOSIN LEE");
+    nm.innerHTML = [..."YOOSIN LEE"].map((c, i) => `<span class="ch" aria-hidden="true" style="--i:${i}">${c === " " ? "&nbsp;" : c}</span>`).join("");
+    root.classList.add("ty-intro"); layout();
+    setTimeout(() => { root.classList.remove("ty-intro"); nm.textContent = "YOOSIN LEE"; nm.removeAttribute("aria-label"); layout(); }, 1900);
+  }
   if (first.k) { history.replaceState({ yl: 0 }, "", location.hash); apply(first); }
   window.HOME = { go, back, frame: () => frame(true), get state() { return S; } };
 })();

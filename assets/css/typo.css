@@ -355,3 +355,93 @@ html[data-lang="en"] .sheet .l3-ask .ask { font-family: var(--en); font-weight: 
 .sheet .hero .hero-line { margin-bottom: 14px; font-weight: 700; }
 .sheet .hero-intro { margin: 0 0 8px; max-width: 64ch; font-size: 17px; line-height: 1.75; color: var(--ink); }
 html[data-lang="en"] .sheet .hero-intro { font-family: var(--en); }
+
+/* ═════ motion & detail polish ═════
+   One vocabulary for the whole site:
+   --ez-out   arrivals and anything settling into place (fast start, long soft landing)
+   --ez-io    things travelling between two places (the card ⇄ page move, the glide)
+   durations: 160 feedback · 280 small state changes · 560 arrivals · 820 long settles */
+:root { --ez-out: cubic-bezier(.22, 1, .36, 1); --ez-io: cubic-bezier(.65, 0, .35, 1); --ez-pop: cubic-bezier(.34, 1.4, .64, 1);
+  --m1: 160ms; --m2: 280ms; --m3: 560ms; --m4: 820ms; }
+
+/* ── typography: even rag, no stranded last words, numbers that line up ── */
+.sheet h2, .sheet h3, .sheet .hero-line, .sheet .ask, .sheet .close-q { text-wrap: balance; }
+.sheet .p, .sheet .hero-intro, .sheet .cap, .sheet .judge li, .sheet .ai-note p, .sheet .rows span, .sheet .list p, .sheet blockquote, .sheet .tl p, .pc-d, .pl-d { text-wrap: pretty; }
+.sheet .xdiff, .sheet .gx, .sheet .gr-steps em, .sheet .stills figcaption b, .pc-n, .pl-n { font-variant-numeric: tabular-nums; }
+.sheet blockquote, .sheet .ask { hanging-punctuation: first; }
+.sheet .hero-intro { color: var(--ink-2); }
+.sheet .hero .hero-line + .hero-intro { margin-top: -2px; }
+
+/* ── landing: the name sets letter by letter, then its caption, then the cue ── */
+html.ty-intro .ty-name .ch { display: inline-block; animation: tyLetter var(--m4) var(--ez-out) both; animation-delay: calc(var(--i) * 38ms + 140ms); }
+html.ty-intro .ty-sub { animation: tyFade 700ms var(--ez-out) 620ms both; }
+html.ty-intro .ty-down { animation: tyFade 600ms ease 1050ms both; }
+html.ty-intro .topbar.ty-top { animation: tyFade 600ms ease 900ms both; }
+@keyframes tyLetter { from { opacity: 0; transform: translate3d(0, .42em, 0) rotate(4deg); filter: blur(3px); } 60% { filter: blur(0); } to { opacity: 1; transform: none; } }
+@keyframes tyFade { from { opacity: 0; transform: translate3d(0, 8px, 0); } to { opacity: 1; transform: none; } }
+.ty-down { transition: transform var(--m2) var(--ez-out); }
+.ty-down:hover span { animation-duration: 1.1s; }
+
+/* ── home: cards answer the pointer before they glide; a press gives way slightly ── */
+.pc:hover { border-color: var(--rule-on); }
+.pc { transition: border-color var(--m2) ease, box-shadow var(--m3) var(--ez-out); }
+.pc.on:hover { box-shadow: 0 18px 40px -30px rgba(28,26,24,.35); }
+.pc:active { transform: scale(.996); transition: transform var(--m1) var(--ez-out); }
+.pc-v { transition: color var(--m2) ease; }
+.pc:not(.on):hover .pc-v { color: var(--ink); }
+.pc-n { transition: color var(--m2) ease; }
+.pc:hover .pc-n, .pc.on .pc-n { color: var(--ink); }
+.pl-n { transition: color var(--m2) ease; }
+.pl-r:hover .pl-n, .pl-r:focus-visible .pl-n { color: var(--ink); }
+.pl-r:active::before { transition-duration: var(--m1); }
+html.ty-small .pc.seen:active { transform: scale(.99); transition: transform var(--m1) var(--ez-out); }
+.ty-vt button, .ty-lang button { transition: color var(--m2) ease, transform var(--m1) var(--ez-out); }
+.ty-vt button:active, .ty-lang button:active { transform: translateY(1px); }
+
+/* ── project pages: blocks arrive as they are reached ── */
+html:not(.ty-reduce) .sheet .ty-rv { transition: opacity var(--m3) var(--ez-out) var(--rv-d, 0ms), transform var(--m4) var(--ez-out) var(--rv-d, 0ms); }
+html:not(.ty-reduce) .sheet .ty-rv:not(.ty-in) { opacity: 0; transform: translate3d(0, 18px, 0); }
+/* the key piece of evidence on each page draws the eye once, after it lands */
+html:not(.ty-reduce) .sheet .lead-gr.ty-in .gr-need { animation: tyMark 1400ms var(--ez-out) 520ms both; }
+@keyframes tyMark { 0% { box-shadow: 0 0 0 0 rgba(28,26,24,0); } 35% { box-shadow: 0 0 0 6px rgba(28,26,24,.12); } 100% { box-shadow: 0 0 0 0 rgba(28,26,24,0); } }
+html:not(.ty-reduce) .sheet .lead-mk .l3.ty-in .mk-pin { animation: tyPin 900ms var(--ez-pop) calc(var(--rv-d, 0ms) + 380ms) both; }
+html:not(.ty-reduce) .sheet .lead-mk .l3.ty-in .mk-pin::after { content: ""; position: absolute; inset: -3px; border: 2px solid #E5484D; border-radius: 50%; animation: tyRing 1100ms var(--ez-out) calc(var(--rv-d, 0ms) + 900ms) both; }
+@keyframes tyPin { from { opacity: 0; transform: translate(-50%, -50%) scale(.4); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@keyframes tyRing { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(1.7); } }
+.sheet .pinned .mk-pin::after { border-radius: 50% !important; }
+
+/* the header: its caption follows the title in after the card has opened; the page then slides over it */
+.sheet .ty-banner .b-title { transform: translate3d(0, var(--by, 0px), 0); will-change: transform; }
+.sheet .ty-meta { opacity: calc(1 - var(--bo, 0) * .9); }
+html:not(.ty-reduce) .sheet:not(.pre):not(.nob) .ty-meta { animation: tyFade var(--m3) var(--ez-out) 80ms backwards; }
+/* reading progress, in the project's colour */
+.sheet::after { content: ""; position: absolute; z-index: 7; left: 0; right: 0; top: 0; height: 2px; background: var(--c, var(--ink)); transform: scaleX(var(--rp, 0)); transform-origin: left; pointer-events: none; }
+.sheet.pre::after, .sheet.out::after { opacity: 0; }
+
+/* ── pictures you can open: they lean in under the pointer ── */
+.sheet .zoom .ph img { transition: transform 900ms var(--ez-out), opacity 400ms ease; }
+.sheet .zoom:hover .ph img, .sheet .zoom:focus-visible .ph img { transform: scale(1.025); }
+.sheet .zoom:active .ph img { transform: scale(1.01); transition-duration: var(--m1); }
+.sheet .zoom .ph { transition: border-color var(--m2) ease; }
+
+/* ── controls: one hover, one press, everywhere ── */
+.sheet :is(.demo-bar button, .cmp2-tabs button, .links a, .more-btn, .xfull summary, .cats a, .demo-go .btn) { transition: background-color var(--m2) ease, color var(--m2) ease, border-color var(--m2) ease, transform var(--m1) var(--ez-out); }
+.sheet :is(.demo-bar button, .cmp2-tabs button, .links a, .more-btn, .xfull summary, .cats a, .demo-go .btn):active { transform: translateY(1px); }
+.sheet .cmp2-tabs button:not([aria-selected="true"]):hover { background: var(--soft); }
+.sheet .xfull summary:hover { background: var(--soft); }
+.sheet .xfull summary::after { transition: transform var(--m2) var(--ez-out); }
+.sheet .xfull[open] > :not(summary) { animation: tyFade var(--m3) var(--ez-out) both; }
+.sheet .gx-r { transition: background-color var(--m2) ease; }
+.sheet .ty-back span:first-child { transition: transform var(--m2) var(--ez-out); }
+.sheet .judge, .sheet .ai-note { transition: border-color var(--m2) ease; }
+/* the colour square beside every decision fills in as its step is reached */
+.sheet .story > li .jg-k::before { transform: scale(.6); transition: transform var(--m3) var(--ez-pop), background-color var(--m3) ease; background: #fff; }
+.sheet .story > li.on .jg-k::before { transform: none; background: var(--c); }
+
+/* reduced motion: no arrivals, no lag, no ornaments — every state is simply there */
+html.ty-reduce .sheet .ty-banner .b-title { transform: none; }
+html.ty-reduce .sheet .ty-meta { opacity: 1; }
+html.ty-reduce .sheet .zoom .ph img, html.ty-reduce .pc, html.ty-reduce .pc:active { transition: none; transform: none; }
+html.ty-reduce .sheet .story > li .jg-k::before { transform: none; background: var(--c); transition: none; }
+/* phones: once the list is reached, the language switch keeps a soft white backing so it never sits on a title */
+html.ty-small.arrived .topbar.ty-top { padding: 0 6px; background: rgba(255,255,255,.9); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 0 0 1px rgba(207,203,196,.6); transition: opacity var(--m2) ease, transform var(--m3) var(--ez-out); }

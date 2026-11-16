@@ -281,10 +281,31 @@
 
   /* ───── behaviours ───── */
   let cleanup = [];
-  function mount(k, root, scroller) {
+  function mount(k, root, scroller, opts = {}) {
     unmount();
     M.wireVideos(root);
     const reduce = YL.reduceMotion();
+    /* project pages: each block arrives as it is reached — a short rise and fade, siblings a beat apart.
+       Only the arrival is animated; the class comes off afterwards so the block's own hover motion stays its own.
+       A language switch re-renders in place, so nothing re-arrives then. */
+    if (/^(montauk|grown|makeit|likethis)$/.test(k)) {
+      const RV = ".hero-line, .hero-intro, .hero > .in > .cap, .lead3 > .l3, .lead-gr, .hero .lread-src, .hero .lread-l > li, .sec > .in > .label, .sec > .in > .h2, .story > li, .rows > li, .cmp2, .xdiff > *, .pair > div, .bridge, .list > li, .vpair > *";
+      const els = $$(RV, root);
+      if (reduce || opts.relang) els.forEach((el) => el.classList.add("ty-in"));
+      else {
+        els.forEach((el) => {
+          const sib = el.parentElement ? [...el.parentElement.children].filter((x) => x.matches(RV)) : [el];
+          const i = Math.min(sib.indexOf(el), 5), hero = !!el.closest(".hero");
+          el.style.setProperty("--rv-d", (hero ? 160 : 0) + i * 70 + "ms");
+          el.classList.add("ty-rv");
+        });
+        const done = (e) => { if (e.target.classList.contains("ty-rv") && e.propertyName === "transform") { e.target.classList.remove("ty-rv"); e.target.style.removeProperty("--rv-d"); } };
+        root.addEventListener("transitionend", done);
+        const rvIo = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("ty-in"); rvIo.unobserve(e.target); } }), { root: scroller, rootMargin: "0px 0px -2% 0px", threshold: 0 });
+        els.forEach((el) => rvIo.observe(el));
+        cleanup.push(() => { rvIo.disconnect(); root.removeEventListener("transitionend", done); });
+      }
+    }
     // 3D model: loads itself when it comes close
     if (window.VIEWER3D && $("[data-v3-root]", root)) cleanup.push(window.VIEWER3D.mount(root));
     // app recordings: poster + play button; never autoplay; stop when scrolled away or when the detail closes
