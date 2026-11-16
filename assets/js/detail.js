@@ -46,13 +46,13 @@
   const judge = (list) => `<div class="judge"><p class="jg-k">${esc(L({ ko: "내가 판단한 것", en: "What I decided" }))}</p><ul>${list.map((x) => `<li>${esc(L(x))}</li>`).join("")}</ul></div>`;
   const heroLine = (h) => `<p class="hero-line">${esc(L(h.line))}</p>${h.intro ? `<p class="hero-intro">${esc(L(h.intro))}</p>` : ""}`;
   /* one numbered story per project: kicker, heading, text (with its AI note beside it), the decision, then the material */
-  const story = (id, S, media) => sec(id, `${label(1, S.label)}<ol class="story" data-story>${S.steps.map((s, i) => {
+  const story = (id, S, media) => sec(id, `${label("·", S.label)}<ol class="story" data-story>${S.steps.map((s, i) => {
       const text = (s.p || []).map((p) => `<p class="p">${esc(L(p))}</p>`).join("") + (s.src ? `<p class="cap st-src">${srcTag(s.src)}</p>` : "");
       const body = text || s.ai ? `<div class="st-body ${s.ai ? "has-ai" : ""}"><div class="st-text">${text}</div>${s.ai ? aiNote(s.ai) : ""}</div>` : "";
       return `<li class="st-${s.k}" data-anchor="${id}-${s.k}"><span class="sd" aria-hidden="true">${i + 1}</span>
         <p class="st-k">${esc(L(s.t))}</p>${s.h ? `<h3>${esc(L(s.h))}</h3>` : ""}${body}${s.mine ? judge(s.mine) : ""}${media[s.k] ? `<div class="st-m">${media[s.k]}</div>` : ""}</li>`;
     }).join("")}</ol>`);
-  const closeSec = (id, n, X) => sec(id, `${label(n, X.label)}${X.q ? `<h2 class="h2 close-q">${esc(L(X.q))}</h2>` : ""}${rows(X.rows)}`);
+  const closeSec = (id, n, X) => sec(id, `${label("·", X.label)}${X.q ? `<h2 class="h2 close-q">${esc(L(X.q))}</h2>` : ""}${rows(X.rows)}`);
   const pic = (name, alt, o = {}) => `<span class="ph ${o.page ? "page" : ""}" style="--ar:${M.ratio(name)}">${M.img(name, alt, { sizes: o.sizes || "(max-width:760px) 50vw, 24vw" })}</span>`;
   const enImg = (name) => YL.lang === "en" && window.IMG_SIZES && window.IMG_SIZES[name + "-en"] ? name + "-en" : name;
   const rows = (list) => `<ul class="rows">${list.map((r) => `<li><b>${esc(L(r.k))}</b><span>${esc(L(r.v))}</span></li>`).join("")}</ul>`;
@@ -146,7 +146,7 @@
     const body = story("m-story", S, media);
     // the two guides, paired by assembly step: the hand-made page and the app page for the same step
     const pick = 4, stepPages = K.pages.filter((p) => p.step);
-    const cmp = sec("m-cmp", `${label(2, K.label)}<h2 class="h2" style="margin-bottom:18px">${esc(L(K.h))}</h2>
+    const cmp = sec("m-cmp", `${label("·", K.label)}<h2 class="h2" style="margin-bottom:18px">${esc(L(K.h))}</h2>
       <div class="cmp2" data-cmp2 data-n="${pick}">
         <div class="cmp2-tabs" role="tablist" aria-label="${esc(L("조립 단계", "Assembly step"))}">${stepPages.map((p) => `<button type="button" role="tab" data-pg="${p.n}" aria-selected="${p.n === pick}"><b lang="en">${p.n}</b>${esc(L(p.t))}</button>`).join("")}</div>
         <div class="cmp2-pair" role="tabpanel" aria-live="polite">${cmpPair(pick)}</div>
@@ -309,7 +309,7 @@
     // 3D model: loads itself when it comes close
     if (window.VIEWER3D && $("[data-v3-root]", root)) cleanup.push(window.VIEWER3D.mount(root));
     // app recordings: poster + play button; never autoplay; stop when scrolled away or when the detail closes
-    // Montauk/GROWN ("auto"): muted autoplay while on screen, unless the visitor paused it or prefers reduced motion.
+    // every recording: muted autoplay once more than half of it is on screen, unless the visitor paused it or prefers reduced motion.
     // Make It!/Like this: wait for a tap. Both: pause off screen, replay, full screen; the poster shows until the video loads.
     $$(".demo", root).forEach((d) => {
       const v = $(".demo-video", d), auto = d.classList.contains("auto");
@@ -355,9 +355,9 @@
       const near = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { load(); near.disconnect(); } }), { rootMargin: "300px 0px" });
       const io = new IntersectionObserver((es) => es.forEach((e) => {
         // only one recording plays at a time: autoplay waits if another one on the page is already playing
-        if (e.isIntersecting) { if (auto && user !== false && !reduce && !$$(".demo-video", root).some((o) => o !== v && !o.paused)) play(); }
+        if (e.isIntersecting) { if (user !== false && !reduce && !$$(".demo-video", root).some((o) => o !== v && !o.paused)) play(); }
         else if (!v.paused && !isFs()) v.pause();
-      }), { threshold: 0.4 });
+      }), { threshold: 0.55 });
       near.observe(d); io.observe(d);
       d.dataset.user = "off"; sync();
       cleanup.push(() => { io.disconnect(); near.disconnect(); v.pause(); });

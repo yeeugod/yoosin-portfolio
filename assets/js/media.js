@@ -26,27 +26,31 @@
     </div>`;
   }
   const canHover = () => matchMedia("(hover: hover) and (pointer: fine)").matches;
-  let io;
+  let io, vio;
   function wireVideos(root) {
     const reduce = YL.reduceMotion();
+    // fetch a little ahead of the screen; play (muted, looping) once most of the clip is in view; pause when it leaves.
+    // A clip the visitor paused stays paused; with reduced motion nothing starts by itself.
     if (!io) io = new IntersectionObserver((ents) => ents.forEach((en) => {
       const v = $("video", en.target);
       if (en.isIntersecting && v && !v.src) { v.src = v.dataset.src; v.preload = "metadata"; }
       if (!en.isIntersecting && v && !v.paused) setPlay(en.target, false);
     }), { rootMargin: "300px 0px" });
+    if (!vio) vio = new IntersectionObserver((ents) => ents.forEach((en) => {
+      const w = en.target, on = en.intersectionRatio >= 0.55;
+      if (on && !YL.reduceMotion() && w.dataset.user !== "off" && !w.classList.contains("playing")) setPlay(w, true);
+      if (!on && w.classList.contains("playing")) setPlay(w, false);
+    }), { threshold: [0, 0.55] });
     $$(".vwrap", root).forEach((w) => {
       if (w.dataset.wired) return; w.dataset.wired = "1";
-      io.observe(w);
+      io.observe(w); vio.observe(w);
       const host = w.closest(".tile, .fig") || w;
-      if (!reduce) {
-        host.addEventListener("mouseenter", () => { if (canHover()) setPlay(w, true); });
-        host.addEventListener("mouseleave", () => { if (canHover()) setPlay(w, false); });
-      }
+      const toggle = () => { const on = !w.classList.contains("playing"); w.dataset.user = on ? "on" : "off"; setPlay(w, on); };
       host.addEventListener("click", (e) => {
         if (e.target.closest("[data-vbtn]")) return;
-        if (!canHover()) { e.preventDefault(); setPlay(w, !w.classList.contains("playing")); }
+        if (!canHover()) { e.preventDefault(); toggle(); }
       });
-      $("[data-vbtn]", w).addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); setPlay(w, !w.classList.contains("playing")); });
+      $("[data-vbtn]", w).addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); toggle(); });
     });
   }
   function setPlay(w, on) {

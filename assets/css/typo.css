@@ -445,3 +445,44 @@ html.ty-reduce .sheet .zoom .ph img, html.ty-reduce .pc, html.ty-reduce .pc:acti
 html.ty-reduce .sheet .story > li .jg-k::before { transform: none; background: var(--c); transition: none; }
 /* phones: once the list is reached, the language switch keeps a soft white backing so it never sits on a title */
 html.ty-small.arrived .topbar.ty-top { padding: 0 6px; background: rgba(255,255,255,.9); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 0 0 1px rgba(207,203,196,.6); transition: opacity var(--m2) ease, transform var(--m3) var(--ez-out); }
+
+/* ═════ grid and hierarchy pass ═════
+   Every block on a project page sits on the 1180px column's 12 columns (8px gutters).
+   Text with a side note: text in columns 1–8, the note in 9–12, the decision under the text in 1–8;
+   so the edges line up with the three-up cards (4 + 4 + 4) and the two-up pairs (6 + 6) below them. */
+@media (min-width: 1081px) {
+  .sheet .st-body.has-ai { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); }
+  .sheet .st-body.has-ai .st-text { grid-column: 1 / span 8; padding-right: 32px; }
+  .sheet .st-body.has-ai .ai-note { grid-column: 9 / -1; }
+  .sheet .judge { max-width: none; width: calc((100% - 11 * var(--g)) / 12 * 8 + 7 * var(--g)); }
+  .sheet .xdiff { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .sheet .xd-t { grid-column: 1 / span 8; }
+  .sheet .xd-r { grid-column: 9 / -1; }
+  .sheet .glink { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); }
+  .sheet .glink .gx { grid-column: 1 / span 7; }
+  .sheet .glink .gr { grid-column: 8 / -1; }
+  .sheet .gx-r[aria-pressed="true"]::after { width: var(--g); }
+  .sheet .lead-gr { max-width: calc((100% - 11 * var(--g)) / 12 * 8 + 7 * var(--g)); }
+  .sheet .vp-stills { grid-column: 1 / span 8; }
+  .sheet .vp-video { grid-column: 9 / -1; }
+}
+/* where the page margin has room, the step numbers and their line hang in it, so the steps' content
+   starts on the column's first edge like everything else on the page */
+@media (min-width: 1300px) {
+  .sheet .story { padding-left: 0; }
+  .sheet .story::before, .sheet .story::after { left: -31px; }
+  .sheet .story .sd { left: -46px; }
+}
+
+/* boxes by role: the cards stay boxed; the notes beside the work and the decisions are quieter */
+.sheet .ai-note { border: 0; background: var(--soft); padding: 14px 16px; }
+.sheet .judge { border: 0; border-top: 1px solid var(--ink); padding: 10px 0 0; background: none; }
+.sheet .judge ul { padding-left: 16px; }
+
+/* arrivals start from a visible resting state: the page reads complete even before anything animates */
+html:not(.ty-reduce) .sheet .ty-rv:not(.ty-in) { opacity: .35; transform: translate3d(0, 14px, 0); }
+@media (min-width: 1081px) {
+  .sheet .vp-stills { grid-column: 1 / span 9; }
+  .sheet .vp-video { grid-column: 10 / -1; }
+  .sheet .vp-video .demo.phone .demo-stage { width: 100%; }
+}
