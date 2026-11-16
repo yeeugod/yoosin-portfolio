@@ -13,27 +13,34 @@
        (Korean mode: a Korean title in bold with the English project name as its sub; English mode keeps the English name first). */
     { k: "makeit", color: "#BFE4D2", ink: "#1C1A18",
       title: { ko: ["메이킷"], en: ["Make It!"] }, sub: null,
+      ev: { ko: "시제품 · 직접 해 보고 확인한 한계", en: "Prototype · limits I found by trying it" },
       sum: { ko: "개인 창작자의 제작 질문을 제조업체와 공유할 사양으로 바꾸다", en: "Turning a solo creator's production questions into specs a maker can work from" },
       desc: { ko: "원화를 제품으로, 제작 조건 정리부터 업체 문의·사양 수정까지", en: "A drawing into a product: specs, a maker enquiry and the revision" } },
     { k: "likethis", color: "#F1C6D6", ink: "#1C1A18",
       title: { ko: ["이런 느낌"], en: ["Like this"] }, sub: null,
+      ev: { ko: "시제품 · 직접 해 보고 확인한 한계", en: "Prototype · limits I found by trying it" },
       sum: { ko: "문화적 맥락을 알아보고 상대의 경험을 묻는 대화로 이어가다", en: "Recognising cultural context, and carrying the talk on by asking about their experience" },
       desc: { ko: "기본 번역 옆에 문화적 맥락과 이어서 할 말", en: "Cultural context and what to say next, beside the plain translation" } },
     { k: "grown", color: "#F4AE97", ink: "#1C1A18",
       title: { ko: ["공실 상가", "진단 시스템"], en: ["Retail Vacancy", "Diagnosis System"] },
       tall: { ko: ["공실 상가", "진단", "시스템"], en: ["Retail", "Vacancy", "Diagnosis", "System"] },
       sub: { ko: "GROWN RECOVERY SCAN", en: "GROWN RECOVERY SCAN" }, subEn: true,
+      ev: { ko: "내부 업무 사용 · 전문가 피드백 · 2026-10", en: "Used for internal work · expert feedback · 2026-10" },
       sum: { ko: "반복 대조를 줄이고 전문가가 확인할 기준을 함께 정하다", en: "Cutting repeated cross-checks, and setting with the expert what a person must still check" },
       desc: { ko: "가상 호실을 골라 예비 판정 예시 보기", en: "Pick a fictional unit and see its preliminary verdict" } },
     { k: "montauk", color: "#A7B6EC", ink: "#1C1A18",
       title: { ko: ["매뉴얼을 위한", "매뉴얼"], en: ["Manual for", "Manuals"] },
       sub: { ko: "MANUAL FOR MANUALS", en: "" }, subEn: true,
+      ev: { ko: "시연 단계 · 시카고점 직원 시범 사용 피드백 · 2026-02", en: "Demo stage · trial-use feedback from Chicago store staff · 2026-02" },
       sum: { ko: "직원의 구두 안내 방식을 바탕으로 가이드 제작 절차를 다시 설계하다", en: "Redesigning how guides are made around the way staff explain things out loud" },
       desc: { ko: "직접 만든 조립 가이드에서 사내 가이드 제작 앱까지", en: "From a hand-made assembly guide to an in-house guide-making app" } },
     { k: "art", color: "#ECEDAA", ink: "#1C1A18",
       title: ["ART&", "DESIGN:)"], sub: null,
       desc: { ko: "미술학도의 이런저런 작업물들", en: "Odds and ends from an art student" } }
   ];
+
+  // the line under the name on the opening screen
+  C.role = { ko: "산업디자인 전공 · 현장 업무를 직접 관찰하고, AI로 도구를 만들어 써 보고 고칩니다", en: "Industrial design major · I watch work on the floor first-hand, build tools with AI, try them and fix them" };
 
   C.ui = {
     open: { ko: "열기", en: "Open" },

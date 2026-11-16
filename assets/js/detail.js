@@ -22,26 +22,26 @@
         <button type="button" class="btn" data-open-app><span>${esc(L(h.app))}</span><span class="arr" aria-hidden="true">→</span></button>
         <p class="dg-lead">${esc(L(h.tryLead))}</p>
         ${h.five ? `<p class="dg-five">${esc(L("직접 작성한 다섯 표현: ", "The five hand-written expressions: "))}<span lang="en">${esc(h.five)}</span></p>` : ""}
-        <p class="dg-status">${esc(L(h.tryStatus))}</p></div>`;
+        <p class="dg-status">${srcTag("sample")}${esc(L(h.tryStatus))}</p></div>`;
     return `<div class="demo ${phone ? "phone" : ""} ${auto ? "auto" : "trial"}" data-anchor="${k}-demo">${o.label ? `<p class="demo-label">${esc(L(o.label))}</p>` : ""}
       ${go}
       <div class="demo-stage">
         <div class="demo-v"><video class="demo-video" muted playsinline webkit-playsinline preload="none" poster="assets/img/demo-${k}${en}-poster.jpg" data-src="assets/video/demo-${k}${en}.mp4" aria-label="${esc(L({ ko: `${name} 구동 시연 영상`, en: `${name} — demo recording` }))}"></video></div>
         <div class="demo-bar" role="group" aria-label="${esc(L("영상 조작", "Video controls"))}">${btn("toggle", { ko: "재생", en: "Play" }, "play")}${btn("replay", { ko: "다시 보기", en: "Replay" }, "replay")}${btn("fs", { ko: "전체 화면", en: "Full screen" }, "fs")}</div>
       </div>
-      ${o.note ? `<p class="demo-note">${esc(L(o.note))}</p>` : ""}</div>`;
+      ${o.note ? `<p class="demo-note">${srcTag("sample")}${esc(L(o.note))}</p>` : ""}</div>`;
   };
   /* every caption says what kind of material it is: the actual work, a prepared demo, or something rebuilt to explain */
+  /* five labels, nothing else: every piece of material carries exactly one of them */
   const SRC = {
     real: { ko: "실제 작업물", en: "Actual work" },
-    demo: { ko: "준비된 시연 자료", en: "Prepared demo material" },
-    rebuilt: { ko: "설명을 위해 재구성한 자료", en: "Rebuilt to explain" },
-    field: { ko: "현장에서 들은 피드백", en: "Heard on the floor" },
+    field: { ko: "실사용 피드백 · 지원자 정리 요약", en: "Field feedback · my summary" },
+    limit: { ko: "직접 해 보고 확인한 한계", en: "Limits I found by trying it" },
     sample: { ko: "준비된 예시", en: "Prepared example" },
-    portfolio: { ko: "포트폴리오용 재구성", en: "Reconstructed for the portfolio" },
-    flow: { ko: "시연 흐름 재구성", en: "Demo flow, reconstructed" },
-    suggest: { ko: "답변 제안", en: "Suggested reply" }
+    rebuilt: { ko: "설명을 위해 재구성", en: "Rebuilt to explain" }
   };
+  // older names map onto the five (the caption text keeps the finer description)
+  SRC.demo = SRC.sample; SRC.suggest = SRC.sample; SRC.portfolio = SRC.rebuilt; SRC.flow = SRC.rebuilt;
   const srcTag = (k) => `<span class="src src-${k}">${esc(L(SRC[k]))}</span>`;
   const capOf = (k, t) => `<figcaption class="cap">${srcTag(k)}<span>${esc(L(t))}</span></figcaption>`;
   /* where AI was used sits beside the work it was used for; what I decided sits in the scene where it was decided */
@@ -50,16 +50,27 @@
   const heroLine = (h) => `<p class="hero-line">${esc(L(h.line))}</p>${h.intro ? `<p class="hero-intro">${esc(L(h.intro))}</p>` : ""}`;
   /* one numbered story per project: kicker, heading, text (with its AI note beside it), the decision, then the material */
   const story = (id, S, media) => sec(id, `${label("·", S.label)}<ol class="story" data-story>${S.steps.map((s, i) => {
-      const text = (s.p || []).map((p) => `<p class="p">${esc(L(p))}</p>`).join("") + (s.src ? `<p class="cap st-src">${srcTag(s.src)}</p>` : "");
+      const text = (s.src ? `<p class="cap st-src">${srcTag(s.src)}${s.meta ? `<span>${esc(L(s.meta))}</span>` : ""}</p>` : "")
+        + (s.p || []).map((p) => `<p class="p">${esc(L(p))}</p>`).join("")
+        + (s.ul ? `<ul class="fb-l">${s.ul.map((x) => `<li>${esc(L(x))}</li>`).join("")}</ul>` : "");
       const left = text + (s.mine ? judge(s.mine) : "");
       const body = left || s.ai ? `<div class="st-body ${s.ai ? "has-ai" : ""} ${text ? "" : "no-text"}"><div class="st-text">${left}</div>${s.ai ? aiNote(s.ai) : ""}</div>` : "";
       return `<li class="st-${s.k}" data-anchor="${id}-${s.k}"><span class="sd" aria-hidden="true">${i + 1}</span>
         <p class="st-k">${esc(L(s.t))}</p>${s.h ? `<h3>${esc(L(s.h))}</h3>` : ""}${body}${media[s.k] ? `<div class="st-m">${media[s.k]}</div>` : ""}</li>`;
     }).join("")}</ol>`);
-  const closeSec = (id, n, X) => sec(id, `${label("·", X.label)}${X.q ? `<h2 class="h2 close-q">${esc(L(X.q))}</h2>` : ""}${rows(X.rows)}`);
+  const closeSec = (id, n, X) => sec(id, `${label("·", X.label)}${X.q ? `<h2 class="h2 close-q">${esc(L(X.q))}</h2>` : ""}${X.qNote ? `<p class="cap close-qn">${srcTag(X.qNote.src)}<span>${esc(L(X.qNote.t))}</span></p>` : ""}${rows(X.rows)}`);
+  /* feedback from real use, or limits found by trying it: label, heading, who and when, the scope, what was said, then what I decided */
+  const fbSec = (id, F) => sec(id, `${label("·", F.label)}${F.h ? `<h2 class="h2 fb-h">${esc(L(F.h))}</h2>` : ""}
+      <p class="cap fb-meta">${srcTag(F.src)}<span>${esc(L(F.meta))}</span></p>
+      ${F.scope ? `<p class="fb-scope">${esc(L(F.scope))}</p>` : ""}
+      ${F.items ? `<ul class="fb-l">${F.items.map((x) => `<li>${esc(L(x))}</li>`).join("")}</ul>` : ""}
+      ${F.cols ? `<div class="fb-cols">${F.cols.map((c) => `<div><h3>${esc(L(c.t))}</h3><p>${esc(L(c.d))}</p>${c.note ? `<p class="cap">${esc(L(c.note))}</p>` : ""}</div>`).join("")}</div>` : ""}
+      ${F.mine ? judge(F.mine) : ""}
+      ${F.steps ? `<p class="fb-k">${esc(L(F.stepsT))}</p><ol class="fb-steps">${F.steps.map((x, i) => `<li><b><i lang="en">${i + 1}</i>${esc(L(x.t))}</b><p>${esc(L(x.d))}</p></li>`).join("")}</ol>` : ""}
+      ${F.learn ? `<p class="fb-learn"><b>${esc(L({ ko: "배운 점", en: "What I learned" }))}</b>${esc(L(F.learn))}</p>` : ""}`, "fb");
   const pic = (name, alt, o = {}) => `<span class="ph ${o.page ? "page" : ""}" style="--ar:${M.ratio(name)}">${M.img(name, alt, { sizes: o.sizes || "(max-width:760px) 50vw, 24vw" })}</span>`;
   const enImg = (name) => YL.lang === "en" && window.IMG_SIZES && window.IMG_SIZES[name + "-en"] ? name + "-en" : name;
-  const rows = (list) => `<ul class="rows">${list.map((r) => `<li><b>${esc(L(r.k))}</b><span>${esc(L(r.v))}</span></li>`).join("")}</ul>`;
+  const rows = (list) => `<ul class="rows">${list.map((r) => `<li><b>${esc(L(r.k))}${r.tag ? `<small class="row-t">${esc(L(r.tag))}</small>` : ""}</b><span>${esc(L(r.v))}</span></li>`).join("")}</ul>`;
   const items = (list, n) => `<ol class="list" style="--n:${n || list.length}">${list.map((x) => `<li><h3>${esc(L(x.t))}</h3><p>${esc(L(x.d))}</p></li>`).join("")}</ol>`;
   const sec = (id, inner, cls = "") => `<section class="sec ${cls}" data-anchor="${id}"><div class="in">${inner}</div></section>`;
   /* turning points: titles carry the event, paragraphs carry the reasoning; the line between them draws as you read */

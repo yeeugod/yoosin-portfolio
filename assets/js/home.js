@@ -6,7 +6,7 @@
   const C = window.CONTENT;
   const root = document.documentElement;
   const stage = $("#stage"), view = $("#view"), row = $("#home-grid"), after = $("#after");
-  const nm = $("#ty-name"), sl = $("#ty-sub"), dn = $("#ty-down"), foot = $("#ty-foot"), fName = $("#ty-fname"), fSub = $("#ty-fsub");
+  const nm = $("#ty-name"), sl = $("#ty-sub"), rl = $("#ty-role"), dn = $("#ty-down"), foot = $("#ty-foot"), fName = $("#ty-fname"), fSub = $("#ty-fsub");
   const sheet = $("#sheet"), sheetScroll = $("#sheet-scroll"), banner = $("#banner"), bTitle = $("#banner-title"), sheetBody = $("#sheet-body"), sheetCtl = $("#sheet-ctl");
   const appwin = $("#appwin"), appBar = $("#app-bar"), appRoot = $("#app-root"), appScroll = $("#app-scroll");
   const topbar = $("#topbar");
@@ -46,6 +46,7 @@
         <span class="pc-t" lang="en">${BIG[k].map((t) => `<span>${esc(t)}</span>`).join("")}</span>
         <span class="pc-k" data-i="k">${esc(nameOf(k))}</span>
         <span class="pc-d" data-i="d">${esc(L(c.desc))}</span>
+        ${c.ev ? `<span class="pc-e" data-i="e">${esc(L(c.ev))}</span>` : ""}
       </span>`;
   }
   const cardLabel = (k) => `${BIG[k].join(" ")}${nameOf(k) ? " — " + nameOf(k) : ""} — ${L(byK[k].desc)}`;
@@ -60,7 +61,7 @@
   const list = $("#ty-list"), vt = $("#ty-view"), rowsL = {};
   HOME.forEach((k, i) => {
     const li = document.createElement("li"); li.style.setProperty("--i", i);
-    li.innerHTML = `<a class="pl-r" href="#/${k}" data-k="${k}"><span class="pl-n" lang="en" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span><span class="pl-t" lang="en">${esc(BIG[k].join(" "))}</span><span class="pl-m"><span class="pl-k" data-i="k"></span><span class="pl-d" data-i="d"></span></span><span class="pl-a" aria-hidden="true">↗</span></a>`;
+    li.innerHTML = `<a class="pl-r" href="#/${k}" data-k="${k}"><span class="pl-n" lang="en" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span><span class="pl-t" lang="en">${esc(BIG[k].join(" "))}</span><span class="pl-m"><span class="pl-k" data-i="k"></span><span class="pl-d" data-i="d"></span>${byK[k].ev ? `<span class="pl-e" data-i="e"></span>` : ""}</span><span class="pl-a" aria-hidden="true">↗</span></a>`;
     li.firstChild.style.setProperty("--c", byK[k].color);
     list.appendChild(li); rowsL[k] = li.firstChild;
   });
@@ -87,6 +88,7 @@
       const a = els[k]; a.setAttribute("aria-label", cardLabel(k));
       const kn = $("[data-i=k]", a); kn.textContent = nameOf(k); kn.hidden = !nameOf(k);
       $("[data-i=d]", a).textContent = L(byK[k].desc);
+      if (byK[k].ev) { $("[data-i=e]", a).textContent = L(byK[k].ev); $("[data-i=e]", rowsL[k]).textContent = L(byK[k].ev); }
       const r = rowsL[k]; r.setAttribute("aria-label", cardLabel(k));
       const rk = $("[data-i=k]", r); rk.textContent = nameOf(k); rk.hidden = !nameOf(k);
       $("[data-i=d]", r).textContent = L(byK[k].sum || byK[k].desc); // the list reads each case as one line
@@ -94,6 +96,7 @@
     vt.innerHTML = viewGroup();
     const s = SUBLINE();
     sl.innerHTML = `<span class="ty-sa">${esc(s.a)}</span><span class="ty-sb"> / ${esc(s.b)}</span>`;
+    rl.textContent = L(C.role);
     fSub.textContent = L({ ko: "SK 아이젠 1기 지원 포트폴리오", en: "Portfolio for SK AIGEN Cohort 1" }); // the footer's right-hand line
     dn.setAttribute("aria-label", L({ ko: "프로젝트 보기", en: "See the projects" }));
     $("#skip-link").textContent = L(C.ui.skip);
@@ -203,10 +206,13 @@
 
     // where the name and the subline start (centred) and where they settle (the footer)
     const nh = nm.offsetHeight, nwid = nm.offsetWidth, sh = sl.offsetHeight, swid = sl.offsetWidth;
-    const gapNS = S.small ? 14 : 22, blockH = nh + gapNS + sh;
+    const gapNS = S.small ? 14 : 22, gapR = S.small ? 10 : 14;
+    rl.style.width = Math.round(Math.min(W - 2 * m, 560)) + "px";
+    const rh = rl.offsetHeight, blockH = nh + gapNS + sh + gapR + rh;
     const y0 = Math.round(H * 0.47 - blockH / 2);
     nm.style.left = Math.round((W - nwid) / 2) + "px"; nm.style.top = y0 + "px";
     sl.style.left = Math.round((W - swid) / 2) + "px"; sl.style.top = (y0 + nh + gapNS) + "px";
+    rl.style.left = Math.round((W - rl.offsetWidth) / 2) + "px"; rl.style.top = (y0 + nh + gapNS + sh + gapR) + "px";
     const fr = fName.getBoundingClientRect(), sr = fSub.getBoundingClientRect();
     G.n = { x: (W - nwid) / 2, y: y0, s: parseFloat(getComputedStyle(fName).fontSize) / nfs, tx: fr.left, ty: fr.top };
     const slFs = parseFloat(getComputedStyle(sl).fontSize), fsFs = parseFloat(getComputedStyle(fSub).fontSize);
@@ -243,6 +249,8 @@
     if (!S.small) sl.style.opacity = String(1 - x);
     sl.style.visibility = x >= 1 ? "hidden" : "";
     fSub.style.visibility = x > 0 ? "visible" : ""; fSub.style.opacity = String(x);
+    // the role line stays behind and fades as the projects arrive
+    rl.style.opacity = String(1 - clamp(t / 0.25)); rl.style.transform = `translate3d(0, ${(-24 * e).toFixed(1)}px, 0)`; rl.style.visibility = t >= 0.25 ? "hidden" : "";
     dn.style.opacity = String(1 - clamp(t / 0.15)); dn.style.pointerEvents = t < 0.1 ? "" : "none";
     foot.style.setProperty("--fb", String(clamp((t - 0.5) / 0.4))); // phones: the footer gains its white band
     // 2 · the cards rise out of the middle line, one after another

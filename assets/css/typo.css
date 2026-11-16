@@ -616,3 +616,43 @@ html[data-lang="en"] .sheet .l3-brief .ask { font-family: var(--en); font-weight
   .sheet .stills { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .sheet .stills .zoom { max-width: 420px; }
 }
+
+/* ═════ evidence update ═════ */
+/* home: the role line under the name; each project's evidence status in small type */
+.ty-role { position: absolute; left: 0; top: 0; z-index: 3; margin: 0; font-size: 15px; line-height: 1.5; text-align: center; color: var(--ink-2); text-wrap: balance; will-change: transform, opacity; }
+html[data-lang="en"] .ty-role { font-family: var(--en); }
+html.ty-small .ty-role { font-size: 13.5px; }
+html.ty-intro .ty-role { animation: tyFade 700ms var(--ez-out) 760ms both; }
+.pc-e, .pl-e { display: block; margin-top: 6px; font-size: 12px; line-height: 1.4; color: var(--ink-3, #8a857d); letter-spacing: .01em; }
+.pl-e { margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+html[data-lang="en"] .pc-e, html[data-lang="en"] .pl-e { font-family: var(--en); }
+/* project pages: feedback from real use and limits found by trying it */
+.sheet .fb-h { margin-bottom: 10px; }
+.sheet .fb-meta { margin: 0 0 14px; }
+.sheet .fb-scope { margin: 0 0 18px; max-width: 46em; padding: 10px 14px; border-left: 3px solid var(--c); background: color-mix(in srgb, var(--c) 18%, #fff); font-size: 15px; line-height: 1.6; }
+.sheet .fb-l { margin: 0 0 6px; padding: 0 0 0 1.1em; max-width: 46em; display: grid; gap: 8px; font-size: 16px; line-height: 1.7; }
+.sheet .fb-l li::marker { color: var(--ink-3, #8a857d); }
+.sheet .fb-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--g); margin: 4px 0 18px; }
+.sheet .fb-cols > div { border: 1px solid var(--ink); padding: 16px 18px 18px; background: #fff; min-width: 0; }
+.sheet .fb-cols h3 { margin: 0 0 8px; font-size: 14px; font-weight: 700; }
+.sheet .fb-cols p { margin: 0; font-size: 15.5px; line-height: 1.7; }
+.sheet .fb-cols .cap { margin-top: 8px; color: var(--ink-2); }
+.sheet .fb-k { margin: 26px 0 8px; font-size: 13.5px; font-weight: 700; }
+.sheet .fb-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--g); border-top: 1px solid var(--ink); }
+.sheet .fb-steps li { padding: 12px 0 0; min-width: 0; }
+.sheet .fb-steps b { display: flex; gap: 8px; align-items: center; font-size: 14.5px; font-weight: 700; }
+.sheet .fb-steps b i { flex: none; width: 22px; height: 22px; display: grid; place-items: center; border: 1px solid var(--ink); background: var(--c); font: 500 12px/1 var(--en); font-style: normal; }
+.sheet .fb-steps p { margin: 6px 0 0; font-size: 15px; line-height: 1.65; }
+.sheet .fb-learn { margin: 26px 0 0; max-width: 46em; padding-top: 14px; border-top: 1px solid var(--line); font-size: 16.5px; font-weight: 600; line-height: 1.6; }
+.sheet .fb-learn b { display: block; margin-bottom: 4px; font-size: 13px; color: var(--ink-2); }
+.sheet .st-src span, .sheet .fb-meta span { margin-left: 2px; }
+.sheet .row-t { display: block; margin-top: 4px; font-size: 12px; font-weight: 500; color: var(--ink-2); }
+.sheet .close-qn { margin: -6px 0 18px; }
+.sheet .demo-note .src, .sheet .dg-status .src { margin-right: 6px; }
+.sheet .l3-voice .vq { margin: 0 0 8px; padding: 18px 20px; border: 1px solid var(--ink); background: var(--c); font-size: 16.5px; line-height: 1.65; font-weight: 500; }
+html[data-lang="en"] .sheet .l3-voice .vq { font-family: var(--en); }
+@media (max-width: 760px) {
+  .sheet .fb-cols, .sheet .fb-steps { grid-template-columns: minmax(0, 1fr); }
+  .sheet .fb-steps { gap: 0; }
+  .sheet .fb-steps li { padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+}
