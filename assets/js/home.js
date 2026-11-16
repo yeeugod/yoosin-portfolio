@@ -10,7 +10,7 @@
   const sheet = $("#sheet"), sheetScroll = $("#sheet-scroll"), banner = $("#banner"), bTitle = $("#banner-title"), sheetBody = $("#sheet-body"), sheetCtl = $("#sheet-ctl");
   const appwin = $("#appwin"), appBar = $("#app-bar"), appRoot = $("#app-root"), appScroll = $("#app-scroll");
   const topbar = $("#topbar");
-  const HOME = ["montauk", "grown", "makeit", "likethis", "art", "about"]; // reading order of the row: the projects, then About Me at the far right
+  const HOME = ["grown", "montauk", "makeit", "likethis", "art", "about"]; // reading order of the row: the projects, then About Me at the far right
   const byK = Object.fromEntries(C.cards.map((c) => [c.k, c]));
   // the large set title on each card and in its detail header (project names stay as written)
   const BIG = { evidence: ["Evidence"], montauk: ["Manual for", "Manuals"], grown: ["GROWN", "Recovery Scan"], makeit: ["Make It!"], likethis: ["Like this"], art: ["ART&", "DESIGN:)"], about: ["About Me"] };
