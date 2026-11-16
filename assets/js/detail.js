@@ -146,7 +146,7 @@
         <figure class="l3 l3-made"><p class="l3-k"><i>1</i>${esc(L(Ld.made.t))}</p>
           ${zoom("mlead", 0, pic("mkd-p4", L(Ld.made.cap), { page: true, sizes: "(max-width:760px) 100vw, 30vw" }), L(Ld.made.cap))}
           <ol class="l3-chain">${Ld.made.chain.map((c) => `<li>${esc(L(c))}</li>`).join("")}</ol>${capOf("real", Ld.made.cap)}</figure>
-        <div class="l3 l3-voice"><p class="l3-k"><i>2</i>${esc(L(Ld.feedback.t))}</p><blockquote>${esc(L(Ld.feedback.p))}</blockquote><p class="cap">${srcTag("field")}</p></div>
+        <div class="l3 l3-voice"><p class="l3-k"><i>2</i>${esc(L(Ld.feedback.t))}</p><p class="vq">${esc(L(Ld.feedback.p))}</p><p class="cap">${srcTag("field")}</p></div>
         <figure class="l3 l3-app"><p class="l3-k"><i>3</i>${esc(L(Ld.app.t))}</p>
           ${zoom("mlead", 1, pic("mt-studio-2", L(Ld.app.alt), { sizes: "(max-width:760px) 70vw, 22vw" }), L(Ld.app.cap))}${capOf("flow", Ld.app.cap)}</figure>
       </div>`, "hero lead-only");
@@ -172,7 +172,7 @@
         <div class="cmp2-tabs" role="tablist" aria-label="${esc(L("조립 단계", "Assembly step"))}">${stepPages.map((p) => `<button type="button" role="tab" data-pg="${p.n}" aria-selected="${p.n === pick}"><b lang="en">${p.n}</b>${esc(L(p.t))}</button>`).join("")}</div>
         <div class="cmp2-pair" role="tabpanel" aria-live="polite">${cmpPair(pick)}</div>
       </div><p class="cap">${esc(L(K.cap))}</p>`);
-    return lead + body + cmp + closeSec("m-close", 3, D.close);
+    return lead + body + cmp + fbSec("m-field", D.field) + closeSec("m-close", 3, D.close);
   }
 
   /* one assembly step in the two guides: the hand-made page, then the app version (side by side on desktop, in that order on mobile) */

@@ -308,7 +308,7 @@
         p: { ko: "직원들은 현장에서 말로 설명하는 편이 더 빠르다고 했습니다. 고객에게는 집에서도 다시 펼쳐볼 가이드가 필요했습니다. 그래서 직원이 평소처럼 설명한 내용을 조립 순서와 주의점으로 정리해 가이드 제작에 쓸 수 있도록 입력 방식을 설계했습니다.",
           en: "Staff said explaining out loud on the floor was faster. Customers still needed a guide they could open again at home. So I designed the input so that what staff would normally say is organised into assembly order and cautions, and used to make the guide." } },
       app: { t: { ko: "앱의 질문 화면", en: "The app's question screen" },
-        cap: { ko: "Montauk Manual Studio · 직원이 조립 질문에 답하는 단계", en: "Montauk Manual Studio · staff answering an assembly question" },
+        cap: { ko: "시연 흐름 재구성 · Montauk Manual Studio · 직원이 조립 질문에 답하는 단계", en: "Demo flow, reconstructed · Montauk Manual Studio · staff answering an assembly question" },
         alt: { ko: "직원 답변 화면 · 조립할 때 주의할 점에 대한 시연용 음성 답변", en: "Answer screen: a demo voice answer to “What should people watch out for during assembly?”" } }
     },
     story: {
@@ -329,7 +329,7 @@
           p: [{ ko: "가구가 바뀔 때마다 촬영·배경 정리·도해·편집을 처음부터 되풀이해야 했고, 그 과정은 제 숙련도에 기대고 있었습니다. 제가 떠나면 다음 가이드가 나오기 어렵다는 점이 먼저 보였습니다.", en: "Every new piece meant redoing the shoot, cleanup, diagrams and layout from scratch, and it depended on my skill. I could see that once I left, the next guide would be hard to make." }, { ko: "비자가 끝나 귀국하기 전, 촬영 방법, 필요한 정보, AI 도구 사용법, 편집 프리셋까지 정리한 ‘매뉴얼을 위한 매뉴얼’을 만들어 인수인계했습니다.", en: "Before my visa ended, I wrote a ‘manual for manuals’ — how to shoot, what information is needed, how to use the AI tools, the layout presets — and handed it over." }],
           doc: { file: "assets/docs/Montauk_Assembly_Guide_Production_Handoff.pdf", img: "mt-handoff-p1",
             link: { ko: "인수인계 요약 보기", en: "View the handover summary" }, meta: { ko: "PDF · 2쪽 · 영문", en: "PDF · 2 pages · English" },
-            cap: { ko: "실제 제작·인수인계 과정을 바탕으로 포트폴리오용으로 재구성한 요약", en: "A summary reconstructed for this portfolio from the actual production and handover process" } } },
+            cap: { ko: "포트폴리오용 재구성 · 실제 제작·인수인계 과정을 바탕으로 포트폴리오용으로 재구성한 요약", en: "Reconstructed for the portfolio · a summary reconstructed for this portfolio from the actual production and handover process" } } },
         { k: "feedback", t: { ko: "직원 피드백", en: "Staff feedback" },
           h: { ko: "직원 입장에서는 말로 설명하는 편이 빨랐다", en: "For staff, explaining out loud was faster" },
           p: [{ ko: "고객과 CEO, 매니저는 가이드를 좋게 봤습니다. 다만 직원들은 현장에서 한 번 안내할 때는 말로 설명하는 편이 더 빠르다고 했습니다. 말은 현장에서 빠르지만, 고객이 집에서 다시 볼 수 있는 것은 문서였습니다.", en: "Customers, the CEO and the manager liked the guide. Staff, though, said that for a single walkthrough on the floor, explaining out loud was faster. Talking is fast on the floor, but what a customer can read again at home is a document." }],
@@ -354,7 +354,7 @@
             { img: "mt-studio-2", t: { ko: "직원 답변", en: "Staff answer" }, alt: { ko: "직원 답변 화면 · 시연용 음성 답변이 받아써진 상태", en: "Answer screen: a demo voice answer, transcribed — “Forcing the backrest cushion on at an angle can damage it inside; assemble on a rug so the floor isn't scratched.”" } },
             { img: "mt-studio-3", t: { ko: "출력 미리보기", en: "Output preview" }, alt: { ko: "출력 미리보기 화면 · 준비된 예시 출력, 8쪽, 영문·스페인어", en: "Preview screen: prepared example output, 8 pages, English and Spanish" } }
           ],
-          stillsCap: { ko: "앱의 질문 → 직원 답변 → 출력 미리보기를 정리한 화면입니다. 음성 답변은 시연용이고, 미리보기는 준비된 앱 버전 예시입니다.", en: "The app's question → the staff answer → the output preview. The voice answer is for the demo; the preview is the prepared app-version example." },
+          stillsCap: { ko: "시연 흐름 재구성 · 앱의 질문 → 직원 답변 → 출력 미리보기를 정리한 화면입니다. 음성 답변은 시연용이고, 미리보기는 준비된 앱 버전 예시입니다.", en: "Demo flow, reconstructed · the app's question → the staff answer → the output preview. The voice answer is for the demo; the preview is the prepared app-version example." },
           note: { ko: "사내 도구라 공개 페이지에서는 시연 영상으로 보여드립니다. 영상의 도해와 마지막 PDF는 준비된 앱 버전 가이드이며, 화면에 ‘준비된 예시’로 표시했습니다.", en: "It is an in-house tool, so this public page shows it as a demo recording. The diagrams and the final PDF in the video are the prepared app-version guide, and are marked ‘prepared example’ on screen." } }
       ]
     },
@@ -371,14 +371,29 @@
       ],
       cap: { ko: "같은 조립 단계끼리 짝지었습니다. 앱 버전은 도해마다 부품 기호를 달고, 2단계의 결합 부분을 원형 상세도로 확대했습니다.", en: "Pages are paired by assembly step. The app version labels every part in the diagrams and enlarges the step-2 join in a circular detail." }
     },
+    field: {
+      label: { ko: "실사용 피드백", en: "Field feedback" },
+      h: { ko: "시카고점 직원이 Manual Studio를 직접 써 본 뒤", en: "After Chicago store staff tried Manual Studio themselves" },
+      src: "field", meta: { ko: "몬탁소파 시카고점 직원 · 2026-02", en: "Montauk Sofa Chicago store staff · 2026-02" },
+      scope: { ko: "사내 공식 도입 전, 시카고점 직원들이 시연 단계의 앱을 써 본 결과입니다.", en: "Before any official in-house adoption: what Chicago store staff found after trying the app at its demo stage." },
+      items: [
+        { ko: "그 자리에서 말로 설명할 때보다 거쳐야 할 단계가 조금 더 있다.", en: "There are a few more steps to go through than when explaining out loud on the spot." },
+        { ko: "앱의 질문에 답하는 방식은 평소 고객을 안내할 때와 비슷하다.", en: "Answering the app's questions is similar to how they usually guide customers." },
+        { ko: "가이드가 필요한 상황에서는 Adobe 도구를 열어 직접 편집하는 것보다 앱으로 만드는 편이 효율적이었다.", en: "When a guide was needed, making it with the app was more efficient than opening Adobe tools and editing it by hand." },
+        { ko: "가장 큰 차이는 가이드를 건넨 이후였다. 구두로만 안내하면 같은 조립 방법이나 주의사항을 다시 물을 때마다 설명해야 했지만, 가이드를 받은 고객은 스스로 다시 확인할 수 있어 같은 내용을 묻는 문의가 눈에 띄게 줄었다. (직원 체감 · 수치 측정 없음) (앱으로 만든 가이드 기준)",
+          en: "The biggest difference came after the guide was handed over. With spoken guidance only, they had to explain again every time someone asked about the same assembly steps or cautions; customers who had the guide could check it again themselves, so noticeably fewer questions asked the same thing. (Staff impression, not measured) (Based on guides made with the app)" }
+      ],
+      mine: [{ ko: "처음 직원은 말로 설명하는 편이 빠르다고 했다. 앱으로 써 본 뒤에도 단계가 늘어난다는 점은 같았지만, 직원이 본 가치는 설명하는 순간이 아니라 가이드를 건넨 이후에 있었다. 그래서 현장 즉답을 대신하는 도구가 아니라, 다시 묻게 되는 내용을 고객 손에 남기는 도구로 범위를 정한다.",
+        en: "At first, staff said explaining out loud was faster. After using the app, it still added steps — but the value staff saw was not in the moment of explaining; it came after the guide was handed over. So I set the scope not as a tool that replaces answering on the spot, but as one that leaves in the customer's hands what they would otherwise ask again." }]
+    },
     close: {
       label: { ko: "확인한 점과 확인할 점", en: "What I learned, and what is left to check" },
       rows: [
         { k: { ko: "인수인계에서 확인한 점", en: "Learned from the handover" }, v: { ko: "고객과 CEO, 매니저는 직접 만든 가이드를 좋게 봤습니다. 직원들은 현장에서 한 번 안내할 때는 말로 설명하는 편이 더 빠르다고 했습니다. 현장에서 들은 피드백입니다.", en: "Customers, the CEO and the manager liked the guide I made. Staff said that for one walkthrough on the floor, explaining out loud was faster — feedback heard on the floor." } },
-        { k: { ko: "지금 작동하는 범위", en: "What runs today" }, v: { ko: "새 작업 시작, 사진 촬영·선택, 질문에 글로 답하기, 음성 답변 받아쓰기(지원 브라우저), 답변을 조립 순서·부품·주의점으로 정리, 실물 대조 체크", en: "Starting a job, shooting or picking photos, typed answers, transcribing spoken answers (supported browsers), organising answers into order, parts and cautions, the check against the real unit" } },
+        { k: { ko: "지금 작동하는 범위", en: "What runs today" }, tag: { ko: "시연 단계 · 시카고점 시범 사용", en: "Demo stage · trial use at the Chicago store" }, v: { ko: "새 작업 시작, 사진 촬영·선택, 질문에 글로 답하기, 음성 답변 받아쓰기(지원 브라우저), 답변을 조립 순서·부품·주의점으로 정리, 실물 대조 체크", en: "Starting a job, shooting or picking photos, typed answers, transcribing spoken answers (supported browsers), organising answers into order, parts and cautions, the check against the real unit" } },
         { k: { ko: "준비된 예시", en: "Prepared examples" }, v: { ko: "시연의 도해, 가이드 미리보기와 최종 PDF는 준비된 앱 버전 예시입니다", en: "The demo's diagrams, the guide preview and the final PDF are the prepared app-version example" } },
         { k: { ko: "아직 연결하지 않음", en: "Not connected yet" }, v: { ko: "사진에서 새 도해 자동 생성, 문구 자동 편집", en: "Generating new diagrams from photos, editing text automatically" } },
-        { k: { ko: "새 방식에서 확인할 점", en: "Still to check with the new way" }, v: { ko: "후속 앱은 시연까지 만들었고, 직원이 실제로 쓰거나 현장에 정착했는지는 아직 확인하지 않았습니다. 직원과 한 제품의 가이드를 처음부터 끝까지 함께 만들어 보며, 말로 한 설명이 가이드에 충분히 담기는지 확인할 계획입니다.", en: "The follow-up app has been built as far as the demo; whether staff actually use it, or whether it has taken hold on the floor, has not been checked yet. The plan is to make one product's guide end to end with a staff member and see whether what they say is enough to make the guide." } }
+        { k: { ko: "새 방식에서 확인할 점", en: "Still to check with the new way" }, v: { ko: "후속 앱은 시연 단계이며, 사내 공식 도입 전에 시카고점 직원들이 직접 써 보고 피드백을 줬습니다(2026-02). 다른 지점 적용과 재문의 변화의 실제 기록은 아직 확인하지 않았습니다. 확인할 점: 공식 도입 여부 · 다른 지점 적용 · 재문의 변화의 실제 기록", en: "The follow-up app is at the demo stage; before any official in-house adoption, Chicago store staff tried it themselves and gave feedback (2026-02). Use at other stores and actual records of change in repeat questions have not been checked yet. Still to check: whether it is officially adopted · use at other stores · actual records of change in repeat questions" } }
       ]
     }
   };
