@@ -208,7 +208,7 @@
         <div class="g-duo-b">${demo("grown-mobile", h, { noEn: true, label: D.mobile.right, note: D.mobile.cap })}</div>
       </div>`
     };
-    return lead + story("g-story", D.story, media) + closeSec("g-close", 2, D.close);
+    return lead + story("g-story", D.story, media) + fbSec("g-field", D.field) + closeSec("g-close", 2, D.close);
   }
   function grownLink(sel) {
     const G = window.GROWN_SAMPLE; if (!G) return ""; // prepared results only; nothing is calculated here
@@ -225,6 +225,7 @@
     const r = window.GROWN_SAMPLE && window.GROWN_SAMPLE.reads[key]; if (!r) return "";
     const Ld = C.grown.lead;
     const cap = key === "B1|101" ? `<p class="gr-cap">${esc(L(C.grown.link.cap101))}</p>` : "";
+    const roles = `<p class="gr-roles">${esc(L("자동 계산: 자료 정리·대조·예비 판정 / 전문가: 현장·문서 확인 후 최종 진단", "Calculated: data clean-up, cross-checks, preliminary verdict / Expert: final diagnosis after site and document checks"))}</p>`;
     return `<div class="gr-in ${lead ? "gr-lead" : ""}" style="--c:${r.color}">
       <p class="gr-unit"><b lang="en">${esc(r.id)}</b>${esc(L(r.site))}</p>
       <ol class="gr-steps">
@@ -233,7 +234,7 @@
         <li class="gr-need">${lead ? `<em class="gr-flag">${esc(L(Ld.mark))}</em>` : ""}<span>${esc(L("추가 확인 · 자료 보완과 현장·문서 확인", "Further checks · missing data and site/document checks"))}</span><p>${esc(L(r.need))}</p>${lead ? `<p class="gr-why">${esc(L(Ld.markNote))}</p>` : ""}</li>
         <li><span>${esc(L("우선 조치", "Actions first"))}</span><p>${esc(L(r.action))}</p></li>
       </ol>${cap}
-      <p class="gr-stage"><i class="on">${esc(L("예비 판정 (계산)", "Preliminary (calculated)"))}</i><i>${esc(L("자료 보완 → 다시 계산", "Fill in data → recalculate"))}</i><i>${esc(L("전문가 현장·문서 확인 → 확정", "Expert site/document check → confirmed"))}</i></p></div>`;
+      <p class="gr-stage"><i class="on">${esc(L("예비 판정 (계산)", "Preliminary (calculated)"))}</i><i>${esc(L("자료 보완 → 다시 계산", "Fill in data → recalculate"))}</i><i>${esc(L("전문가 현장·문서 확인 → 확정", "Expert site/document check → confirmed"))}</i></p>${roles}</div>`;
   }
 
   /* ───── Make It!: the Artist's Original Drawing → the 3D model → the question for the maker → the story → what the trial shows ───── */

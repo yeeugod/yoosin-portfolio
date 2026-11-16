@@ -456,6 +456,26 @@
     s1: {
       cardCap: { ko: "명함 정보 면 · 가명과 예시 정보로 재구성", en: "Card back · rebuilt with a placeholder name and details" }
     },
+    field: {
+      label: { ko: "실사용 피드백", en: "Field feedback" },
+      h: { ko: "도구가 맡을 범위와 전문가가 설명할 범위", en: "What the tool takes on, and what the expert explains" },
+      src: "field", meta: { ko: "GROWN 공실 진단 전문가(지원자의 부친 · 협업자) · 2026-10", en: "GROWN's vacancy-diagnosis expert (my father · collaborator) · 2026-10" },
+      cols: [
+        { t: { ko: "전문가가 본 한계", en: "Limits the expert saw" },
+          d: { ko: "일부 고객은 AI의 영향이 큰 종합 진단에 신중하다. 고객은 경험과 실적이 검증된 전문가에게 상권과 물건 조건을 직접 듣고 조치를 논의하는 과정에 더 가치를 둔다. AI가 최종 판단에 얼마나 관여했는지 불분명하면 결과를 신뢰하거나 비용을 지불하는 데 주저하기도 한다.",
+            en: "Some clients are wary of an overall diagnosis that AI shapes heavily. Clients put more value on hearing about the trade area and the property's conditions directly from an expert with proven experience and a track record, and discussing the actions together. When it is unclear how far AI was involved in the final judgement, some hesitate to trust the result or to pay for it." },
+          note: { ko: "(전문가의 실무 관찰)", en: "(The expert's observation from practice)" } },
+        { t: { ko: "전문가가 본 효과", en: "Effects the expert saw" },
+          d: { ko: "반복되는 확인과 대조가 간소해져, 검토가 필요한 조건과 회생 전략에 더 집중할 수 있다.", en: "Repeated checking and cross-matching become simpler, so more attention can go to the conditions that need review and to the recovery strategy." } }
+      ],
+      stepsT: { ko: "그래서 바꾼 것", en: "So what I changed" },
+      steps: [
+        { t: { ko: "내부 업무로 범위를 정했다", en: "Scoped it to internal work" }, d: { ko: "시장조사 자료 정리, 물건 정보 대조, 예비 판정과 근거 확인", en: "Organising market research, cross-checking property information, checking the preliminary verdict and its reasons" } },
+        { t: { ko: "‘추가 확인’에 넘길 것을 남겼다", en: "Left what passes to ‘Further checks’" }, d: { ko: "확정 전에 살펴볼 자료와 현장 조건. 전문가가 이를 검토한 뒤 최종 진단을 내린다", en: "The data and site conditions to look at before confirming. The expert reviews them, then makes the final diagnosis" } },
+        { t: { ko: "고객에게 역할을 그대로 설명한다", en: "Explain the roles to clients as they are" }, d: { ko: "자동화는 자료 조사·정리 단계에서 밝히고, 최종 판단은 어떤 현장 정보와 문서를 근거로 내렸는지 전문가가 설명한다", en: "Automation is disclosed at the research and organising stage; for the final judgement, the expert explains which site information and documents it rests on" } }
+      ],
+      learn: { ko: "초기 진단을 설계할 때 어디까지 계산할지뿐 아니라, 계산이 끝나는 자리에서 전문가에게 무엇을 넘겨줘야 하는지 정하는 일이 중요하다는 것을 배웠습니다.", en: "Designing the first diagnosis, I learned that it matters not only how far to calculate, but also what to hand to the expert at the point where the calculation ends." }
+    },
     close: {
       label: { ko: "자동 계산과 전문가 확인의 범위", en: "What the calculation does, and what the expert confirms" },
       rows: [

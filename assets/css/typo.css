@@ -656,3 +656,4 @@ html[data-lang="en"] .sheet .l3-voice .vq { font-family: var(--en); }
   .sheet .fb-steps { gap: 0; }
   .sheet .fb-steps li { padding-bottom: 12px; border-bottom: 1px solid var(--line); }
 }
+.sheet .gr-roles { margin: 10px 0 0; padding-top: 8px; border-top: 1px dashed var(--line); font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
