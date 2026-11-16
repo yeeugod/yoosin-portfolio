@@ -23,7 +23,7 @@
     { id: "m4", n: "CNC Proto Shop", city: { ko: "서울 금천구 (예시)", en: "Geumcheon, Seoul (sample)" }, mat: ["cnc"], moq: 1, max: 20, lead: [2, 4], mold: 0, unit: (s) => 42000 + s.h * 320, note: { ko: "CNC 가공 원형 · 캐스팅용 마스터 모델", en: "CNC-machined patterns · masters for casting" } }
   ];
   const fresh = () => ({ role: "designer", tab: "spec", mtab: "inbox", mview: "match", me: "m2", target: null, v: 1,
-    spec: { name: "Art Toy", from: { ko: "작가 원화", en: "Artist's original drawing" }, h: 180, mat: "silicone", qty: 50, budget: 4000000, weeks: 10, base: "yes", minWall: 0, notes: "" },
+    spec: { name: "Art Toy", from: { ko: "작가 원화", en: "Artist’s Original Drawing" }, h: 180, mat: "silicone", qty: 50, budget: 4000000, weeks: 10, base: "yes", minWall: 0, notes: "" },
     sent: [], replies: [], hist: [], picked: [] });
   let S = Object.assign(fresh(), YL.store.sget(KEY, {}));
   const save = () => YL.store.sset(KEY, S);
@@ -36,7 +36,7 @@
     const q = [];
     if (s.mat === "unknown") q.push({ ko: `수량 ${s.qty}개에 맞는 제작 방식을 추천해 주세요.`, en: `Which process suits a run of ${s.qty}?` });
     if (!(s.h > 0)) q.push({ ko: "적정 크기를 제안해 주세요.", en: "Please suggest a suitable size." });
-    if (!s.minWall) q.push({ ko: "얇은 가지 부분(원화의 가는 선)이 버틸 최소 두께가 얼마인지 알려 주세요.", en: "What is the minimum thickness for the thin branch-like parts of the drawing?" });
+    if (!s.minWall) q.push({ ko: "얇은 가지 부분(작가 원화의 가는 선)이 버틸 최소 두께가 얼마인지 알려 주세요.", en: "What is the minimum thickness for the thin branch-like parts of the Artist’s Original Drawing?" });
     return q;
   }
   function estimate(m, s) { const per = m.unit(s); return { per: Math.round(per / 100) * 100, total: Math.round((m.mold + per * s.qty) / 1000) * 1000 }; }
@@ -56,8 +56,8 @@
   function brief(lang) { return briefFor(S.spec, S.v, lang); }
   function briefFor(s, v, lang) { const T = (o) => typeof o === "string" ? o : o[lang], en = lang === "en";
     const q = questions(s).map((x, i) => `${i + 1}. ${T(x)}`).join("\n");
-    return (en ? `BUILD BRIEF v${v} — ${s.name}\n\nSource: ${T(s.from)} (2D drawing → collectible figure)\nHeight: ${s.h} mm${s.base === "yes" ? " incl. base" : ""}\nProcess: ${T(MAT[s.mat])}\nQuantity: ${s.qty} pcs\nBudget: up to ${fmt.won(s.budget)}\nWanted within: ${s.weeks} weeks\n${s.minWall ? `Min. thickness of thin parts: ${s.minWall} mm\n` : ""}${s.notes ? `Notes: ${s.notes}\n` : ""}${q ? `\nQuestions for you:\n${q}\n` : ""}\nAttached: front drawing, 3D turntable (Tripo AI model).`
-      : `제작 문의서 v${v} — ${s.name}\n\n원본: ${T(s.from)} (평면 그림 → 수집가용 피규어)\n높이: ${s.h}mm${s.base === "yes" ? " (받침 포함)" : ""}\n제작 방식: ${T(MAT[s.mat])}\n수량: ${s.qty}개\n예산: ${fmt.won(s.budget)} 이내\n희망 기간: ${s.weeks}주 이내\n${s.minWall ? `가는 부분 최소 두께: ${s.minWall}mm\n` : ""}${s.notes ? `메모: ${s.notes}\n` : ""}${q ? `\n업체에 묻는 것:\n${q}\n` : ""}\n첨부: 원화 정면, 3D 회전 영상 (Tripo AI 모델)`);
+    return (en ? `BUILD BRIEF v${v} — ${s.name}\n\nSource: ${T(s.from)} (2D drawing → collectible figure)\nHeight: ${s.h} mm${s.base === "yes" ? " incl. base" : ""}\nProcess: ${T(MAT[s.mat])}\nQuantity: ${s.qty} pcs\nBudget: up to ${fmt.won(s.budget)}\nWanted within: ${s.weeks} weeks\n${s.minWall ? `Min. thickness of thin parts: ${s.minWall} mm\n` : ""}${s.notes ? `Notes: ${s.notes}\n` : ""}${q ? `\nQuestions for you:\n${q}\n` : ""}\nAttached: Artist’s Original Drawing (front), turntable of the 3D Model Based on the Original Drawing.`
+      : `제작 문의서 v${v} — ${s.name}\n\n원본: ${T(s.from)} (평면 그림 → 수집가용 피규어)\n높이: ${s.h}mm${s.base === "yes" ? " (받침 포함)" : ""}\n제작 방식: ${T(MAT[s.mat])}\n수량: ${s.qty}개\n예산: ${fmt.won(s.budget)} 이내\n희망 기간: ${s.weeks}주 이내\n${s.minWall ? `가는 부분 최소 두께: ${s.minWall}mm\n` : ""}${s.notes ? `메모: ${s.notes}\n` : ""}${q ? `\n업체에 묻는 것:\n${q}\n` : ""}\n첨부: 작가 원화 정면, 작가 원화를 바탕으로 만든 3D 모델 회전 영상`);
   }
 
   /* ── rendering ── */
@@ -71,7 +71,7 @@
     const av = (who) => who === "designer" ? `<span class="mx-av d" aria-hidden="true">YL</span>` : `<span class="mx-av m" aria-hidden="true">${esc(me.replace(/[^A-Za-z ]/g, "").split(" ").filter(Boolean).map((w) => w[0]).join("").slice(0, 2))}</span>`;
     const specRows = [[{ ko: "높이", en: "Height" }, `${s.h} mm`, "h"], [{ ko: "제작 방식", en: "Process" }, L(MAT_SHORT[s.mat]), "mat"], [{ ko: "수량", en: "Quantity" }, `${s.qty.toLocaleString()}${L("개", " pcs")}`, "qty"], [{ ko: "예산", en: "Budget" }, fmt.won(s.budget), "budget"], [{ ko: "기간", en: "Wanted in" }, `${s.weeks}${L("주", " wks")}`, "weeks"], [{ ko: "최소 두께", en: "Min. thickness" }, s.minWall ? `${s.minWall} mm` : L("질문 중", "Asked"), "minWall"]];
     pane.innerHTML = `<div class="mx" data-mode="${S.role}">
-      <header class="mx-proj"><img class="mx-thumb" src="assets/img/a10-sm.jpg" alt="${esc(L("작가 원화", "Artist's drawing"))}">
+      <header class="mx-proj"><img class="mx-thumb" src="assets/img/a10-sm.jpg" alt="${esc(L("작가 원화", "Artist’s Original Drawing"))}">
         <div class="mx-pt"><p class="mx-kicker">${esc(L("제작 프로젝트 · 예시", "Production project · sample"))}</p><h3 lang="en">${esc(s.name)}</h3>
           <p class="mx-meta"><span class="mx-ver" data-watch="ver">${esc(L("문의서", "Brief"))} v${S.v}</span><span class="mx-status" data-watch="status">${esc(statusText())}</span></p></div>
         <div class="mx-role roleswitch" role="radiogroup" aria-label="${esc(L("누구의 화면으로 볼까요", "Whose side to view"))}">
@@ -96,8 +96,8 @@
   function vSpec() {
     const s = S.spec, sp = suggestedProcess(s);
     return `<div class="mk-h" data-anchor="mk-spec"><h3>${esc(L("작품에서 제작 조건으로", "From artwork to production terms"))}</h3><p class="muted">${esc(L("모르는 항목은 ‘모름’으로 두거나 비워 두면 문의서에 질문으로 들어갑니다.", "Leave anything you don't know as ‘Not sure’ or blank — it becomes a question in the brief."))}</p></div>
-      <div class="mk-art"><figure><img src="assets/img/a10-sm.jpg" alt="${esc(L("작가 원화", "Artist's drawing"))}"><figcaption>${esc(L("원본 · 작가 원화", "Source · original drawing"))}</figcaption></figure>
-        <figure><img src="assets/img/a10-rotation-poster.jpg" alt="${esc(L("Tripo AI 모델", "Tripo AI model"))}"><figcaption>${esc(L("형태 · Tripo AI 3D 모델", "Form · Tripo AI 3D model"))}</figcaption></figure></div>
+      <div class="mk-art"><figure><img src="assets/img/a10-sm.jpg" alt="${esc(L("작가 원화", "Artist’s Original Drawing"))}"><figcaption>${esc(L("원본 · 작가 원화", "Source · Artist’s Original Drawing"))}</figcaption></figure>
+        <figure><img src="assets/img/a10-rotation-poster.jpg" alt="${esc(L("작가 원화를 바탕으로 만든 3D 모델", "3D Model Based on the Original Drawing"))}"><figcaption>${esc(L("형태 · 작가 원화를 바탕으로 만든 3D 모델", "Form · 3D Model Based on the Original Drawing"))}</figcaption></figure></div>
       <div class="fg">
         <label class="fl"><span>${esc(L("제품 이름", "Product name"))}</span><input data-k="name" value="${esc(s.name)}"></label>
         ${num("h", { ko: "높이", en: "Height" }, s.h, { ko: "mm", en: "mm" }, 40, 600)}
@@ -166,7 +166,7 @@
       ${d.kind === "change" ? `<fieldset class="ck"><legend>${esc(L("요청할 항목", "What to ask for"))}</legend>${Object.entries(CHANGE).map(([k, c]) => `<label><input type="checkbox" data-item="${k}" ${d.items.includes(k) ? "checked" : ""}><span>${esc(L(c.t))}</span></label>`).join("")}</fieldset>`
         : `<div class="fg"><label class="fl"><span>${esc(L("개당 단가", "Per piece"))}</span><span class="unit"><input type="number" data-d="per" value="${d.per}" min="0"><em>${esc(L("원", "KRW"))}</em></span></label><label class="fl"><span>${esc(L("기간", "Lead time"))}</span><span class="unit"><input type="number" data-d="weeks" value="${d.weeks}" min="1"><em>${esc(L("주", "weeks"))}</em></span></label>
           <p class="tipline">${esc(L(`몰드·금형·준비 ${fmt.won(m.mold)} + ${S.spec.qty}개 = 합계 ${fmt.won(m.mold + d.per * S.spec.qty)}`, `Moulds & setup ${fmt.won(m.mold)} + ${S.spec.qty} pcs = ${fmt.won(m.mold + d.per * S.spec.qty)} total`))}</p></div>`}
-      <label class="fl"><span>${esc(L("메시지", "Message"))}</span><textarea data-d="msg" rows="2" placeholder="${esc(L("예: 원화의 가는 선이 많아 두께 보강이 필요합니다.", "e.g. The drawing has many thin lines; they need thickening."))}">${esc(d.msg)}</textarea></label>
+      <label class="fl"><span>${esc(L("메시지", "Message"))}</span><textarea data-d="msg" rows="2" placeholder="${esc(L("예: 작가 원화의 가는 선이 많아 두께 보강이 필요합니다.", "e.g. The Artist’s Original Drawing has many thin lines; they need thickening."))}">${esc(d.msg)}</textarea></label>
       <p class="err" id="rp-err" role="alert" hidden></p>
       <div class="row"><button type="button" class="btn" data-act="reply">${esc(L("디자이너에게 회신 (예시)", "Reply to designer (sample)"))}</button></div>`;
   }
@@ -230,7 +230,7 @@
 
   window.APPS = window.APPS || {};
   const SAMPLE_ASK = ["thick", "qty"];
-  const sampleMsg = (en) => en ? "The drawing has many thin lines; they need thickening. Moulds pay off from about 100 pieces." : "원화의 가는 선이 많아 두께 보강이 필요합니다. 몰드 비용은 100개 안팎부터 맞습니다.";
+  const sampleMsg = (en) => en ? "The Artist’s Original Drawing has many thin lines; they need thickening. Moulds pay off from about 100 pieces." : "작가 원화의 가는 선이 많아 두께 보강이 필요합니다. 몰드 비용은 100개 안팎부터 맞습니다.";
   /* guided walk-through: each step rebuilds the prepared A10 example up to that point (nothing is sent anywhere)
      1 project · 2 terms · 3 makers that fit · 4 brief sent to Cast & Co. · 5 sample reply · 6 revised specs (v2) */
   function tourStep(n) {

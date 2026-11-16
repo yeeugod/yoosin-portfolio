@@ -31,14 +31,30 @@
       </div>
       ${o.note ? `<p class="demo-note">${esc(L(o.note))}</p>` : ""}</div>`;
   };
-  /* every project opens with two short notes, readable within the first screen:
-     where AI was used (in the making vs. inside the app), and what I judged myself */
-  const aiBlock = (A) => `<div class="aij" data-aij>
-      <section class="aij-c"><h3>${esc(L("AI를 활용한 부분", "Where AI was used"))}</h3>
-        <dl>${A.process.map((x) => `<div><dt><span class="aij-tag">${esc(L("기획·제작 과정", "Planning & making"))}</span>${esc(L(x.t))}</dt><dd>${esc(L(x.d))}</dd></div>`).join("")}
-          <div><dt><span class="aij-tag app">${esc(L(A.app.t))}</span></dt><dd>${esc(L(A.app.d))}</dd></div></dl></section>
-      <section class="aij-c"><h3>${esc(L("내가 판단한 것", "What I judged"))}</h3>
-        <ul>${A.mine.map((x) => `<li>${esc(L(x))}</li>`).join("")}</ul></section></div>`;
+  /* every caption says what kind of material it is: the actual work, a prepared demo, or something rebuilt to explain */
+  const SRC = {
+    real: { ko: "실제 작업물", en: "Actual work" },
+    demo: { ko: "준비된 시연 자료", en: "Prepared demo material" },
+    rebuilt: { ko: "설명을 위해 재구성한 자료", en: "Rebuilt to explain" },
+    field: { ko: "현장에서 들은 피드백", en: "Heard on the floor" },
+    sample: { ko: "준비된 예시", en: "Prepared example" }
+  };
+  const srcTag = (k) => `<span class="src src-${k}">${esc(L(SRC[k]))}</span>`;
+  const capOf = (k, t) => `<figcaption class="cap">${srcTag(k)}<span>${esc(L(t))}</span></figcaption>`;
+  /* where AI was used sits beside the work it was used for; what I decided sits in the scene where it was decided */
+  const aiNote = (x) => `<aside class="ai-note"><p class="an-k">${esc(L({ ko: "AI를 활용한 부분", en: "Where AI was used" }))}</p><p><b>${esc(L(x.t))}</b>${esc(L(x.d))}</p></aside>`;
+  const judge = (list) => `<div class="judge"><p class="jg-k">${esc(L({ ko: "내가 판단한 것", en: "What I decided" }))}</p><ul>${list.map((x) => `<li>${esc(L(x))}</li>`).join("")}</ul></div>`;
+  const heroLine = (line) => `<p class="hero-line">${esc(L(line))}</p>`;
+  /* one numbered story per project: kicker, heading, text (with its AI note beside it), the decision, then the material */
+  const story = (id, S, media) => sec(id, `${label(1, S.label)}<ol class="story" data-story>${S.steps.map((s, i) => {
+      const text = (s.p || []).map((p) => `<p class="p">${esc(L(p))}</p>`).join("") + (s.src ? `<p class="cap st-src">${srcTag(s.src)}</p>` : "");
+      const body = text || s.ai ? `<div class="st-body ${s.ai ? "has-ai" : ""}"><div class="st-text">${text}</div>${s.ai ? aiNote(s.ai) : ""}</div>` : "";
+      return `<li class="st-${s.k}" data-anchor="${id}-${s.k}"><span class="sd" aria-hidden="true">${i + 1}</span>
+        <p class="st-k">${esc(L(s.t))}</p>${s.h ? `<h3>${esc(L(s.h))}</h3>` : ""}${body}${s.mine ? judge(s.mine) : ""}${media[s.k] ? `<div class="st-m">${media[s.k]}</div>` : ""}</li>`;
+    }).join("")}</ol>`);
+  const closeSec = (id, n, X) => sec(id, `${label(n, X.label)}${X.q ? `<h2 class="h2 close-q">${esc(L(X.q))}</h2>` : ""}${rows(X.rows)}`);
+  const pic = (name, alt, o = {}) => `<span class="ph ${o.page ? "page" : ""}" style="--ar:${M.ratio(name)}">${M.img(name, alt, { sizes: o.sizes || "(max-width:760px) 50vw, 24vw" })}</span>`;
+  const enImg = (name) => YL.lang === "en" && window.IMG_SIZES && window.IMG_SIZES[name + "-en"] ? name + "-en" : name;
   const rows = (list) => `<ul class="rows">${list.map((r) => `<li><b>${esc(L(r.k))}</b><span>${esc(L(r.v))}</span></li>`).join("")}</ul>`;
   const items = (list, n) => `<ol class="list" style="--n:${n || list.length}">${list.map((x) => `<li><h3>${esc(L(x.t))}</h3><p>${esc(L(x.d))}</p></li>`).join("")}</ol>`;
   const sec = (id, inner, cls = "") => `<section class="sec ${cls}" data-anchor="${id}"><div class="in">${inner}</div></section>`;
@@ -48,12 +64,13 @@
         <h3><i>${pad(i + 1)}</i>${esc(L(x.t))}</h3><div class="tp">${x.p.map((p) => `<p>${esc(L(p))}</p>`).join("")}</div></li>`).join("")}</ol>`;
   /* sets of pages that open in the enlarged view */
   const SETS = {
-    // the two daybed guides, page by page: direct p1, app p1, direct p2, app p2 …
+    // the two guides, page by page: direct p1, app p1, direct p2, app p2 …
     cmp: () => C.montauk.compare.pages.flatMap((p) => [
       { img: "mkd-p" + p.n, t: { ko: `직접 제작한 가이드 · ${p.n}쪽 · ${p.t.ko}`, en: `The guide I made · p.${p.n} · ${p.t.en}` } },
       { img: "mkf-p" + p.n, t: { ko: `앱 버전 가이드 · ${p.n}쪽 · ${p.t.ko}`, en: `App-version guide · p.${p.n} · ${p.t.en}` } }]),
-    s1: () => [{ img: "mk-ph-2", t: C.montauk.s1.phone }, { img: "mkd-p4", t: C.montauk.s1.page }],
-    flow: () => C.montauk.flow.steps.map((s) => ({ img: s.img, t: s.t }))
+    mlead: () => [{ img: "mkd-p4", t: C.montauk.lead.made.cap }, { img: enImg("mk-st-a"), t: C.montauk.lead.app.cap }],
+    mproc: () => C.montauk.story.steps[0].media.map((m) => ({ img: m.img, t: m.t })),
+    mst: () => C.montauk.story.steps.find((x) => x.k === "demo").stills.map((x) => ({ img: enImg(x.img), t: x.t }))
   };
   const zoom = (set, i, inner, labelText) => `<button type="button" class="zoom" data-zoom="${set}|${i}" aria-label="${esc(labelText + " — " + L(C.ui.viewLarge))}">${inner}</button>`;
   const pages = (set, n, prefix, aria) => `<div class="pages" tabindex="0" role="region" aria-label="${esc(aria)}">${Array.from({ length: n }, (_, i) => `<figure>${zoom(set, i, `<span class="ph fig" style="position:relative;display:block">${M.img(prefix + (i + 1), `${aria} p.${i + 1}`, { sizes: "230px" })}</span>`, `${aria} p.${i + 1}`)}<figcaption>p.${i + 1}</figcaption></figure>`).join("")}</div>`;
@@ -105,72 +122,70 @@
     return sec("art", `<p class="lead" style="margin:0">${esc(L(A.lead))}</p><p class="cap" style="margin:4px 0 0">${esc(L(A.hint))}</p>${nav}${body}`, "hero art-hero");
   }
 
-  /* ───── Manual for Manuals: the job → why the next decision came → Montauk Manual Studio → the two guides and what runs → the path as one line ───── */
+  /* ───── Manual for Manuals: what I learned → the old process · staff feedback · the app's question screen → the story → the two guides → what's left to check ───── */
   function montauk() {
-    const D = C.montauk, S1 = D.s1, P = D.app, K = D.compare;
-    const hero = sec("m-hero", `<p class="hero-line">${esc(L(D.hero.line))}</p>${aiBlock(D.ai)}`, "hero lead-only");
-    const s1 = sec("m-1", `${label(1, S1.label)}<div class="duo"><h2 class="h2">${esc(L(S1.h))}</h2><div><p class="p">${esc(L(S1.p))}</p>
-        <dl class="who-did">${S1.roles.map((r) => `<div class="${/AI/.test(r.v.en) ? "ai" : ""}"><dt>${esc(L(r.k))}</dt><dd>${esc(L(r.v))}</dd></div>`).join("")}</dl></div></div>
-      <div class="s1-media">
-        <figure>${zoom("s1", 0, `<span class="ph">${M.img("mk-ph-2", L(S1.phone), { sizes: "(max-width:760px) 100vw, 30vw" })}</span>`, L(S1.phone))}<figcaption class="cap">${esc(L(S1.phone))}</figcaption></figure>
-        <span class="s1-ln" aria-hidden="true"><i></i></span>
-        <figure>${zoom("s1", 1, `<span class="ph page">${M.img("mkd-p4", L(S1.page), { sizes: "(max-width:760px) 100vw, 40vw" })}</span><b class="vchip d">${esc(L(K.direct.t))}</b>`, L(S1.page))}<figcaption class="cap">${esc(L(S1.page))}</figcaption></figure>
-      </div>`, "tight");
-    const t = sec("m-turns", `${label(2, D.turns.label)}${turns(D.turns, "zig")}`);
-    const app = sec("m-app", `${label(3, P.label)}<h2 class="h2" style="margin-bottom:20px">${esc(L(P.h))}</h2>
-      <ol class="flowchips" aria-label="${esc(L("앱의 흐름", "The app's flow"))}">${P.flow.map((f, i) => `<li><b>${i + 1}</b>${esc(L(f))}</li>`).join("")}</ol>
-      <div style="margin-top:28px">${demo("montauk", {}, { note: P.note })}</div>`);
-    // the two guides: one page role at a time, the hand-made one first (left on desktop, first on mobile)
-    const pick = 4;
-    const cmp = sec("m-cmp", `${label(4, K.label)}<h2 class="h2" style="margin-bottom:18px">${esc(L(K.h))}</h2>
+    const D = C.montauk, Ld = D.lead, K = D.compare, S = D.story, st = (k) => S.steps.find((x) => x.k === k);
+    const lead = sec("m-hero", `${heroLine(D.hero.line)}
+      <div class="lead3" data-lead>
+        <figure class="l3 l3-made"><p class="l3-k"><i>1</i>${esc(L(Ld.made.t))}</p>
+          ${zoom("mlead", 0, pic("mkd-p4", L(Ld.made.cap), { page: true, sizes: "(max-width:760px) 100vw, 30vw" }), L(Ld.made.cap))}
+          <ol class="l3-chain">${Ld.made.chain.map((c) => `<li>${esc(L(c))}</li>`).join("")}</ol>${capOf("real", Ld.made.cap)}</figure>
+        <div class="l3 l3-voice"><p class="l3-k"><i>2</i>${esc(L(Ld.feedback.t))}</p><blockquote>${esc(L(Ld.feedback.p))}</blockquote><p class="cap">${srcTag("field")}</p></div>
+        <figure class="l3 l3-app"><p class="l3-k"><i>3</i>${esc(L(Ld.app.t))}</p>
+          ${zoom("mlead", 1, pic(enImg("mk-st-a"), L(Ld.app.cap), { sizes: "(max-width:760px) 70vw, 22vw" }), L(Ld.app.cap))}${capOf("demo", Ld.app.cap)}</figure>
+      </div>`, "hero lead-only");
+    const made = st("made"), tool = st("tool"), demoStep = st("demo");
+    const media = {
+      made: `<div class="proc">${made.media.map((m, i) => `<figure>${zoom("mproc", i, pic(m.img, L(m.t), { page: m.page }), L(m.t))}${capOf("real", m.t)}</figure>`).join("")}</div>`,
+      tool: `<ol class="flowchips" aria-label="${esc(L("앱의 흐름", "The app's flow"))}">${tool.flow.map((f, i) => `<li><b>${i + 1}</b>${esc(L(f))}</li>`).join("")}</ol>`,
+      // the stills carry the flow without playing; the recording sits beside them
+      demo: `<div class="vpair"><div class="vp-stills"><ol class="stills">${demoStep.stills.map((s, i) => `<li><figure>${zoom("mst", i, pic(enImg(s.img), L(s.t), { sizes: "(max-width:760px) 30vw, 16vw" }), L(s.t))}<figcaption><b lang="en">${pad(i + 1)}</b>${esc(L(s.t))}</figcaption></figure></li>`).join("")}</ol>
+          <p class="cap">${srcTag("demo")}<span>${esc(L(demoStep.stillsCap))}</span></p></div>
+        <div class="vp-video">${demo("montauk", {}, { note: demoStep.note })}</div></div>`
+    };
+    const body = story("m-story", S, media);
+    // the two guides, paired by assembly step: the hand-made page and the app page for the same step
+    const pick = 4, stepPages = K.pages.filter((p) => p.step);
+    const cmp = sec("m-cmp", `${label(2, K.label)}<h2 class="h2" style="margin-bottom:18px">${esc(L(K.h))}</h2>
       <div class="cmp2" data-cmp2 data-n="${pick}">
-        <div class="cmp2-tabs" role="tablist" aria-label="${esc(L("가이드 쪽", "Guide page"))}">${K.pages.map((p) => `<button type="button" role="tab" data-pg="${p.n}" aria-selected="${p.n === pick}"><b lang="en">${p.n}</b>${esc(L(p.t))}</button>`).join("")}</div>
+        <div class="cmp2-tabs" role="tablist" aria-label="${esc(L("조립 단계", "Assembly step"))}">${stepPages.map((p) => `<button type="button" role="tab" data-pg="${p.n}" aria-selected="${p.n === pick}"><b lang="en">${p.n}</b>${esc(L(p.t))}</button>`).join("")}</div>
         <div class="cmp2-pair" role="tabpanel" aria-live="polite">${cmpPair(pick)}</div>
-      </div><p class="cap">${esc(L(K.cap))}</p>
-      <div style="margin-top:40px">${label("·", D.scope.label)}${rows(D.scope.rows)}</div>`);
-    // the whole path as one connected line (horizontal on desktop, top to bottom on mobile)
-    const F = D.flow;
-    const flow = sec("m-flow", `${label(5, F.label)}<ol class="pathline" data-path>${F.steps.map((s, i) => `<li class="${s.kind || ""}"><span class="pl-dot" aria-hidden="true"></span>
-        ${zoom("flow", i, `<span class="ph">${M.img(s.img, L(s.t), { sizes: "(max-width:760px) 60vw, 18vw" })}</span>${s.kind ? `<b class="vchip ${s.kind === "direct" ? "d" : "a"}">${esc(L(s.kind === "direct" ? K.direct.t : K.app.t))}</b>` : ""}`, L(s.t))}
-        <h3><i lang="en">${pad(i + 1)}</i>${esc(L(s.t))}</h3><p>${esc(L(s.d))}</p></li>`).join("")}</ol>`);
-    return hero + s1 + t + app + cmp + flow;
+      </div><p class="cap">${esc(L(K.cap))}</p>`);
+    return lead + body + cmp + closeSec("m-close", 3, D.close);
   }
 
-  /* one page role of the two guides: the hand-made one, then the app version (side by side on desktop, stacked on mobile) */
+  /* one assembly step in the two guides: the hand-made page, then the app version (side by side on desktop, in that order on mobile) */
   function cmpPair(n) {
     const K = C.montauk.compare, pg = K.pages.find((p) => p.n === n);
     const side = (kind) => { const v = kind === "d" ? K.direct : K.app, img = (kind === "d" ? "mkd-p" : "mkf-p") + n, lab = `${L(v.t)} · ${L({ ko: `${n}쪽`, en: `p.${n}` })} · ${L(pg.t)}`;
       return `<figure class="cmp2-f ${kind}">${zoom("cmp", (n - 1) * 2 + (kind === "d" ? 0 : 1), `<span class="ph page">${M.img(img, lab, { sizes: "(max-width:760px) 100vw, 42vw" })}</span>`, lab)}
-        <figcaption><b>${esc(L(v.t))} · ${esc(L({ ko: `${n}쪽`, en: `p.${n}` }))}</b><span>${esc(L(v.d))}</span></figcaption></figure>`; };
+        <figcaption>${srcTag(kind === "d" ? "real" : "demo")}<b>${esc(L(v.t))} · ${esc(L({ ko: `${n}쪽`, en: `p.${n}` }))} · ${esc(L(pg.t))}</b><span>${esc(L(v.d))}</span></figcaption></figure>`; };
     return side("d") + side("a");
   }
 
-  /* ───── GROWN: one vertical story — the brand work → what I noticed → what I proposed → the tool — then score and scope ───── */
+  /* ───── GROWN: one unit's result, with the further-checks step marked → the story → the scope of calculation and confirmation ───── */
   function grown() {
-    const D = C.grown, h = D.hero, St = D.story;
-    const hero = sec("g-hero", `<p class="hero-line">${esc(L(h.line))}</p>${aiBlock(D.ai)}`, "hero lead-only");
+    const D = C.grown, h = D.hero, Ld = D.lead;
+    const lead = sec("g-hero", `${heroLine(h.line)}
+      <figure class="lead-gr" data-lead>${grownResult("B1|101", true)}${capOf("demo", Ld.cap)}</figure>`, "hero lead-only");
     const media = {
       brand: `<div class="vi">
         ${fig("gr-vi-1", { ko: "GROWN 심벌", en: "GROWN symbol" }, { ph: "contain", ar: "16 / 9" })}
         ${fig("gr-vi-2", { ko: "가로형 로고", en: "Horizontal logo" }, { ph: "contain", ar: "16 / 9" })}
         ${fig("gr-vi-3", { ko: "명함 · 색상 체계", en: "Business cards · colour system" }, { cls: "s4", ar: "16 / 9" })}
         ${fig("gr-card-logo", { ko: "명함 로고 면", en: "Card front" }, { cls: "s4", ar: "16 / 9" })}
-        <figure class="fig s4"><div class="ph" style="--ar:16/9"><div class="card-re" aria-hidden="true"><span class="lg">GROWN</span><span><span class="nmx">홍 길 동</span><span class="rlx">Founder &amp; CEO</span></span><span class="ad">010-0000-0000<br>서울 ○○구 ○○로 00<br>name@example.com</span></div></div><figcaption class="cap">${esc(L(D.s1.cardCap))}</figcaption></figure>
-      </div>`,
-      tool: `<dl class="split">${D.roles.split.map((r) => `<div><dt>${esc(L(r.k))}</dt><dd>${esc(L(r.v))}</dd></div>`).join("")}</dl>
-        <div class="g-link"><p class="label sm"><b>·</b>${esc(L(D.link.label))}</p><h3 class="h3x">${esc(L(D.link.h))}</h3><p class="note-line">${esc(L(D.link.note))}</p>${grownLink()}</div>`,
-      // the extension note right under the heading, then the web system, then the same flow on the phone (one after the other)
+        <figure class="fig s4"><div class="ph" style="--ar:16/9"><div class="card-re" aria-hidden="true"><span class="lg">GROWN</span><span><span class="nmx">홍 길 동</span><span class="rlx">Founder &amp; CEO</span></span><span class="ad">010-0000-0000<br>서울 ○○구 ○○로 00<br>name@example.com</span></div></div><figcaption class="cap">${srcTag("rebuilt")}<span>${esc(L(D.s1.cardCap))}</span></figcaption></figure>
+      </div><p class="cap">${srcTag("real")}<span>${esc(L({ ko: "GROWN 브랜딩 작업물", en: "GROWN branding work" }))}</span></p>`,
+      expert: `<dl class="split">${D.roles.split.map((r) => `<div><dt>${esc(L(r.k))}</dt><dd>${esc(L(r.v))}</dd></div>`).join("")}</dl>`,
+      result: `${grownLink()}<p class="cap">${srcTag("demo")}<span>${esc(L({ ko: "미리 계산한 가상 호실 8개", en: "8 fictional units, calculated in advance" }))}</span></p>`,
+      // the extension note under the heading, then the web system, then the same flow on the phone (one after the other)
       mobile: `<div class="g-duo g-stack">
         <p class="g-duo-lead">${esc(L(D.mobile.lead))}</p>
         <div class="g-duo-a">${demo("grown", h, { note: h.demoNote, label: D.mobile.left })}</div>
         <div class="g-duo-b">${demo("grown-mobile", h, { noEn: true, label: D.mobile.right, note: D.mobile.cap })}</div>
       </div>`
     };
-    const story = sec("g-story", `${label(1, St.label)}<ol class="story" data-story>${St.steps.map((s, i) => `<li class="st-${s.k}" data-anchor="gs-${s.k}"><span class="sd" aria-hidden="true">${i + 1}</span>
-        <p class="st-k">${esc(L(s.t))}</p><h3>${esc(L(s.h))}</h3><p class="p">${esc(L(s.p))}</p>${media[s.k] ? `<div class="st-m">${media[s.k]}</div>` : ""}</li>`).join("")}</ol>`);
-    const s4 = sec("g-4", `${label(2, D.s4.label)}${items(D.s4.items, 4)}`);
-    const s5 = sec("g-5", `${label(3, D.s5.label)}${rows(D.s5.rows)}`);
-    return hero + story + s4 + s5;
+    return lead + story("g-story", D.story, media) + closeSec("g-close", 2, D.close);
   }
   function grownLink(sel) {
     const G = window.GROWN_SAMPLE; if (!G) return ""; // prepared results only; nothing is calculated here
@@ -182,38 +197,54 @@
       </div>
       <div class="gr" aria-live="polite">${grownResult(cur)}</div></div>`;
   }
-  function grownResult(key) {
+  /* lead: the opening example marks the further-checks step, where the calculation hands over to the expert */
+  function grownResult(key, lead) {
     const r = window.GROWN_SAMPLE && window.GROWN_SAMPLE.reads[key]; if (!r) return "";
+    const Ld = C.grown.lead;
     const cap = key === "B1|101" ? `<p class="gr-cap">${esc(L(C.grown.link.cap101))}</p>` : "";
-    return `<div class="gr-in" style="--c:${r.color}">
+    return `<div class="gr-in ${lead ? "gr-lead" : ""}" style="--c:${r.color}">
       <p class="gr-unit"><b lang="en">${esc(r.id)}</b>${esc(L(r.site))}</p>
       <ol class="gr-steps">
         <li class="gr-v"><span>${esc(L("예비 판정", "Preliminary verdict"))}</span><b>${esc(L(r.verdict))}</b><em lang="en">${esc(L("점수 ", "Score "))}${esc(r.score)}${r.p24 != null ? ` · ${esc(L("24개월 내 임대 가능성 ", "24-month leasing chance "))}${r.p24}%` : ""}</em></li>
         <li><span>${esc(L("근거", "Reasons"))}</span><p>${esc(L(r.reason))}</p></li>
-        <li><span>${esc(L("추가 확인 · 자료 보완과 현장·문서 확인", "Further checks · missing data and site/document checks"))}</span><p>${esc(L(r.need))}</p></li>
+        <li class="gr-need">${lead ? `<em class="gr-flag">${esc(L(Ld.mark))}</em>` : ""}<span>${esc(L("추가 확인 · 자료 보완과 현장·문서 확인", "Further checks · missing data and site/document checks"))}</span><p>${esc(L(r.need))}</p>${lead ? `<p class="gr-why">${esc(L(Ld.markNote))}</p>` : ""}</li>
         <li><span>${esc(L("우선 조치", "Actions first"))}</span><p>${esc(L(r.action))}</p></li>
       </ol>${cap}
       <p class="gr-stage"><i class="on">${esc(L("예비 판정 (계산)", "Preliminary (calculated)"))}</i><i>${esc(L("자료 보완 → 다시 계산", "Fill in data → recalculate"))}</i><i>${esc(L("전문가 현장·문서 확인 → 확정", "Expert site/document check → confirmed"))}</i></p></div>`;
   }
 
-  /* ───── Make It!: the purpose → AI and my judgement → how it started → A10 → brief and reply → try it → decisions and scope ───── */
+  /* ───── Make It!: the Artist's Original Drawing → the 3D model → the question for the maker → the story → what the trial shows ───── */
   function makeit() {
-    const D = C.makeit, h = D.hero;
-    const hero = sec("k-hero", `<p class="hero-line">${esc(L(h.line))}</p>${aiBlock(D.ai)}`, "hero lead-only");
-    const t = sec("k-turns", `${label(1, D.turns.label)}${turns(D.turns, "chain")}`);
-    const toy = sec("k-toy", `${label(2, { ko: "출발점 · 원화 아트토이", en: "Where it started · the art toy from the drawing" })}
-      <div class="toy" data-toy>
-        <figure class="toy-art"><div class="ph" style="--ar:${M.ratio("a10")}">${M.img("a10", L("작가 원화 · 연필 드로잉", "Artist's original · pencil drawing"), { sizes: "(max-width:760px) 100vw, 45vw" })}</div><figcaption class="cap">${esc(L("작가 원화 · 연필", "Artist's original · pencil"))}</figcaption></figure>
-        <figure class="toy-3d">${window.VIEWER3D ? window.VIEWER3D.markup({ src: "assets/model/a10-arttoy.glb", video: "assets/video/a10-rotation.mp4", poster: "assets/img/a10-rotation-poster.jpg", alt: L("원화 아트토이 3D 모델의 대표 장면", "Art toy 3D model, representative frame") }) : ""}
-          <figcaption class="cap">${esc(L("원화 아트토이 · Tripo AI로 만든 3D 모델 · 직접 돌려 보기", "Art toy · 3D model made with Tripo AI · turn it yourself"))}</figcaption></figure></div>
-      <p class="toy-cap">${esc(L(D.toy.cap))}</p>`);
-    const ex = sec("k-ex", `${label(3, D.exchange.label)}<h2 class="h2" style="margin-bottom:24px">${esc(L(D.exchange.h))}</h2>${exchange()}<p class="cap">${esc(L(D.exchange.note))}</p>`);
-    const tryIt = sec("k-try", `${label(4, { ko: "체험과 시연", en: "Try it, or watch" })}${demo("makeit", h)}`);
-    const s3 = sec("k-3", `${label(5, D.s3.label)}${items(D.s3.items, 3)}`);
-    const s5 = sec("k-5", `${label(6, D.s5.label)}${rows(D.s5.rows)}`);
-    return hero + t + toy + ex + tryIt + s3 + s5;
+    const D = C.makeit, h = D.hero, Ld = D.lead, E = D.exchange;
+    // the same thin branch, circled on the drawing and on the model
+    const pin = (x, y) => `<span class="mk-pin" style="left:${x}%;top:${y}%" aria-hidden="true"></span>`;
+    const lead = sec("k-hero", `${heroLine(h.line)}
+      <div class="lead3 lead-mk" data-lead>
+        <figure class="l3"><p class="l3-k"><i>1</i>${esc(L(Ld.drawing))}</p><span class="ph pinned" style="--ar:${M.ratio("a10")}">${M.img("a10", L(Ld.drawing), { sizes: "(max-width:760px) 100vw, 30vw" })}${pin(21, 18)}</span>${capOf("real", Ld.drawing)}</figure>
+        <figure class="l3"><p class="l3-k"><i>2</i>${esc(L(Ld.model))}</p><span class="ph pinned" style="--ar:${M.ratio("a10-rotation-poster")}">${M.img("a10-rotation-poster", L(Ld.model), { sizes: "(max-width:760px) 100vw, 30vw" })}${pin(28, 27)}</span>${capOf("real", Ld.model)}</figure>
+        <div class="l3 l3-ask"><p class="l3-k"><i>3</i>${esc(L(Ld.askT))}</p><p class="ask">“${esc(L(Ld.ask))}”</p><p class="cap">${srcTag("sample")}<span>${esc(L(Ld.askCap))}</span></p><p class="cap l3-mark">${srcTag("rebuilt")}<span>${esc(L(Ld.mark))}</span></p></div>
+      </div>`, "hero lead-only");
+    const S = D.story, st = (k) => S.steps.find((x) => x.k === k);
+    const X = window.MAKEIT && window.MAKEIT.sample(YL.lang);
+    const media = {
+      limits: `<div class="toy" data-toy>
+        <figure class="toy-art"><div class="ph" style="--ar:${M.ratio("a10")}">${M.img("a10", L(Ld.drawing), { sizes: "(max-width:760px) 100vw, 45vw" })}</div>${capOf("real", { ko: "작가 원화 · 연필", en: "Artist’s Original Drawing · pencil" })}</figure>
+        <figure class="toy-3d">${window.VIEWER3D ? window.VIEWER3D.markup({ src: "assets/model/a10-arttoy.glb", video: "assets/video/a10-rotation.mp4", poster: "assets/img/a10-rotation-poster.jpg", alt: L(Ld.model) }) : ""}
+          ${capOf("real", { ko: "작가 원화를 바탕으로 만든 3D 모델 · Tripo AI · 직접 돌려 보기", en: "3D Model Based on the Original Drawing · Tripo AI · turn it yourself" })}</figure></div>`,
+      design: items(st("design").items, 3),
+      // the changed specs first, the reply right beside them; the full briefs wait below
+      brief: `<div class="xdiff" data-xdiff>
+          <div class="xd-t"><p class="xd-k">${esc(L(E.diffT))}</p>
+            <table><thead><tr><th scope="col"></th><th scope="col" lang="en">v1</th><th scope="col" lang="en">v2</th></tr></thead>
+              <tbody>${E.diff.map((r) => `<tr><th scope="row">${esc(L(r.k))}</th><td>${esc(L(r.a))}</td><td><b>${esc(L(r.b))}</b></td></tr>`).join("")}</tbody></table></div>
+          ${X ? `<div class="xd-r"><p class="xd-k">${esc(L("예시 회신", "Sample reply"))} ${srcTag("sample")}</p><p class="xd-m"><b lang="en">${esc(X.maker)}</b>“${esc(X.msg)}”</p></div>` : ""}
+        </div>
+        <details class="xfull"><summary>${esc(L(E.full))}</summary>${exchange()}<p class="cap">${esc(L(E.note))}</p></details>`,
+      try: demo("makeit", h)
+    };
+    return lead + story("k-story", S, media) + closeSec("k-close", 2, D.close);
   }
-  /* Make It!'s signature motion: the question in v1 → the maker's reply → the changed lines in v2 light up in turn, joined by drawn lines */
+  /* the full exchange: the question in v1 → the maker's reply → the changed lines in v2, joined by drawn lines */
   function exchange() {
     const X = window.MAKEIT && window.MAKEIT.sample(YL.lang); if (!X) return "";
     const E = C.makeit.exchange;
@@ -222,30 +253,28 @@
     return `<div class="xch" data-xch>
       <article class="xch-c x1"><header><b>${esc(L("디자이너", "Designer"))}</b><span>${esc(L("제작 문의서", "Build brief"))} v1</span></header><pre>${mark(X.v1, X.ask, "q")}</pre><p class="xch-tag q">${esc(L(E.v1note))}</p></article>
       <span class="xch-l" aria-hidden="true"><i></i><b></b></span>
-      <article class="xch-c xch-r x2"><header><b lang="en">${esc(X.maker)}</b><span>${esc(L("예시 회신 · 사양 보완 요청", "Sample reply · change request"))}</span></header>
+      <article class="xch-c xch-r x2"><header><b lang="en">${esc(X.maker)}</b><span>${esc(L("예시 회신 · 사양 보완 요청", "Sample reply · change request"))}</span>${srcTag("sample")}</header>
         <ul>${X.items.map((t) => `<li>${hl(t)}</li>`).join("")}</ul><p class="xch-msg">“${esc(X.msg)}”</p></article>
       <span class="xch-l back" aria-hidden="true"><i></i><b></b></span>
       <article class="xch-c x3"><header><b>${esc(L("디자이너", "Designer"))}</b><span>${esc(L("요청 반영", "Revised"))} · v2</span></header><pre>${mark(X.v2, X.changed, "c")}</pre><p class="xch-tag ch">${esc(L(E.change))}</p></article>
     </div>`;
   }
 
-  /* ───── Like this: why (GPT → understanding isn't enough → the cartoon conversation → one screen) → the real conversation → the demo sentence in three readings → try it ───── */
+  /* ───── Like this: the cartoon conversation → translation, context, what to ask next → the story → the next check ───── */
   function likethis() {
     const D = C.likethis, h = D.hero, R = D.read, T = D.talk;
-    const hero = sec("l-hero", `<p class="hero-line">${esc(L(h.line))}</p>${aiBlock(D.ai)}`, "hero lead-only");
-    const t = sec("l-turns", `${label(1, D.turns.label)}${turns(D.turns, "talk")}`);
-    const talk = sec("l-talk", `${label(2, T.label)}<h2 class="h2" style="margin-bottom:22px">${esc(L(T.h))}</h2>
-      <div class="pair">${T.items.map((x) => `<div><h3 lang="${x.tlang}">${esc(x.t)}</h3>${x.ko ? `<span lang="ko">${esc(x.ko)}</span>` : ""}<p class="p" style="margin:0">${esc(L(x.d))}</p></div>`).join("")}</div>
-      <p class="bridge">${esc(L(T.bridge))}</p><p class="cap src-real">${esc(L(T.cap))}</p>`);
     let src = esc(R.src);
     ["Samurai Jack", "every day after school"].forEach((p) => { src = src.replace(esc(p), `<mark data-from="1">${esc(p)}</mark>`); });
-    const read = sec("l-read", `${label(3, R.label)}
-      <div class="lread" data-lread><p class="lread-src" lang="en">“${src}”</p><p class="cap src-demo">${esc(L(R.srcNote))}</p>
-        <ol class="lread-l three">${R.layers.map((l, i) => `<li data-layer="${i}" ${l.from ? `data-src="${i}" tabindex="0"` : ""}><h3><i>${i + 1}</i>${esc(L(l.t))}<em class="ex-tag">${esc(L("예시", "Sample"))}</em></h3><p ${l.lang ? `lang="${l.lang}" class="q"` : ""}>${esc(L(l.d))}</p>${l.miss ? `<p class="miss">${esc(L(l.miss))}</p>` : ""}</li>`).join("")}</ol></div>`);
-    const tryIt = sec("l-try", `${label(4, { ko: "체험과 시연", en: "Try it, or watch" })}${demo("likethis", h)}`);
-    const s3 = sec("l-3", `${label(5, D.s3.label)}${items(D.s3.items, 3)}`);
-    const s4 = sec("l-4", `${label(6, D.s4.label)}${rows(D.s4.rows)}`);
-    return hero + t + talk + read + tryIt + s3 + s4;
+    const lead = sec("l-hero", `${heroLine(h.line)}<p class="lead-scene">${esc(L(D.lead.scene))}</p><p class="cap">${srcTag("real")}<span>${esc(L(T.cap))}</span></p>
+      <div class="lread" data-lread data-lead><p class="lread-src" lang="en">“${src}”</p><p class="cap">${srcTag("rebuilt")}<span>${esc(L(R.srcNote))}</span></p>
+        <ol class="lread-l three">${R.layers.map((l, i) => `<li data-layer="${i}" ${l.from ? `data-src="${i}" tabindex="0"` : ""}><h3><i>${i + 1}</i>${esc(L(l.t))}</h3><p ${l.lang ? `lang="${l.lang}" class="q"` : ""}>${esc(L(l.d))}</p>${l.miss ? `<p class="miss">${esc(L(l.miss))}</p>` : ""}</li>`).join("")}</ol></div>`, "hero lead-only");
+    const media = {
+      talk: `<div class="pair">${T.items.map((x) => `<div><h3 lang="${x.tlang}">${esc(x.t)}</h3>${x.ko ? `<span lang="ko">${esc(x.ko)}</span>` : ""}<p class="p" style="margin:0">${esc(L(x.d))}</p></div>`).join("")}</div>
+        <p class="bridge">${esc(L(T.bridge))}</p><p class="cap">${srcTag("real")}<span>${esc(L(T.cap))}</span></p>`,
+      three: items(D.story.steps.find((x) => x.k === "three").items, 3),
+      try: demo("likethis", h)
+    };
+    return lead + story("l-story", D.story, media) + closeSec("l-close", 2, D.close);
   }
 
   const R = { about, art, montauk, grown, makeit, likethis };
@@ -314,7 +343,7 @@
     });
     // one-time "arrive" cues for evidence blocks (they are fully readable before and after)
     const cue = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("on"); cue.unobserve(e.target); } }), { root: scroller, threshold: 0.35 });
-    $$("[data-cmp], [data-xch], [data-lread], [data-toy], [data-glink], [data-aij], [data-path], [data-cmp2]", root).forEach((el) => reduce ? el.classList.add("on") : cue.observe(el));
+    $$("[data-cmp], [data-xch], [data-lread], [data-toy], [data-glink], [data-lead], [data-xdiff], [data-path], [data-cmp2]", root).forEach((el) => reduce ? el.classList.add("on") : cue.observe(el));
     cleanup.push(() => cue.disconnect());
     const onScroll = () => {
       const vh = scroller.clientHeight;
@@ -393,7 +422,7 @@
         return;
       }
       const z = e.target.closest("[data-zoom]");
-      if (z) { const [set, i] = z.dataset.zoom.split("|"); M.lbOpen(SETS[set](), +i, set === "cmp" ? L("두 가이드 비교", "The two guides") : "Montauk Daybed", z); return; }
+      if (z) { const [set, i] = z.dataset.zoom.split("|"); M.lbOpen(SETS[set](), +i, set === "cmp" ? L("두 가이드 비교", "The two guides") : L("몬탁소파", "Montauk Sofa"), z); return; }
       // Manual: pick a page role; the hand-made page and the app page change together (a short cross-fade)
       const pgb = e.target.closest("[data-pg]");
       if (pgb) {
